@@ -6,11 +6,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "jest",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "test": "jest",
     "package": "ng-packagr -p package.json",
-    "deploy:doc": "ng build --prod --deploy-url http://littlelyon.com/ngx-loading-mask/ && gulp deploy"
+    "doc": "ng build --prod --deploy-url http://littlelyon.com/ngx-what-boilerplate/ && gulp deploy"
   },
   "private": false,
   "jest": {
@@ -22,7 +21,7 @@
   },
   "ngPackage": {
     "lib": {
-      "entryFile": "src/app/loading-mask/index.ts",
+      "entryFile": "src/app/lib/index.ts",
       "languageLevel": [
         "dom",
         "es2017"
