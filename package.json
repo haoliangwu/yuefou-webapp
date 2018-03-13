@@ -7,9 +7,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "lint": "ng lint",
-    "test": "jest",
-    "package": "ng-packagr -p package.json",
-    "doc": "ng build --prod --deploy-url http://littlelyon.com/ngx-what-boilerplate/ && gulp deploy"
+    "test": "jest"
   },
   "private": false,
   "jest": {
@@ -29,12 +27,15 @@
     }
   },
   "dependencies": {
-    "@angular/animations": "^5.2.0",
+    "@angular/animations": "^5.2.8",
+    "@angular/cdk": "^5.2.4",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
+    "@angular/flex-layout": "^5.0.0-beta.13",
     "@angular/forms": "^5.2.0",
     "@angular/http": "^5.2.0",
+    "@angular/material": "^5.2.4",
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
@@ -62,8 +63,6 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "ng-packagr": "^2.0.0-rc.12",
-    "ng-zorro-antd": "^0.6.13",
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
