@@ -2,25 +2,28 @@
   background: url('/assets/images/cat.jpg') no-repeat center/cover;
   width: 100vw;
   height: 100vh;
+
+  .toggle {
+    margin: 2em 0 0 0;
+  }
 }
 
 .login-panel {
   position: fixed;
   left: 50%;
-  top: 50%;
+  top: 45%;
   transform: translate(-50%, -50%);
   width: 300px;
   height: 400px;
   padding: 2em;
-  font-size: 12px;
   background: rgba(255, 255, 255, .7);
 
   form, mat-form-field {
     width: 100%;
   }
 
-  .toggle {
-    margin: 2em 0 0 0;
+  mat-checkbox {
+    margin: .5em 0 0 0;
   }
 }
 

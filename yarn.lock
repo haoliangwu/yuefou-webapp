@@ -264,6 +264,10 @@
   version "0.0.30"
   resolved "http://registry.npm.taobao.org/@types/strip-json-comments/download/@types/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
 
+"@ultimate/ngxerrors@^1.4.0":
+  version "1.4.0"
+  resolved "http://registry.npm.taobao.org/@ultimate/ngxerrors/download/@ultimate/ngxerrors-1.4.0.tgz#be30acaa7a4698c46633705a4616f56b60c78d61"
+
 JSONStream@^1.0.3:
   version "1.3.2"
   resolved "http://registry.npm.taobao.org/JSONStream/download/JSONStream-1.3.2.tgz#c102371b6ec3a7cf3b847ca00c20bb0fce4c6dea"

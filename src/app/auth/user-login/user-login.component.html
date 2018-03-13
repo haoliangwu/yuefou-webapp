@@ -1,21 +1,49 @@
 <div class="login-panel-wrapper">
   <div fxLayout="column" class="login-panel">
-    <form [noValidate]="true">
+    <form [noValidate]="true" [formGroup]="loginForm">
       <mat-form-field>
-        <input matInput placeholder="Enter your email" required>
-        <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+        <input matInput required placeholder="Enter your email" formControlName="email">
+        <mat-error>
+          <div ngxErrors="email">
+            <span ngxError="email" when="dirty">
+              email format is invalid
+            </span>
+            <span ngxError="required" when="touched">
+              email is required
+            </span>
+          </div>
+        </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input type="password" matInput placeholder="Enter your password" required>
-        <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+        <input type="password" matInput required placeholder="Enter your password" formControlName="password">
+        <mat-error>
+          <div ngxErrors="password">
+            <div ngxError="required" when="touched">
+              password is required
+            </div>
+          </div>
+        </mat-error>
       </mat-form-field>
-      <mat-checkbox>Remember Me</mat-checkbox>
+      <mat-form-field *ngIf="isSignup;else elseBlock">
+        <input matInput placeholder="Enter your username" formControlName="username">
+      </mat-form-field>
+      <ng-template #elseBlock>
+        <div class="fields-container">
+          <div style="margin: .5em 0">
+            <mat-checkbox formControlName="isRemember">Remember Me</mat-checkbox>
+          </div>
+        </div>
+      </ng-template>
     </form>
 
     <div class="toggle" fxLayout="row" fxLayoutAlign="start center">
-      <button fxFlex="15" mat-raised-button color="primary">Login</button>
+      <button mat-raised-button color="primary" (click)="signupOrLogin()">
+        {{isSignup ? 'Sign Up' : 'Login'}}
+      </button>
       <span fxFlex="12px"></span>
-      <button fxFlex="15" mat-button color="primary">Sign Up</button>
+      <button mat-button color="primary" (click)="toggleSignup()">
+        {{isSignup ? 'Back to Login' : 'Sign Up'}}
+      </button>
     </div>
   </div>
 </div>
