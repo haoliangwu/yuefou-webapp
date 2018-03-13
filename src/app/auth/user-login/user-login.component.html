@@ -1,3 +1,21 @@
 <div class="login-panel-wrapper">
-  login-panel-wrapper
+  <div fxLayout="column" class="login-panel">
+    <form [noValidate]="true">
+      <mat-form-field>
+        <input matInput placeholder="Enter your email" required>
+        <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Enter your password" required>
+        <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+      </mat-form-field>
+      <mat-checkbox>Remember Me</mat-checkbox>
+    </form>
+
+    <div class="toggle" fxLayout="row" fxLayoutAlign="start center">
+      <button fxFlex="15" mat-raised-button color="primary">Login</button>
+      <span fxFlex="12px"></span>
+      <button fxFlex="15" mat-button color="primary">Sign Up</button>
+    </div>
+  </div>
 </div>

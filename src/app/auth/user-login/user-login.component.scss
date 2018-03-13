@@ -1,0 +1,39 @@
+.login-panel-wrapper {
+  background: url('/assets/images/cat.jpg') no-repeat center/cover;
+  width: 100vw;
+  height: 100vh;
+}
+
+.login-panel {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 400px;
+  padding: 2em;
+  font-size: 12px;
+  background: rgba(255, 255, 255, .7);
+
+  form, mat-form-field {
+    width: 100%;
+  }
+
+  .toggle {
+    margin: 2em 0 0 0;
+  }
+}
+
+@media (max-height: 600px) {
+  .login-panel {
+    position: fixed;
+    left: 50%;
+    top: 100px;
+    transform: translate(-50%, 0);
+    width: 300px;
+    height: 400px;
+    padding: 2em;
+    font-size: 12px;
+    background: rgba(255, 255, 255, .7);
+  }
+}
