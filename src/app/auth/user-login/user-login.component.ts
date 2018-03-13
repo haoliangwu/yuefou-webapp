@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService, LoginMutationPayload } from '../auth.service';
+import { LocalStorageService } from 'ngx-webstorage';
+import { LOCALSTORAGE } from '../../constants';
 
 @Component({
   selector: 'app-user-login',
@@ -16,7 +19,9 @@ export class UserLoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private storage: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -37,20 +42,28 @@ export class UserLoginComponent implements OnInit {
   }
 
   signupOrLogin() {
+    const formRawVal = this.loginForm.getRawValue();
+
     if (this.isSignup) {
-      this.signup();
+      this.signup(formRawVal);
     } else {
-      this.login();
+      this.login(formRawVal);
     }
   }
 
-  private signup() {
-
+  private signup(value) {
+    this.authService.signup(value.email, value.password, value.name)
+      .subscribe(e => {
+        console.log(e.data);
+      });
   }
 
-  private login() {
-    const value = this.loginForm.getRawValue();
+  private login(value) {
+    this.authService.login(value.email, value.password)
+      .subscribe(result => {
+        const { login: { token } } = result.data as LoginMutationPayload;
 
-    console.log(value);
+        this.storage.store(LOCALSTORAGE.API_TOKEN, token);
+      });
   }
 }

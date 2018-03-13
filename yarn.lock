@@ -230,6 +230,10 @@
     semver "^5.3.0"
     semver-intersect "^1.1.2"
 
+"@types/async@2.0.47":
+  version "2.0.47"
+  resolved "http://registry.npm.taobao.org/@types/async/download/@types/async-2.0.47.tgz#f49ba1dd1f189486beb6e1d070a850f6ab4bd521"
+
 "@types/jasmine@*", "@types/jasmine@~2.8.3":
   version "2.8.6"
   resolved "http://registry.npm.taobao.org/@types/jasmine/download/@types/jasmine-2.8.6.tgz#14445b6a1613cf4e05dd61c3c3256d0e95c0421e"
@@ -248,6 +252,10 @@
   version "6.0.101"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-6.0.101.tgz#0c5911cfb434af4a51c0a499931fe6423207d921"
 
+"@types/node@^9.4.6":
+  version "9.4.7"
+  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-9.4.7.tgz#57d81cd98719df2c9de118f2d5f3b1120dcd7275"
+
 "@types/q@^0.0.32":
   version "0.0.32"
   resolved "http://registry.npm.taobao.org/@types/q/download/@types/q-0.0.32.tgz#bd284e57c84f1325da702babfc82a5328190c0c5"
@@ -263,6 +271,10 @@
 "@types/strip-json-comments@0.0.30":
   version "0.0.30"
   resolved "http://registry.npm.taobao.org/@types/strip-json-comments/download/@types/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
+
+"@types/zen-observable@^0.5.3":
+  version "0.5.3"
+  resolved "http://registry.npm.taobao.org/@types/zen-observable/download/@types/zen-observable-0.5.3.tgz#91b728599544efbb7386d8b6633693a3c2e7ade5"
 
 "@ultimate/ngxerrors@^1.4.0":
   version "1.4.0"
@@ -439,6 +451,60 @@ anymatch@^2.0.0:
   dependencies:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
+
+apollo-angular-link-http@^1.0.2-beta.0:
+  version "1.0.2-beta.0"
+  resolved "http://registry.npm.taobao.org/apollo-angular-link-http/download/apollo-angular-link-http-1.0.2-beta.0.tgz#fbde41af0139c3bc04ac3167ca27043e1e71a661"
+
+apollo-angular@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/apollo-angular/download/apollo-angular-1.0.1.tgz#2a48bd4c550be417d2902adcd859493282cd939a"
+
+apollo-cache-inmemory@^1.1.10:
+  version "1.1.10"
+  resolved "http://registry.npm.taobao.org/apollo-cache-inmemory/download/apollo-cache-inmemory-1.1.10.tgz#472442c6c59395159ae7d686ea33056248b26125"
+  dependencies:
+    apollo-cache "^1.1.5"
+    apollo-utilities "^1.0.9"
+    graphql-anywhere "^4.1.6"
+
+apollo-cache@^1.1.5:
+  version "1.1.5"
+  resolved "http://registry.npm.taobao.org/apollo-cache/download/apollo-cache-1.1.5.tgz#159488bb8981ceacfe26172666a593f38318dbf7"
+  dependencies:
+    apollo-utilities "^1.0.9"
+
+apollo-client@^2.2.6:
+  version "2.2.6"
+  resolved "http://registry.npm.taobao.org/apollo-client/download/apollo-client-2.2.6.tgz#38b5a197976f3c22b63623c455d4c4606e420b66"
+  dependencies:
+    "@types/zen-observable" "^0.5.3"
+    apollo-cache "^1.1.5"
+    apollo-link "^1.0.0"
+    apollo-link-dedup "^1.0.0"
+    apollo-utilities "^1.0.9"
+    symbol-observable "^1.0.2"
+    zen-observable "^0.7.0"
+  optionalDependencies:
+    "@types/async" "2.0.47"
+
+apollo-link-dedup@^1.0.0:
+  version "1.0.8"
+  resolved "http://registry.npm.taobao.org/apollo-link-dedup/download/apollo-link-dedup-1.0.8.tgz#8c3028cf32557bd040ab6ba8856f38067bdacead"
+  dependencies:
+    apollo-link "^1.2.1"
+
+apollo-link@^1.0.0, apollo-link@^1.2.1:
+  version "1.2.1"
+  resolved "http://registry.npm.taobao.org/apollo-link/download/apollo-link-1.2.1.tgz#c120b16059f9bd93401b9f72b94d2f80f3f305d2"
+  dependencies:
+    "@types/node" "^9.4.6"
+    apollo-utilities "^1.0.0"
+    zen-observable-ts "^0.8.6"
+
+apollo-utilities@^1.0.0, apollo-utilities@^1.0.9:
+  version "1.0.9"
+  resolved "http://registry.npm.taobao.org/apollo-utilities/download/apollo-utilities-1.0.9.tgz#16f9f2f92fd6c651d497aba6f2747ce17d87d80a"
 
 app-root-path@^2.0.1:
   version "2.0.1"
@@ -3232,6 +3298,22 @@ graceful-fs@~1.2.0:
   version "1.2.3"
   resolved "http://registry.npm.taobao.org/graceful-fs/download/graceful-fs-1.2.3.tgz#15a4806a57547cb2d2dbf27f42e89a8c3451b364"
 
+graphql-anywhere@^4.1.6:
+  version "4.1.6"
+  resolved "http://registry.npm.taobao.org/graphql-anywhere/download/graphql-anywhere-4.1.6.tgz#1329ee62c76ff363aa44570d12067178b8611dca"
+  dependencies:
+    apollo-utilities "^1.0.9"
+
+graphql-tag@^2.8.0:
+  version "2.8.0"
+  resolved "http://registry.npm.taobao.org/graphql-tag/download/graphql-tag-2.8.0.tgz#52cdea07a842154ec11a2e840c11b977f9b835ce"
+
+graphql@^0.13.1:
+  version "0.13.1"
+  resolved "http://registry.npm.taobao.org/graphql/download/graphql-0.13.1.tgz#9b3db3d8e40d1827e4172404bfdd2e4e17a58b55"
+  dependencies:
+    iterall "^1.2.0"
+
 growly@^1.3.0:
   version "1.3.0"
   resolved "http://registry.npm.taobao.org/growly/download/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
@@ -4145,6 +4227,10 @@ istanbul-reports@^1.1.4:
   resolved "http://registry.npm.taobao.org/istanbul-reports/download/istanbul-reports-1.1.4.tgz#5ccba5e22b7b5a5d91d5e0a830f89be334bf97bd"
   dependencies:
     handlebars "^4.0.3"
+
+iterall@^1.2.0:
+  version "1.2.2"
+  resolved "http://registry.npm.taobao.org/iterall/download/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
 
 jasmine-core@~2.8.0:
   version "2.8.0"
@@ -5352,6 +5438,10 @@ neo-async@^2.5.0:
 netmask@~1.0.4:
   version "1.0.6"
   resolved "http://registry.npm.taobao.org/netmask/download/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
+
+ngx-webstorage@^2.0.1:
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/ngx-webstorage/download/ngx-webstorage-2.0.1.tgz#232446262241e8fd0d794a03821c0b5e28459295"
 
 no-case@^2.2.0:
   version "2.3.2"
@@ -7555,6 +7645,10 @@ symbol-observable@1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/symbol-observable/download/symbol-observable-1.0.1.tgz#8340fc4702c3122df5d22288f88283f513d3fdd4"
 
+symbol-observable@^1.0.2:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/symbol-observable/download/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
+
 symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "http://registry.npm.taobao.org/symbol-tree/download/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
@@ -8681,6 +8775,16 @@ yeast@0.1.2:
 yn@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/yn/download/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
+
+zen-observable-ts@^0.8.6:
+  version "0.8.8"
+  resolved "http://registry.npm.taobao.org/zen-observable-ts/download/zen-observable-ts-0.8.8.tgz#1a586dc204fa5632a88057f879500e0d2ba06869"
+  dependencies:
+    zen-observable "^0.7.0"
+
+zen-observable@^0.7.0:
+  version "0.7.1"
+  resolved "http://registry.npm.taobao.org/zen-observable/download/zen-observable-0.7.1.tgz#f84075c0ee085594d3566e1d6454207f126411b3"
 
 zone.js@^0.8.19:
   version "0.8.20"
