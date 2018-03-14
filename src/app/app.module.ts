@@ -16,7 +16,7 @@ import { ToastrModule, ToastContainerModule, ToastrService } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
-import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './shared/comps/page-not-found/page-not-found.component';
 import { LOCALSTORAGE, TOAST } from './constants';
 import { ProfileModule } from './profile/profile.module';
 import { SharedModule } from './shared/shared.module';
