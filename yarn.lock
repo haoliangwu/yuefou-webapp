@@ -4094,6 +4094,10 @@ is-relative@^1.0.0:
   dependencies:
     is-unc-path "^1.0.0"
 
+is-retina@^1.0.3:
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/is-retina/download/is-retina-1.0.3.tgz#d7401b286bea2ae37f62477588de504d0b8647e3"
+
 is-stream@^1.0.1, is-stream@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/is-stream/download/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
@@ -5444,6 +5448,13 @@ neo-async@^2.5.0:
 netmask@~1.0.4:
   version "1.0.6"
   resolved "http://registry.npm.taobao.org/netmask/download/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
+
+ngx-avatar@^2.9.0:
+  version "2.9.0"
+  resolved "http://registry.npm.taobao.org/ngx-avatar/download/ngx-avatar-2.9.0.tgz#7dbeea19c0ea1657040f52afefb1dfa3c661ff46"
+  dependencies:
+    is-retina "^1.0.3"
+    ts-md5 "^1.2.0"
 
 ngx-loading-mask@^0.5.2:
   version "0.5.2"
@@ -7904,6 +7915,10 @@ ts-jest@^22.4.0:
     jest-config "^22.4.0"
     pkg-dir "^2.0.0"
     yargs "^11.0.0"
+
+ts-md5@^1.2.0:
+  version "1.2.4"
+  resolved "http://registry.npm.taobao.org/ts-md5/download/ts-md5-1.2.4.tgz#7030d7ba9134449deedf6f609d4b4509b94a5712"
 
 ts-node@~4.1.0:
   version "4.1.0"

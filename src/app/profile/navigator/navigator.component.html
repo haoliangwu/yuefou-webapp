@@ -1,0 +1,10 @@
+<app-user-info></app-user-info>
+<mat-divider></mat-divider>
+<mat-nav-list>
+  <mat-list-item *ngFor="let item of items">
+    <a matLine>{{ item.text }}</a>
+    <button mat-icon-button color="primary">
+      <mat-icon>{{item.icon}}</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>

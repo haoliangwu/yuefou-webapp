@@ -1,3 +1,12 @@
-<p>
-  profile works!
-</p>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="over" [(opened)]="opened">
+    <app-navigator></app-navigator>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button class="sidebar-toggle" mat-mini-fab (click)="sidenav.toggle()">
+      <mat-icon aria-label="menu icon">menu</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
