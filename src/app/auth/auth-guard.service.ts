@@ -18,9 +18,8 @@ export class AuthGuardService implements CanActivate {
 
   checkLoggedIn() {
     const token = this.storage.retrieve(LOCALSTORAGE.API_TOKEN);
-    const isRemember = this.storage.retrieve(LOCALSTORAGE.REMEMBER_ME);
 
-    if (token && isRemember) {
+    if (token) {
       return true;
     } else {
       this.router.navigate(['/login']);

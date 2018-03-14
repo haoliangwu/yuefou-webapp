@@ -21,6 +21,9 @@ export class UserLoginComponent implements OnInit {
   isSignup = false;
   loginForm: FormGroup;
 
+  @LocalStorage(LOCALSTORAGE.REMEMBER_ME)
+  isRemember: boolean;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -29,12 +32,18 @@ export class UserLoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // reset the user info
-    this.storage.clear(LOCALSTORAGE.API_TOKEN);
-    this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
+    if (this.isRemember) {
+      const token = this.storage.retrieve(LOCALSTORAGE.API_TOKEN);
 
-    // reset the form
-    this.createForm();
+      this.redirect(token, true);
+    } else {
+      // reset the user info
+      this.storage.clear(LOCALSTORAGE.API_TOKEN);
+      this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
+
+      // reset the form
+      this.createForm();
+    }
   }
 
   private createForm() {
