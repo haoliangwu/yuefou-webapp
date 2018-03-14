@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
+import { FormUtilService } from './services/form-util.service';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,14 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     MaterialModule,
     // form-errors
     NgxErrorsModule
-  ]
+  ],
+  providers: [FormUtilService]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: []
+    };
+  }
+}

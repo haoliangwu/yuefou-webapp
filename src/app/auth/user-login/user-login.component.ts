@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService, LoginMutationPayload, SignupMutationPayload } from '../auth.service';
 import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 import { LOCALSTORAGE, TOAST } from '../../constants';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FormUtilService } from '../../shared/services/form-util.service';
 
 export interface LoginFormVal {
   email: string;
@@ -30,7 +31,8 @@ export class UserLoginComponent implements OnInit {
     private authService: AuthService,
     private storage: LocalStorageService,
     private router: Router,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private formUtil: FormUtilService
   ) { }
 
   ngOnInit() {
@@ -59,9 +61,17 @@ export class UserLoginComponent implements OnInit {
 
   toggleSignup() {
     this.isSignup = !this.isSignup;
+
+    this.loginForm.reset();
   }
 
   signupOrLogin() {
+    if (this.loginForm.invalid) {
+      this.formUtil.validateAllFormFields(this.loginForm);
+      this.toastrService.warning(TOAST.WARN.INVALID_FORM);
+      return;
+    }
+
     const formRawVal: LoginFormVal = this.loginForm.getRawValue();
 
     if (this.isSignup) {
@@ -75,24 +85,28 @@ export class UserLoginComponent implements OnInit {
     const username = value.name || value.email.split('@').pop();
 
     this.authService.signup(value.email, value.password, username)
-      .subscribe(result => {
-        const { signup: { token } } = result.data as SignupMutationPayload;
+      .subscribe(
+        result => {
+          const { signup: { token } } = result.data as SignupMutationPayload;
 
-        this.toastrService.success(TOAST.SUCCESS.SIGN_UP);
+          this.toastrService.success(TOAST.SUCCESS.SIGN_UP);
 
-        this.redirect(token, true);
-      });
+          this.redirect(token, true);
+        }
+      );
   }
 
   private login(value: LoginFormVal) {
     this.authService.login(value.email, value.password)
-      .subscribe(result => {
-        const { login: { token } } = result.data as LoginMutationPayload;
+      .subscribe(
+        result => {
+          const { login: { token } } = result.data as LoginMutationPayload;
 
-        this.toastrService.success(TOAST.SUCCESS.LOGIN);
+          this.toastrService.success(TOAST.SUCCESS.LOGIN);
 
-        this.redirect(token, value.isRemember);
-      });
+          this.redirect(token, value.isRemember);
+        }
+      );
   }
 
   private redirect(token: string, isRemember: boolean = false) {

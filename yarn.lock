@@ -494,6 +494,12 @@ apollo-link-dedup@^1.0.0:
   dependencies:
     apollo-link "^1.2.1"
 
+apollo-link-error@^1.0.7:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/apollo-link-error/download/apollo-link-error-1.0.7.tgz#df6d7b13e9b73f9a615547b65ec9a4c930ca7f18"
+  dependencies:
+    apollo-link "^1.2.1"
+
 apollo-link@^1.0.0, apollo-link@^1.2.1:
   version "1.2.1"
   resolved "http://registry.npm.taobao.org/apollo-link/download/apollo-link-1.2.1.tgz#c120b16059f9bd93401b9f72b94d2f80f3f305d2"

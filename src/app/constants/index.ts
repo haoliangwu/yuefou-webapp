@@ -10,11 +10,14 @@ export const TOAST = {
     CREATE_USER: 'success-create-user',
     BASE: 'successful-operation'
   },
+  WARN: {
+    INVALID_FORM: 'invalid-form'
+  },
   FAIL: {
     LOGIN: 'failure-login',
     BASE: 'failure-operation'
   },
   ERROR: {
-    BASE: 'error-occurred'
+    BASE: 'unknown-error-occurred'
   }
 };
