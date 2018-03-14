@@ -49,8 +49,9 @@
     "core-js": "^2.4.1",
     "graphql": "^0.13.1",
     "graphql-tag": "^2.8.0",
+    "ngx-loading-mask": "^0.5.2",
     "ngx-webstorage": "^2.0.1",
-    "rxjs": "^5.5.6",
+    "rxjs": "5.5.7",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

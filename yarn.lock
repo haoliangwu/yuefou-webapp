@@ -27,13 +27,13 @@
     "@ngtools/json-schema" "^1.1.0"
     rxjs "^5.5.6"
 
-"@angular/animations@^5.2.8":
+"@angular/animations@^5.0.0", "@angular/animations@^5.2.8":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/animations/download/@angular/animations-5.2.8.tgz#31cdb49163881323fa5ded41e89683ec5e9ac8b5"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/cdk@^5.2.4":
+"@angular/cdk@^5.1.1", "@angular/cdk@^5.2.4":
   version "5.2.4"
   resolved "http://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-5.2.4.tgz#c0a429a8710d8fedb157f546e21cb49d4335f7f7"
   dependencies:
@@ -104,7 +104,7 @@
   optionalDependencies:
     node-sass "^4.7.2"
 
-"@angular/common@^5.2.0":
+"@angular/common@^5.0.0", "@angular/common@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/common/download/@angular/common-5.2.8.tgz#25c81609305e4cee6734d90c8ff1132ab35f81bf"
   dependencies:
@@ -119,13 +119,13 @@
     reflect-metadata "^0.1.2"
     tsickle "^0.27.2"
 
-"@angular/compiler@^5.2.0":
+"@angular/compiler@^5.0.0", "@angular/compiler@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/compiler/download/@angular/compiler-5.2.8.tgz#534315d0c700d57c2eb7cc7fff4f180213c8633f"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@^5.2.0":
+"@angular/core@^5.0.0", "@angular/core@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/core/download/@angular/core-5.2.8.tgz#d2e7657f2c5ce7f050e8f438dcc420c9bebca10a"
   dependencies:
@@ -137,13 +137,13 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/forms@^5.2.0":
+"@angular/forms@^5.0.0", "@angular/forms@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/forms/download/@angular/forms-5.2.8.tgz#eda3c0ee2cb085581bb9bf8ac3c7b463b082b643"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/http@^5.2.0":
+"@angular/http@^5.0.0", "@angular/http@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/http/download/@angular/http-5.2.8.tgz#be51315032515f8699f8b810ebf3ca78c0cc3759"
   dependencies:
@@ -159,19 +159,19 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@^5.2.0":
+"@angular/platform-browser-dynamic@^5.0.0", "@angular/platform-browser-dynamic@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/platform-browser-dynamic/download/@angular/platform-browser-dynamic-5.2.8.tgz#f2a620694ad771bf466d2bd752ca3a657ea7d46c"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@^5.2.0":
+"@angular/platform-browser@^5.0.0", "@angular/platform-browser@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/platform-browser/download/@angular/platform-browser-5.2.8.tgz#253264887429ad71057882bcbc5cfda1fa4bbc06"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/router@^5.2.0":
+"@angular/router@^5.0.0", "@angular/router@^5.2.0":
   version "5.2.8"
   resolved "http://registry.npm.taobao.org/@angular/router/download/@angular/router-5.2.8.tgz#10e906803e5e71d42d157b0ccd78e773d1e316fc"
   dependencies:
@@ -5439,6 +5439,24 @@ netmask@~1.0.4:
   version "1.0.6"
   resolved "http://registry.npm.taobao.org/netmask/download/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
 
+ngx-loading-mask@^0.5.2:
+  version "0.5.2"
+  resolved "http://registry.npm.taobao.org/ngx-loading-mask/download/ngx-loading-mask-0.5.2.tgz#75b08a81a29168012ea5872b4fb38c307bb5a465"
+  dependencies:
+    "@angular/animations" "^5.0.0"
+    "@angular/cdk" "^5.1.1"
+    "@angular/common" "^5.0.0"
+    "@angular/compiler" "^5.0.0"
+    "@angular/core" "^5.0.0"
+    "@angular/forms" "^5.0.0"
+    "@angular/http" "^5.0.0"
+    "@angular/platform-browser" "^5.0.0"
+    "@angular/platform-browser-dynamic" "^5.0.0"
+    "@angular/router" "^5.0.0"
+    core-js "^2.4.1"
+    rxjs "^5.5.2"
+    zone.js "^0.8.14"
+
 ngx-webstorage@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/ngx-webstorage/download/ngx-webstorage-2.0.1.tgz#232446262241e8fd0d794a03821c0b5e28459295"
@@ -6838,6 +6856,12 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   resolved "http://registry.npm.taobao.org/run-queue/download/run-queue-1.0.3.tgz#e848396f057d223f24386924618e25694161ec47"
   dependencies:
     aproba "^1.1.1"
+
+rxjs@5.5.7, rxjs@^5.5.2:
+  version "5.5.7"
+  resolved "http://registry.npm.taobao.org/rxjs/download/rxjs-5.5.7.tgz#afb3d1642b069b2fbf203903d6501d1acb4cda27"
+  dependencies:
+    symbol-observable "1.0.1"
 
 rxjs@^5.5.6:
   version "5.5.6"
@@ -8786,6 +8810,6 @@ zen-observable@^0.7.0:
   version "0.7.1"
   resolved "http://registry.npm.taobao.org/zen-observable/download/zen-observable-0.7.1.tgz#f84075c0ee085594d3566e1d6454207f126411b3"
 
-zone.js@^0.8.19:
+zone.js@^0.8.14, zone.js@^0.8.19:
   version "0.8.20"
   resolved "http://registry.npm.taobao.org/zone.js/download/zone.js-0.8.20.tgz#a218c48db09464b19ff6fc8f0d4bb5b1046e185d"

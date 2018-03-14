@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<div [ngxLoadingMask] class="app-wrapper">
+  <router-outlet></router-outlet>
+  <ng-template #mask>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+</div>

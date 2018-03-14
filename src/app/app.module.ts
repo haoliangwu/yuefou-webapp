@@ -12,6 +12,7 @@ import { concat, ApolloLink } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { HttpHeaders } from '@angular/common/http';
+import { LoadingMaskModule } from 'ngx-loading-mask';
 
 // app
 import { AppComponent } from './app.component';
@@ -19,6 +20,8 @@ import { AuthModule } from './auth/auth.module';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { LOCALSTORAGE } from './constants';
 import { ProfileModule } from './profile/profile.module';
+import { SharedModule } from './shared/shared.module';
+import { LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -32,18 +35,21 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AuthModule,
-    RouterModule.forRoot(
-      appRoutes,
-    ),
     HttpClientModule,
     ApolloModule,
     HttpLinkModule,
+    SharedModule,
+    LoadingMaskModule.forRoot({}),
     Ng2Webstorage.forRoot({
       prefix: 'yuefou',
       separator: '-'
     }),
-    ProfileModule
+    // feature modules
+    ProfileModule,
+    AuthModule,
+    RouterModule.forRoot(
+      appRoutes,
+    ),
   ],
   providers: [],
   bootstrap: [
@@ -62,7 +68,10 @@ export class AppModule {
 
     const authMiddleware = new ApolloLink((operation, forward) => {
       operation.setContext({
-        headers: new HttpHeaders().set('Authorization', `Bearer ${this.token}`)
+        headers: new HttpHeaders({
+          [LOADING_MASK_HEADER]: operation.variables[LOADING_MASK_HEADER] || DEFAULT_MASK_GROUP,
+          'Authorization': `Bearer ${this.token}`
+        })
       });
 
       return forward(operation);
