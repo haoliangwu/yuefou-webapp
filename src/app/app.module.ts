@@ -13,6 +13,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { HttpHeaders } from '@angular/common/http';
 import { LoadingMaskModule } from 'ngx-loading-mask';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
 // app
 import { AppComponent } from './app.component';
@@ -44,6 +45,12 @@ const appRoutes: Routes = [
       prefix: 'yuefou',
       separator: '-'
     }),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-full-width',
+      preventDuplicates: true,
+    }),
+    ToastContainerModule,
     // feature modules
     ProfileModule,
     AuthModule,

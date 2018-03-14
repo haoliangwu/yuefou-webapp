@@ -5,3 +5,8 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+/* ngx-toastr */
+#toast-container{
+  top: 1em;
+}

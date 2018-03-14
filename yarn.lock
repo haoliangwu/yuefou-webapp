@@ -5457,6 +5457,12 @@ ngx-loading-mask@^0.5.2:
     rxjs "^5.5.2"
     zone.js "^0.8.14"
 
+ngx-toastr@^8.3.0:
+  version "8.3.0"
+  resolved "http://registry.npm.taobao.org/ngx-toastr/download/ngx-toastr-8.3.0.tgz#4f79df590484de1caa2e29f9bee4cbf2c5aff097"
+  dependencies:
+    tslib "^1.7.1"
+
 ngx-webstorage@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/ngx-webstorage/download/ngx-webstorage-2.0.1.tgz#232446262241e8fd0d794a03821c0b5e28459295"

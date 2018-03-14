@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService, LoginMutationPayload, SignupMutationPayload } from '../auth.service';
 import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
-import { LOCALSTORAGE } from '../../constants';
+import { LOCALSTORAGE, TOAST } from '../../constants';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface LoginFormVal {
   email: string;
@@ -28,7 +29,8 @@ export class UserLoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private storage: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -76,6 +78,8 @@ export class UserLoginComponent implements OnInit {
       .subscribe(result => {
         const { signup: { token } } = result.data as SignupMutationPayload;
 
+        this.toastrService.success(TOAST.SUCCESS.SIGN_UP);
+
         this.redirect(token, true);
       });
   }
@@ -84,6 +88,8 @@ export class UserLoginComponent implements OnInit {
     this.authService.login(value.email, value.password)
       .subscribe(result => {
         const { login: { token } } = result.data as LoginMutationPayload;
+
+        this.toastrService.success(TOAST.SUCCESS.LOGIN);
 
         this.redirect(token, value.isRemember);
       });
