@@ -6,10 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { FormUtilService } from './services/form-util.service';
+import { EnterKeyDirective } from './dires/enter-key.directive';
 
 @NgModule({
   declarations: [
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    EnterKeyDirective
   ],
   exports: [
     // base
@@ -18,15 +20,17 @@ import { FormUtilService } from './services/form-util.service';
     // material
     MaterialModule,
     // form-errors
-    NgxErrorsModule
-  ],
-  providers: [FormUtilService]
+    NgxErrorsModule,
+    // directives
+    EnterKeyDirective
+    // comps
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: []
+      providers: [FormUtilService]
     };
   }
 }

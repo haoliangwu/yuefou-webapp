@@ -1,6 +1,6 @@
 <div class="login-panel-wrapper">
   <div fxLayout="column" class="login-panel">
-    <form [noValidate]="true" [formGroup]="loginForm" *ngIf="!isRemember">
+    <form [noValidate]="true" [formGroup]="loginForm" *ngIf="!isRemember" (enterKey)="signupOrLogin($event)">
       <mat-form-field>
         <input matInput required placeholder="Enter your email" formControlName="email">
         <mat-error>
