@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { LOCALSTORAGE } from './constants';
+import { ProfileModule } from './profile/profile.module';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
     Ng2Webstorage.forRoot({
       prefix: 'yuefou',
       separator: '-'
-    })
+    }),
+    ProfileModule
   ],
   providers: [],
   bootstrap: [

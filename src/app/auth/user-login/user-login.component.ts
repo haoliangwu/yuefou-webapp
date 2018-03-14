@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService, LoginMutationPayload } from '../auth.service';
-import { LocalStorageService } from 'ngx-webstorage';
+import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 import { LOCALSTORAGE } from '../../constants';
+import { Router } from '@angular/router';
+
+export interface LoginFormVal {
+  email: string;
+  password: string;
+  name?: string;
+  isRemember: boolean;
+}
 
 @Component({
   selector: 'app-user-login',
@@ -11,17 +19,13 @@ import { LOCALSTORAGE } from '../../constants';
 })
 export class UserLoginComponent implements OnInit {
   isSignup = false;
-  email: string;
-  password: string;
-  isRemember = false;
-  username: string;
-
   loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -42,7 +46,7 @@ export class UserLoginComponent implements OnInit {
   }
 
   signupOrLogin() {
-    const formRawVal = this.loginForm.getRawValue();
+    const formRawVal: LoginFormVal = this.loginForm.getRawValue();
 
     if (this.isSignup) {
       this.signup(formRawVal);
@@ -51,19 +55,22 @@ export class UserLoginComponent implements OnInit {
     }
   }
 
-  private signup(value) {
+  private signup(value: LoginFormVal) {
     this.authService.signup(value.email, value.password, value.name)
       .subscribe(e => {
         console.log(e.data);
       });
   }
 
-  private login(value) {
+  private login(value: LoginFormVal) {
     this.authService.login(value.email, value.password)
       .subscribe(result => {
         const { login: { token } } = result.data as LoginMutationPayload;
 
         this.storage.store(LOCALSTORAGE.API_TOKEN, token);
+          this.storage.store(LOCALSTORAGE.REMEMBER_ME, value.isRemember);
+
+        this.router.navigate(['/profile']);
       });
   }
 }
