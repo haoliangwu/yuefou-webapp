@@ -29,6 +29,11 @@ export class UserLoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // reset the user info
+    this.storage.clear(LOCALSTORAGE.API_TOKEN);
+    this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
+
+    // reset the form
     this.createForm();
   }
 
