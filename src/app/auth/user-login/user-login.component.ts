@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService, LoginMutationPayload } from '../auth.service';
+import { AuthService, LoginMutationPayload, SignupMutationPayload } from '../auth.service';
 import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 import { LOCALSTORAGE } from '../../constants';
 import { Router } from '@angular/router';
@@ -61,9 +61,13 @@ export class UserLoginComponent implements OnInit {
   }
 
   private signup(value: LoginFormVal) {
-    this.authService.signup(value.email, value.password, value.name)
-      .subscribe(e => {
-        console.log(e.data);
+    const username = value.name || value.email.split('@').pop();
+
+    this.authService.signup(value.email, value.password, username)
+      .subscribe(result => {
+        const { signup: { token } } = result.data as SignupMutationPayload;
+
+        this.redirect(token, true);
       });
   }
 
@@ -72,10 +76,14 @@ export class UserLoginComponent implements OnInit {
       .subscribe(result => {
         const { login: { token } } = result.data as LoginMutationPayload;
 
-        this.storage.store(LOCALSTORAGE.API_TOKEN, token);
-          this.storage.store(LOCALSTORAGE.REMEMBER_ME, value.isRemember);
-
-        this.router.navigate(['/profile']);
+        this.redirect(token, value.isRemember);
       });
+  }
+
+  private redirect(token: string, isRemember: boolean = false) {
+    this.storage.store(LOCALSTORAGE.API_TOKEN, token);
+    this.storage.store(LOCALSTORAGE.REMEMBER_ME, isRemember);
+
+    this.router.navigate(['/profile']);
   }
 }

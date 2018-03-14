@@ -10,6 +10,12 @@ export interface LoginMutationPayload {
   };
 }
 
+export interface SignupMutationPayload {
+  signup: {
+    token: string
+  };
+}
+
 @Injectable()
 export class AuthService {
 
@@ -23,7 +29,7 @@ export class AuthService {
     return this.apollo.mutate({ mutation });
   }
 
-  signup(email: string, password: string, name: string) {
+  signup(email: string, password: string, name: string): Observable<GraphqlResultPayload<SignupMutationPayload>> {
     const mutation = gql`mutation{signup(email:"${email}", password: "${password}", name: "${name}"){token}}`;
 
     return this.apollo.mutate({ mutation });
