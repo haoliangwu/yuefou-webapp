@@ -7,6 +7,7 @@ export const TOAST = {
   SUCCESS: {
     SIGN_UP: 'success-signup',
     LOGIN: 'success-login',
+    LOGOUT: 'success-logout',
     CREATE_USER: 'success-create-user',
     BASE: 'successful-operation'
   },

@@ -45,7 +45,7 @@ const appRoutes: Routes = [
     }),
     ToastrModule.forRoot({
       timeOut: 3000,
-      positionClass: 'toast-top-full-width',
+      positionClass: 'toast-top-center',
       preventDuplicates: true,
     }),
     ToastContainerModule,
