@@ -16,3 +16,9 @@ body {
 #toast-container {
     top: 62px;
 }
+
+/* util class */
+.affix {
+  position: fixed;
+  z-index: 9999;
+}

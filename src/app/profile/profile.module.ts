@@ -13,6 +13,8 @@ import { ToolbarComponent } from './layout/toolbar.component';
 import { ActivityComponent } from './activity/activity.component';
 import { TaskComponent } from './task/task.component';
 import { RecipeComponent } from './recipe/recipe.component';
+import { PageLayoutComponent } from './layout/page-layout.component';
+import { ActivityService } from './services/activity.service';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { RecipeComponent } from './recipe/recipe.component';
     ProfileRoutingModule,
     AvatarModule
   ],
-  declarations: [ProfileComponent, DashboardComponent, NavigatorComponent, UserInfoComponent, ToolbarComponent, ActivityComponent, TaskComponent, RecipeComponent]
+  declarations: [ProfileComponent, DashboardComponent, NavigatorComponent, UserInfoComponent, ToolbarComponent, ActivityComponent, TaskComponent, RecipeComponent, PageLayoutComponent],
+  providers: [ActivityService]
 })
 export class ProfileModule { }
