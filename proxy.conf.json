@@ -1,0 +1,11 @@
+{
+  "/graphql": {
+    "target": "http://yuefou_graphql.littlelyon.com/",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/graphql": ""
+    },
+    "logLevel": "debug"
+  }
+}

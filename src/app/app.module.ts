@@ -107,7 +107,7 @@ export class AppModule {
       }
     });
 
-    const httpLink = httpLinkService.create({ uri: 'http://yuefou_graphql.littlelyon.com' });
+    const httpLink = httpLinkService.create({ uri: '/graphql' });
 
     apollo.create({
       link: from([authLink, errorLink, httpLink]),
