@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-profile',
@@ -8,10 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
 
   opened: boolean;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggle() {
+    this.sidenav.toggle();
   }
 
 }

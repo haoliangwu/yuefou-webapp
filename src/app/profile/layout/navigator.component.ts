@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileComponent } from '../profile.component';
 
 @Component({
   selector: 'app-navigator',
@@ -12,9 +13,15 @@ export class NavigatorComponent implements OnInit {
     { text: '菜谱', icon: 'library_books', link: 'recipe' }
   ];
 
-  constructor() { }
+  constructor(
+    private profileComp: ProfileComponent
+  ) { }
 
   ngOnInit() {
+  }
+
+  close() {
+    this.profileComp.sidenav.close();
   }
 
 }
