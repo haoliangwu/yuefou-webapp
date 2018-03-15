@@ -7,8 +7,12 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NavigatorComponent } from './navigator/navigator.component';
+import { NavigatorComponent } from './layout/navigator.component';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { ToolbarComponent } from './layout/toolbar.component';
+import { ActivityComponent } from './activity/activity.component';
+import { TaskComponent } from './task/task.component';
+import { RecipeComponent } from './recipe/recipe.component';
 
 @NgModule({
   imports: [
@@ -17,6 +21,6 @@ import { UserInfoComponent } from './user-info/user-info.component';
     ProfileRoutingModule,
     AvatarModule
   ],
-  declarations: [ProfileComponent, DashboardComponent, NavigatorComponent, UserInfoComponent]
+  declarations: [ProfileComponent, DashboardComponent, NavigatorComponent, UserInfoComponent, ToolbarComponent, ActivityComponent, TaskComponent, RecipeComponent]
 })
 export class ProfileModule { }

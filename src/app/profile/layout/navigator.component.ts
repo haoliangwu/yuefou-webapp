@@ -7,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigatorComponent implements OnInit {
   items = [
-    { text: '活动', icon: 'schedule' },
-    { text: '任务', icon: 'event_note' }
+    { text: '活动', icon: 'schedule', link: 'activity' },
+    { text: '任务', icon: 'event_note', link: 'task' },
+    { text: '菜谱', icon: 'library_books', link: 'recipe' }
   ];
 
   constructor() { }

@@ -1,0 +1,7 @@
+mat-nav-list {
+    mat-list-item {
+        &.active {
+            background: rgba(0, 0, 0, .12);
+        }
+    }
+}

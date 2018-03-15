@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile.component';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ActivityComponent } from './activity/activity.component';
+import { TaskComponent } from './task/task.component';
+import { RecipeComponent } from './recipe/recipe.component';
 
 const routes: Routes = [
   {
@@ -18,6 +21,18 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent
+      },
+      {
+        path: 'activity',
+        component: ActivityComponent
+      },
+      {
+        path: 'task',
+        component: TaskComponent
+      },
+      {
+        path: 'recipe',
+        component: RecipeComponent
       }
     ]
   }

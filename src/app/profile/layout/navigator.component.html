@@ -1,0 +1,10 @@
+<app-user-info></app-user-info>
+<mat-divider></mat-divider>
+<mat-nav-list>
+  <mat-list-item [routerLink]="item.link" routerLinkActive="active" *ngFor="let item of items">
+    <mat-icon color="primary" matListIcon>{{item.icon}}</mat-icon>
+    <span matLine>
+      <a>{{ item.text }}</a>
+    </span>
+  </mat-list-item>
+</mat-nav-list>
