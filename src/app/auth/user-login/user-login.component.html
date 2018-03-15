@@ -1,4 +1,4 @@
-<div class="login-panel-wrapper">
+<div class="login-panel-wrapper" [@opacityTransition]>
   <div fxLayout="column" class="login-panel">
     <form [noValidate]="true" [formGroup]="loginForm" *ngIf="!isRemember" (enterKey)="signupOrLogin($event)">
       <mat-form-field>

@@ -11,3 +11,13 @@ mat-sidenav-container {
 mat-sidenav {
   width: 120px;
 }
+
+.page-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  .content-wrapper {
+      padding: .5em;
+      overflow: auto;
+  }
+}

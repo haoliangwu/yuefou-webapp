@@ -6,6 +6,7 @@ import { LOCALSTORAGE, TOAST } from '../../constants';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormUtilService } from '../../shared/services/form-util.service';
+import { opacityTransition } from '../../animations/transition';
 
 export interface LoginFormVal {
   email: string;
@@ -17,7 +18,8 @@ export interface LoginFormVal {
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.scss']
+  styleUrls: ['./user-login.component.scss'],
+  animations: [opacityTransition]
 })
 export class UserLoginComponent implements OnInit {
   isSignup = false;

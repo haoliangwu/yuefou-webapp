@@ -1,6 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { PageNotFoundComponent } from './comps/page-not-found/page-not-found.component';
+
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -18,6 +21,7 @@ import { EnterKeyDirective } from './dires/enter-key.directive';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     // material
     MaterialModule,
     // form-errors

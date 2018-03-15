@@ -7,6 +7,11 @@
     <button class="affix sidebar-toggle" mat-mini-fab (click)="toggle()">
       <mat-icon aria-label="menu icon">menu</mat-icon>
     </button>
-    <router-outlet></router-outlet>
+    <div fxLayout="column" class="page-wrapper">
+      <app-toolbar fxFlex="56px"></app-toolbar>
+      <div fxFlex class="content-wrapper" [@slideLeftTransition]>
+        <router-outlet #o="outlet"></router-outlet>
+      </div>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
