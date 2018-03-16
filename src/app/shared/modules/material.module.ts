@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatButtonModule, MatMenuModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatInputModule, MatCheckboxModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatProgressSpinnerModule, MatSidenavModule, MatGridListModule, MatDividerModule, MatListModule, MatExpansionModule } from '@angular/material';
+import { MatButtonModule, MatMenuModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule, MatOptionModule, MatSelectModule, MatInputModule, MatCheckboxModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatProgressSpinnerModule, MatSidenavModule, MatGridListModule, MatDividerModule, MatListModule, MatExpansionModule, MatDialogModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -19,6 +19,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatListModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatDialogModule,
     MatCardModule,
     FlexLayoutModule
   ]

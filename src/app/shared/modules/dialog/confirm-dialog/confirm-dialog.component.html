@@ -1,0 +1,5 @@
+<mat-dialog-content>{{message ? message: 'are-you-sure-to-do'}}</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>{{noText ? noText : 'no'}}</button>
+  <button mat-button [mat-dialog-close]="true">{{yesText ? yesText : 'yes'}}</button>
+</mat-dialog-actions>

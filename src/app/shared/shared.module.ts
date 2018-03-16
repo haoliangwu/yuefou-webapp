@@ -2,15 +2,13 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PageNotFoundComponent } from './comps/page-not-found/page-not-found.component';
-
-import { MaterialModule } from './material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
-import { FormUtilService } from './services/form-util.service';
-import { EnterKeyDirective } from './dires/enter-key.directive';
-import { FullDirective } from './dires/full.directive';
+
+import { MaterialModule, DialogModule } from './modules';
+import { FormUtilService } from './services';
+import { PageNotFoundComponent } from './comps';
+import { EnterKeyDirective, FullDirective } from './dires';
 
 @NgModule({
   declarations: [
@@ -24,10 +22,10 @@ import { FullDirective } from './dires/full.directive';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    // material
-    MaterialModule,
-    // form-errors
+    // modules
     NgxErrorsModule,
+    MaterialModule,
+    DialogModule,
     // directives
     EnterKeyDirective,
     FullDirective
@@ -38,7 +36,10 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [FormUtilService]
+      // services
+      providers: [
+        FormUtilService
+      ]
     };
   }
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ToastrService } from 'ngx-toastr';
 import { LOCALSTORAGE, TOAST } from '../../constants';
+import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 
 @Component({
   selector: 'app-navigator',
@@ -21,7 +22,8 @@ export class NavigatorComponent implements OnInit {
     private router: Router,
     private storage: LocalStorageService,
     private toastService: ToastrService,
-    private profileComp: ProfileComponent
+    private profileComp: ProfileComponent,
+    private dialogUtil: DialogUtilService
   ) { }
 
   ngOnInit() {
@@ -32,12 +34,21 @@ export class NavigatorComponent implements OnInit {
   }
 
   quit() {
-    // TODO 增加一个 confirm dialog
-    this.router.navigate(['/login']).then(() => {
-      this.storage.clear(LOCALSTORAGE.API_TOKEN);
-      this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
-
-      this.toastService.success(TOAST.SUCCESS.LOGOUT);
+    const dialogRef = this.dialogUtil.confirm({
+      data: {
+        message: '确定要退出吗？'
+      }
     });
+
+    dialogRef.afterClosed()
+      .filter(e => !!e)
+      .subscribe(e => {
+        this.router.navigate(['/login']).then(() => {
+          this.storage.clear(LOCALSTORAGE.API_TOKEN);
+          this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
+
+          this.toastService.success(TOAST.SUCCESS.LOGOUT);
+        });
+      });
   }
 }
