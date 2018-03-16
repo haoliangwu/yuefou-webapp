@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>参加一个活动</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" [noValidate]="true">
+    <mat-form-field class="example-form-field">
+      <input matInput required placeholder="输入邀请码" formControlName="code" />
+      <button mat-button *ngIf="form.get('code').value" matSuffix mat-icon-button aria-label="Clear" (click)="form.get('code').reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error>
+        <div ngxErrors="code">
+          <span ngxError="unExist" when="dirty">
+            invitation-code-is-unexisted
+          </span>
+          <span ngxError="required" when="touched">
+            invitation-code-is-required
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>不了, 谢谢</button>
+  <button mat-button (click)="attend()">参加</button>
+</mat-dialog-actions>

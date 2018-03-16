@@ -5,6 +5,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs/Observable';
 import { filter } from 'rxjs/operators';
+import { AttendActivityComponent } from './attend-activity/attend-activity.component';
 
 @Injectable()
 export class DialogUtilService {
@@ -22,11 +23,15 @@ export class DialogUtilService {
     return this.dialog.open(comp, { ...baseOpts, ...opts });
   }
 
-  createActivity(opts: MatDialogConfig) {
+  attendActivity(opts: MatDialogConfig = {}) {
+    return this.open<AttendActivityComponent>(AttendActivityComponent, opts);
+  }
+
+  createActivity(opts: MatDialogConfig = {}) {
     return this.open<CreateActivityDialogComponent>(CreateActivityDialogComponent, opts);
   }
 
-  confirm(opts: MatDialogConfig) {
+  confirm(opts: MatDialogConfig = {}) {
     return this.open<ConfirmDialogComponent>(ConfirmDialogComponent, opts);
   }
 }
