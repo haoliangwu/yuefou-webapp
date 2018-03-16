@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggle() {
-    this.sidenav.toggle();
+  addNewActivity() {
+    // TODO 触发增加新活动的弹窗
   }
 }

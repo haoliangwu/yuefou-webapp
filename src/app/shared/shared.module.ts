@@ -10,11 +10,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { FormUtilService } from './services/form-util.service';
 import { EnterKeyDirective } from './dires/enter-key.directive';
+import { FullDirective } from './dires/full.directive';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
-    EnterKeyDirective
+    EnterKeyDirective,
+    FullDirective
   ],
   exports: [
     // base
@@ -27,7 +29,8 @@ import { EnterKeyDirective } from './dires/enter-key.directive';
     // form-errors
     NgxErrorsModule,
     // directives
-    EnterKeyDirective
+    EnterKeyDirective,
+    FullDirective
     // comps
   ]
 })

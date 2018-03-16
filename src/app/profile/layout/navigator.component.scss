@@ -5,3 +5,13 @@ mat-nav-list {
         }
     }
 }
+
+.setting-item {
+    width: 120px;
+    button {
+        width: 100%;
+    }
+    span {
+        padding-left: 16px;
+    }
+}
