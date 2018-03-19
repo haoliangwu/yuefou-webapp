@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalStorage } from 'ngx-webstorage';
-import { LOCALSTORAGE, DEFAULT_ASSETS_HOST } from '../../constants';
+import { LocalStorageService } from 'ngx-webstorage';
+import { DEFAULT_ASSETS_HOST, LOCALSTORAGE } from '../../constants';
 import { User } from '../../model';
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { take, map, startWith } from 'rxjs/operators';
+import { take, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { merge } from 'rxjs/observable/merge';
 import { LocationUtilService } from '../../shared/services/location-util.service';
+import * as R from 'ramda';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -18,28 +20,36 @@ import { LocationUtilService } from '../../shared/services/location-util.service
 })
 export class UserInfoComponent implements OnInit {
 
-  @LocalStorage(LOCALSTORAGE.USER) user: User;
+  user$: Observable<User> = this.storage.observe(LOCALSTORAGE.USER).pipe(
+    filter(R.complement(R.isNil))
+  );
   avatar$: Observable<string>;
 
   constructor(
     private router: Router,
+    private storage: LocalStorageService,
     private locationUtil: LocationUtilService
   ) { }
 
   ngOnInit() {
-    const img = new Image();
-
-    if (this.locationUtil.isInternalHost()) {
-      img.src = `${DEFAULT_ASSETS_HOST}/tmp/${this.user.id}/${this.user.avatar}`;
-    } else {
-      img.src = `tmp/${this.user.id}/${this.user.avatar}`;
-    }
-
-    this.avatar$ = fromEvent(img, 'load')
+    this.avatar$ = this.user$
       .pipe(
-        map((e: Event) => (e.target as HTMLImageElement).src),
-        startWith('assets/images/default_avatar.jpg')
-      );
+        switchMap(user => {
+          const img = new Image();
+
+          if (this.locationUtil.isInternalHost()) {
+            img.src = `${DEFAULT_ASSETS_HOST}/tmp/${user.id}/${user.avatar}`;
+          } else {
+            img.src = `tmp/${user.id}/${user.avatar}`;
+          }
+
+          return fromEvent(img, 'load')
+            .pipe(
+              map((e: Event) => (e.target as HTMLImageElement).src),
+          );
+        }),
+        startWith('assets/images/default_avatar.jpg'));
+
   }
 
   redirect() {
