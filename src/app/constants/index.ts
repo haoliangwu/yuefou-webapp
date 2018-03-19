@@ -1,6 +1,7 @@
 export const LOCALSTORAGE = {
   API_TOKEN: 'api-token',
-  REMEMBER_ME: 'remember-me'
+  REMEMBER_ME: 'remember-me',
+  USER: 'user'
 };
 
 export const TOAST = {
@@ -22,3 +23,5 @@ export const TOAST = {
     BASE: 'unknown-error-occurred'
   }
 };
+
+export const DEFAULT_ASSETS_HOST = 'http://yuefou.littlelyon.com';

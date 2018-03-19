@@ -14,6 +14,7 @@ import { ActivityComponent } from './activity/activity.component';
 import { TaskComponent } from './task/task.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { ActivityService } from './services/activity.service';
+import { UserService } from './services/user.service';
 
 @NgModule({
   imports: [
@@ -22,7 +23,18 @@ import { ActivityService } from './services/activity.service';
     ProfileRoutingModule,
     AvatarModule
   ],
-  declarations: [ProfileComponent, DashboardComponent, NavigatorComponent, UserInfoComponent, ToolbarComponent, ActivityComponent, TaskComponent, RecipeComponent],
-  providers: [ActivityService]
+  declarations: [
+    ProfileComponent,
+    DashboardComponent,
+    NavigatorComponent,
+    UserInfoComponent,
+    ToolbarComponent,
+    ActivityComponent,
+    TaskComponent,
+    RecipeComponent],
+  providers: [
+    ActivityService,
+    UserService
+  ]
 })
 export class ProfileModule { }

@@ -3,25 +3,20 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operators';
 import { ApolloQueryResult } from 'apollo-client';
-import { Activity } from '../../model';
+import { User } from '../../model';
 
 @Injectable()
-export class ActivityService {
+export class UserService {
 
   constructor(
     private apollo: Apollo
   ) { }
 
-  activities(): Observable<ApolloQueryResult<{ activities: Activity[] }>> {
-    const query = gql`{activities{id title desc startedAt creator{id name}}}`;
+  me(): Observable<ApolloQueryResult<{ me: User }>> {
+    const query = gql`{me{id name avatar}}`;
 
     return this.apollo.query({ query });
-  }
-
-  activity(id) {
-    return of({
-      id: Math.random() * 10
-    });
   }
 }

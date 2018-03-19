@@ -13,6 +13,7 @@ import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 })
 export class NavigatorComponent implements OnInit {
   items = [
+    { text: '动态', icon: 'face', link: 'dashboard' },
     { text: '活动', icon: 'schedule', link: 'activity' },
     { text: '任务', icon: 'event_note', link: 'task' },
     { text: '菜谱', icon: 'library_books', link: 'recipe' }
@@ -46,6 +47,7 @@ export class NavigatorComponent implements OnInit {
         this.router.navigate(['/login']).then(() => {
           this.storage.clear(LOCALSTORAGE.API_TOKEN);
           this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
+          this.storage.clear(LOCALSTORAGE.USER);
 
           this.toastService.success(TOAST.SUCCESS.LOGOUT);
         });

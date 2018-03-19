@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityService, Activity } from '../services/activity.service';
+import { ActivityService } from '../services/activity.service';
 import { Observable } from 'apollo-link';
+import { Activity } from '../../model';
 
 @Component({
   selector: 'app-dashboard',

@@ -3,6 +3,9 @@ import { MatSidenav } from '@angular/material';
 import { slideLeftTransition } from '../animations/router-transition';
 import { DialogUtilService } from '../shared/modules/dialog/dialog.service';
 import { tap } from 'rxjs/operators';
+import { UserService } from './services/user.service';
+import { LocalStorageService } from 'ngx-webstorage';
+import { LOCALSTORAGE } from '../constants';
 
 @Component({
   selector: 'app-profile',
@@ -16,10 +19,15 @@ export class ProfileComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
-    private dialogUtil: DialogUtilService
+    private dialogUtil: DialogUtilService,
+    private userService: UserService,
+    private storage: LocalStorageService
   ) { }
 
   ngOnInit() {
+    this.userService.me().subscribe(e => {
+      this.storage.store(LOCALSTORAGE.USER, e.data.me);
+    });
   }
 
   attendActivity() {

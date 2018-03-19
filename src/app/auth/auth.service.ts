@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
-import { GraphqlResultPayload } from '../model';
+import { ApolloQueryResult } from 'apollo-client';
 
 export interface LoginMutationPayload {
   login: {
@@ -23,13 +23,13 @@ export class AuthService {
     public apollo: Apollo
   ) { }
 
-  login(email: string, password: string): Observable<GraphqlResultPayload<LoginMutationPayload>> {
+  login(email: string, password: string): Observable<ApolloQueryResult<LoginMutationPayload>> {
     const mutation = gql`mutation{login(email:"${email}", password: "${password}"){token}}`;
 
     return this.apollo.mutate({ mutation });
   }
 
-  signup(email: string, password: string, name: string): Observable<GraphqlResultPayload<SignupMutationPayload>> {
+  signup(email: string, password: string, name: string): Observable<ApolloQueryResult<SignupMutationPayload>> {
     const mutation = gql`mutation{signup(email:"${email}", password: "${password}", name: "${name}"){token}}`;
 
     return this.apollo.mutate({ mutation });
