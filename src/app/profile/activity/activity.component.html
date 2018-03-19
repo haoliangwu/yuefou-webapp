@@ -1,34 +1,27 @@
 <div fxLayout="column" class="activity-list-wrapper">
-  <!-- <div class="filter">
-    activity-filter
-  </div>-->
-  <mat-list fxFlex dense>
-    <!-- <mat-list-item *ngFor="let activity of activities$ | async; last as isLast">
-      <div full fxLayout="row" fxLayoutAlign="start center">
-        <span class="list-text" matLine> {{activity.type}} </span>
-        <span class="list-text" matLine> {{activity.title}} </span>
-        <span fxFlex></span>
-        <span class="list-text">
-          {{activity.startedAt}}
-        </span>
-        <span fxFlex></span>
-        <span class="list-text" matLine>{{activity.creator.name}}</span>
-      </div>
-      <mat-divider *ngIf="!isLast"></mat-divider>
-    </mat-list-item> -->
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let activity of activities$ | async">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span class="list-text" matLine> {{activity.type}} </span>
-            <span class="list-text" matLine> {{activity.title}} </span>
-            <span fxFlex></span>
-          </mat-panel-title>
-          <ng-template matExpansionPanelContent>
-            <app-activity-detail [activity]="activity"></app-activity-detail>
-          </ng-template>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-list>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let activity of activities$ | async">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="list-text" matLine> {{activity.type}} </span>
+          <span class="list-text" matLine> {{activity.title}} </span>
+          <span fxFlex></span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <app-activity-detail [activity]="activity"></app-activity-detail>
+      </ng-template>
+      <mat-action-row>
+        <button mat-icon-button color="primary">
+          <mat-icon matTooltip="编辑">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon matTooltip="删除">delete_forever</mat-icon>
+        </button>
+        <button mat-icon-button color="accent">
+          <mat-icon matTooltip="分享">share</mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
