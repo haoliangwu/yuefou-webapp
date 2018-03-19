@@ -1,0 +1,32 @@
+<mat-list>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>时间</h3>
+  <div class="activity-detail-content">
+    <span class="list-text">{{activity.startedAt | date: "yyyy-MM-dd"}}</span>
+    <span class="list-text">至</span>
+    <span class="list-text">{{activity.endedAt | date: "yyyy-MM-dd"}}</span>
+  </div>
+  <h3 mat-subheader>描述</h3>
+  <div class="activity-detail-content">
+    {{activity.desc || '这个家伙很懒，什么都没有留下'}}
+  </div>
+  <h3 mat-subheader>参与人</h3>
+  <div class="activity-detail-content">
+    <mat-chip-list>
+      <mat-chip *ngFor="let user of activity.participants">{{user.name}}</mat-chip>
+      <mat-chip *ngIf="activity.participants.length === 0">无</mat-chip>
+    </mat-chip-list>
+  </div>
+  <h3 mat-subheader>任务</h3>
+  <div class="activity-detail-content">
+    <mat-list *ngIf="activity.tasks.length > 0">
+      <mat-list-item *ngFor="let task of activity.tasks">
+        <!-- <mat-icon matListIcon>folder</mat-icon> -->
+        <div matLine> {{task.name}} </div>
+      </mat-list-item>
+    </mat-list>
+    <mat-chip-list>
+      <mat-chip *ngIf="activity.tasks.length === 0">无</mat-chip>
+    </mat-chip-list>
+  </div>
+</mat-list>

@@ -7792,6 +7792,10 @@ tildify@^1.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
+time-ago-kor@^0.1.14:
+  version "0.1.14"
+  resolved "http://registry.npm.taobao.org/time-ago-kor/download/time-ago-kor-0.1.14.tgz#bdaa95f1abb39b75e44d09cd98d426b0f6ae7068"
+
 time-stamp@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/time-stamp/download/time-stamp-1.1.0.tgz#764a5a11af50561921b133f3b44e618687e0f5c3"

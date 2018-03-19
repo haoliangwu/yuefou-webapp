@@ -14,7 +14,7 @@ export class ActivityService {
   ) { }
 
   activities(): Observable<ApolloQueryResult<{ activities: Activity[] }>> {
-    const query = gql`{activities{id title desc startedAt creator{id name}}}`;
+    const query = gql`{activities{id title desc status type location startedAt endedAt creator{id name}participants{id name}tasks{id name}}}`;
 
     return this.apollo.query({ query });
   }

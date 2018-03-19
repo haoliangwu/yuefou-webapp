@@ -23,7 +23,9 @@
         "theme.scss",
         "../node_modules/ngx-toastr/toastr.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/ramda/dist/ramda.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

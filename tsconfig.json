@@ -8,6 +8,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "types": [
+      "ramda"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ],

@@ -16,7 +16,7 @@ export class NavigatorComponent implements OnInit {
     { text: '动态', icon: 'face', link: 'dashboard' },
     { text: '活动', icon: 'schedule', link: 'activity' },
     { text: '任务', icon: 'event_note', link: 'task' },
-    { text: '菜谱', icon: 'library_books', link: 'recipe' }
+    { text: '菜谱', icon: 'restaurant_menu', link: 'recipe' }
   ];
 
   constructor(

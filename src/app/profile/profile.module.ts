@@ -15,6 +15,7 @@ import { TaskComponent } from './task/task.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { ActivityService } from './services/activity.service';
 import { UserService } from './services/user.service';
+import { ActivityDetailComponent } from './activity/activity-detail.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { UserService } from './services/user.service';
     UserInfoComponent,
     ToolbarComponent,
     ActivityComponent,
+    ActivityDetailComponent,
     TaskComponent,
     RecipeComponent],
   providers: [

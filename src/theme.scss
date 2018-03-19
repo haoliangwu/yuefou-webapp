@@ -1,3 +1,4 @@
+/* md theme */
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
@@ -28,3 +29,13 @@ $yuefou-app-theme: mat-light-theme($yuefou-app-primary, $yuefou-app-accent, $yue
 
 // Using the $theme variable from the pre-built theme you can call the theming function
 @include user-info-theme($yuefou-app-theme);
+
+/* util class */
+.affix {
+  position: fixed;
+  z-index: 9999;
+}
+
+.list-text {
+  padding: 0 .5em;
+}
