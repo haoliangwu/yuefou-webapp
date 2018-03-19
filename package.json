@@ -66,6 +66,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/jest": "^22.2.0",
     "@types/node": "~6.0.60",
+    "@types/ramda": "^0.25.20",
     "codelyzer": "^4.0.1",
     "gulp": "^3.9.1",
     "gulp-gh-pages": "^0.5.4",
