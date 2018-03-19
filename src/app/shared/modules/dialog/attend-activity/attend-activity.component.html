@@ -2,7 +2,7 @@
 <mat-dialog-content>
   <form [formGroup]="form" [noValidate]="true">
     <mat-form-field class="example-form-field">
-      <input matInput required placeholder="输入邀请码" formControlName="code" />
+      <input matInput required placeholder="输入邀请码" formControlName="code" autofocus />
       <button mat-button *ngIf="form.get('code').value" matSuffix mat-icon-button aria-label="Clear" (click)="form.get('code').reset()">
         <mat-icon>close</mat-icon>
       </button>
