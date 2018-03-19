@@ -4,6 +4,7 @@ import { Activity } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import * as R from 'ramda';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activity',
@@ -14,13 +15,15 @@ export class ActivityComponent implements OnInit {
   activities$: Observable<Activity[]>;
 
   constructor(
-   public activityService: ActivityService
+   private activityService: ActivityService,
+   private router: Router
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.activityService.activities().pipe(
-      map(R.path(['data', 'activities']))
-    );
+    this.activities$ = this.activityService.activities();
   }
 
+  createActivity() {
+    this.router.navigate(['/profile/activity/create']);
+  }
 }

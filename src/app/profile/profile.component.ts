@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { slideLeftTransition } from '../animations/router-transition';
-import { DialogUtilService } from '../shared/modules/dialog/dialog.service';
-import { tap } from 'rxjs/operators';
 import { UserService } from './services/user.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { LOCALSTORAGE } from '../constants';
@@ -19,7 +17,6 @@ export class ProfileComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
-    private dialogUtil: DialogUtilService,
     private userService: UserService,
     private storage: LocalStorageService
   ) { }
@@ -28,15 +25,5 @@ export class ProfileComponent implements OnInit {
     this.userService.me().subscribe(e => {
       this.storage.store(LOCALSTORAGE.USER, e.data.me);
     });
-  }
-
-  attendActivity() {
-    // TODO 触发增加新活动的弹窗
-    const dialogRef = this.dialogUtil.attendActivity();
-
-    dialogRef.afterClosed().pipe(
-      // TODO 参加活动
-      tap(e => e)
-    ).subscribe();
   }
 }
