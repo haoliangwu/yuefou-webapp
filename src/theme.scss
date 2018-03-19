@@ -6,7 +6,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
-$yuefou-app-primary: mat-palette($mat-indigo);
+$yuefou-app-primary: mat-palette($mat-deep-purple);
 $yuefou-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
