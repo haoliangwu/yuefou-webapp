@@ -10,13 +10,7 @@ import * as R from 'ramda';
 import { merge, compose, dissoc } from 'ramda';
 import { DataProxy } from 'apollo-cache';
 import { FetchResult } from 'apollo-link';
-
-// fp utils
-
-// query utils
-const activitiesQuery = gql`{activities{id title desc status type location startedAt endedAt creator{id name}participants{id name}tasks{id name}}}`;
-
-const activityQueryFactory = id => gql`{activity(id: "${id}"){id title desc status type location startedAt endedAt creator{id name}participants{id name}tasks{id name}}}`;
+import { ActivitiesQuery, ActivityQuery } from '../activity/activity.query';
 
 @Injectable()
 export class ActivityService {
@@ -26,21 +20,21 @@ export class ActivityService {
   ) { }
 
   private cacheActivites(proxy: DataProxy) {
-    return proxy.readQuery<{ activities: Activity[] }>({ query: activitiesQuery });
+    return proxy.readQuery<{ activities: Activity[] }>({ query: ActivitiesQuery });
   }
 
   private cacheActivity(id: string, proxy: DataProxy) {
-    return proxy.readQuery<{ activity: Activity }>({ query: activityQueryFactory(id) });
+    return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables: { id } });
   }
 
   activities(): Observable<Activity[]> {
-    return this.apollo.query({ query: activitiesQuery }).pipe(
+    return this.apollo.query({ query: ActivitiesQuery }).pipe(
       map(R.path(['data', 'activities']))
     );
   }
 
   activity(id): Observable<Activity> {
-    return this.apollo.query({ query: activityQueryFactory(id) }).pipe(
+    return this.apollo.query({ query: ActivityQuery, variables: { id } }).pipe(
       map(R.path(['data', 'activity']))
     );
   }
@@ -55,7 +49,7 @@ export class ActivityService {
 
       data.activities = R.append(accessor(result), data.activities);
 
-      proxy.writeQuery({ query: activitiesQuery, data });
+      proxy.writeQuery({ query: ActivitiesQuery, data });
     };
 
     const variables = { activity };
@@ -78,7 +72,7 @@ export class ActivityService {
       const idx = R.find(R.propEq('id', updateActivity.id), data.activities);
       data.activities = R.update(idx, updateActivity, data.activities);
 
-      proxy.writeQuery({ query: activitiesQuery, data });
+      proxy.writeQuery({ query: ActivitiesQuery, data });
     };
 
     const formatFn = compose(dissoc('type'), merge({ id }));
@@ -100,7 +94,7 @@ export class ActivityService {
 
       data.activities = R.filter(R.complement(R.propEq('id', accessor(result).id)), data.activities);
 
-      proxy.writeQuery({ query: activitiesQuery, data });
+      proxy.writeQuery({ query: ActivitiesQuery, data });
     };
 
     return this.apollo.mutate({ mutation, update }).pipe(
