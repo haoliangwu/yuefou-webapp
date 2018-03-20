@@ -60,6 +60,9 @@
   },
   "defaults": {
     "styleExt": "scss",
-    "component": {}
+    "component": {},
+    "class": {
+      "spec": false
+    }
   }
 }
