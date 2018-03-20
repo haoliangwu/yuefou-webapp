@@ -60,6 +60,7 @@ const appRoutes: Routes = [
     // should be last one
     RouterModule.forRoot(
       appRoutes,
+      { enableTracing: true }
     ),
   ],
   providers: [],
@@ -114,6 +115,9 @@ export class AppModule {
       cache: new InMemoryCache(),
       defaultOptions: {
         query: {
+          errorPolicy: 'all'
+        },
+        mutate: {
           errorPolicy: 'all'
         }
       }

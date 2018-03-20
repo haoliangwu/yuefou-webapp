@@ -3,7 +3,7 @@ import { ActivityService } from '../services/activity.service';
 import { Activity } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-activity',
@@ -15,6 +15,7 @@ export class ActivityComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
@@ -22,7 +23,19 @@ export class ActivityComponent implements OnInit {
     this.activities$ = this.activityService.activities();
   }
 
-  createActivity() {
+  create() {
     this.router.navigate(['/profile/activity/create']);
+  }
+
+  update(activity: Activity) {
+    this.router.navigate(['/profile/activity/update/:id', { id: activity.id }]);
+  }
+
+  delete() {
+
+  }
+
+  share() {
+
   }
 }

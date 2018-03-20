@@ -10,6 +10,11 @@ export const TOAST = {
     LOGIN: 'success-login',
     LOGOUT: 'success-logout',
     CREATE_USER: 'success-create-user',
+    UPDATE_USER: 'success-update-user',
+    CREATE_ACTIVITY: 'success-create-activity',
+    UPDATE_ACTIVITY: 'success-update-activity',
+    CREATE_TASK: 'success-create-task',
+    UPDATE_TASK: 'success-update-task',
     BASE: 'successful-operation'
   },
   WARN: {

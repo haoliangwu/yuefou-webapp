@@ -1,3 +1,70 @@
-<p>
-  activity-create works!
-</p>
+<div fxLayout="column" class="activity-create-panel" full>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span>Create Activity</span>
+      <span fxFlex></span>
+      <mat-icon color="primary" matTooltip="确定" *ngIf="update$ | async" (click)="save()">done</mat-icon>
+      <mat-icon color="primary" matTooltip="取消" *ngIf="update$ | async" (click)="cancel()">clear</mat-icon>
+      <mat-icon color="warn" matTooltip="删除" *ngIf="activity">delete</mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <form fxFlex [formGroup]="form">
+    <mat-form-field full="width">
+      <input matInput placeholder="title" formControlName="title" required>
+      <mat-error>
+        <div ngxErrors="title">
+          <span ngxError="required" when="touched">
+            title is required
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="type" formControlName="type">
+        <mat-option [value]="'HOST'">host</mat-option>
+        <mat-option [value]="'TASK'">task</mat-option>
+        <mat-option [value]="'POTLUCK'">potluck</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [min]="now" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="start date" formControlName="startedAt"
+        required>
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+      <mat-error>
+        <div ngxErrors="startedAt">
+          <span ngxError="required" when="touched">
+            startedAt is required or invalid
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="end date" formControlName="endedAt"
+        required>
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+      <mat-error>
+        <div ngxErrors="endedAt">
+          <span ngxError="required" when="touched">
+            endedAt is required or invalid
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field full="width">
+      <textarea matInput placeholder="location" formControlName="location" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"
+        required></textarea>
+      <mat-error>
+        <div ngxErrors="location">
+          <span ngxError="required" when="touched">
+            location is required
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field full="width">
+      <textarea matInput placeholder="description" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"></textarea>
+    </mat-form-field>
+  </form>
+</div>

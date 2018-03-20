@@ -13,17 +13,17 @@
       </ng-template>
       <mat-action-row>
         <button mat-icon-button color="primary">
-          <mat-icon matTooltip="编辑">edit</mat-icon>
+          <mat-icon matTooltip="编辑" (click)="update(activity)">edit</mat-icon>
         </button>
         <button mat-icon-button color="warn">
-          <mat-icon matTooltip="删除">delete_forever</mat-icon>
+          <mat-icon matTooltip="删除" (click)="delete(activity)">delete_forever</mat-icon>
         </button>
         <button mat-icon-button color="accent">
-          <mat-icon matTooltip="分享">share</mat-icon>
+          <mat-icon matTooltip="分享" (click)="share(activity)">share</mat-icon>
         </button>
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
-<app-fixed-toggle (clickRequest)="createActivity()"></app-fixed-toggle>
+<app-fixed-toggle (clickRequest)="create()"></app-fixed-toggle>
 

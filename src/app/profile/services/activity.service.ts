@@ -7,6 +7,7 @@ import { ApolloQueryResult } from 'apollo-client';
 import { Activity } from '../../model';
 import { map } from 'rxjs/operators';
 import * as R from 'ramda';
+import { merge, compose, dissoc } from 'ramda';
 
 @Injectable()
 export class ActivityService {
@@ -28,6 +29,28 @@ export class ActivityService {
 
     return this.apollo.query({ query }).pipe(
       map(R.path(['data', 'activity']))
+    );
+  }
+
+  create(activity: Activity): Observable<Activity> {
+    const mutation = gql`mutation createActivity($activity:CreateActivityInput){createActivity(activity:$activity){id title desc status type location startedAt endedAt}}`;
+
+    const variables = { activity };
+
+    return this.apollo.mutate({ mutation, variables }).pipe(
+      map(R.path(['data', 'createActivity']))
+    );
+  }
+
+  update(id: string, activity: Activity): Observable<Activity> {
+    const mutation = gql`mutation updateActivity($activity:UpdateActivityInput){updateActivity(activity:$activity){id title desc status type location startedAt endedAt}}`;
+
+    const formatFn = compose(dissoc('type'), merge({ id }));
+
+    const variables = { activity: formatFn(activity) };
+
+    return this.apollo.mutate({ mutation, variables }).pipe(
+      map(R.path(['data', 'updateActivity']))
     );
   }
 }

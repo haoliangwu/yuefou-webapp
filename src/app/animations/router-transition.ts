@@ -2,7 +2,7 @@ import { trigger, animate, style, group, animateChild, query, stagger, transitio
 
 export const slideLeftTransition = trigger('slideLeftTransition', [
   transition('* <=> *', [
-    query(':enter, :leave', style({ position: 'fixed', width: '100%' })
+    query(':enter, :leave', style({ position: 'fixed', width: '100%', height: '100%' })
       , { optional: true }),
     group([
       query(':enter', [

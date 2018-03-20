@@ -14,11 +14,6 @@ const activityRoute: Route = {
   path: 'activity',
   children: [
     {
-      path: '',
-      redirectTo: 'list',
-      pathMatch: 'full'
-    },
-    {
       path: 'list',
       component: ActivityComponent
     },
@@ -28,15 +23,16 @@ const activityRoute: Route = {
     },
     {
       path: 'update/:id',
-      component: ActivityCreateComponent
-    },
-    {
-      path: 'detail/:id',
-      component: ActivityDetailComponent,
+      component: ActivityCreateComponent,
       resolve: {
         activity: ActivityResolver
       }
-    }
+    },
+    {
+      path: '',
+      redirectTo: 'list',
+      pathMatch: 'full'
+    },
   ]
 };
 
@@ -57,17 +53,17 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     children: [
       {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
-      {
         path: 'dashboard',
         component: DashboardComponent
       },
       activityRoute,
       taskRoute,
-      recipeRoute
+      recipeRoute,
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      }
     ],
   }
 ];
