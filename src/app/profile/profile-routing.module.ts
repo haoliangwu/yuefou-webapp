@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Route } from '@angular/router';
 import { ProfileComponent } from './profile.component';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -9,6 +9,46 @@ import { RecipeComponent } from './recipe/recipe.component';
 import { ActivityCreateComponent } from './activity/activity-create.component';
 import { ActivityDetailComponent } from './activity/activity-detail.component';
 import { ActivityResolver } from './activity/activity-resolver.service';
+
+const activityRoute: Route = {
+  path: 'activity',
+  children: [
+    {
+      path: '',
+      redirectTo: 'list',
+      pathMatch: 'full'
+    },
+    {
+      path: 'list',
+      component: ActivityComponent
+    },
+    {
+      path: 'create',
+      component: ActivityCreateComponent
+    },
+    {
+      path: 'update/:id',
+      component: ActivityCreateComponent
+    },
+    {
+      path: 'detail/:id',
+      component: ActivityDetailComponent,
+      resolve: {
+        activity: ActivityResolver
+      }
+    }
+  ]
+};
+
+const taskRoute: Route = {
+  path: 'task',
+  component: TaskComponent
+};
+
+const recipeRoute: Route = {
+  path: 'recipe',
+  component: RecipeComponent
+};
 
 const routes: Routes = [
   {
@@ -25,29 +65,9 @@ const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent
       },
-      {
-        path: 'activity',
-        component: ActivityComponent
-      },
-      {
-        path: 'activity/create',
-        component: ActivityCreateComponent
-      },
-      {
-        path: 'activity/:id',
-        component: ActivityDetailComponent,
-        resolve: {
-          activity: ActivityResolver
-        }
-      },
-      {
-        path: 'task',
-        component: TaskComponent
-      },
-      {
-        path: 'recipe',
-        component: RecipeComponent
-      }
+      activityRoute,
+      taskRoute,
+      recipeRoute
     ],
   }
 ];
