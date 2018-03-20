@@ -1,4 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { RouterUtilService } from '../../../shared/services';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-fixed-toggle',
@@ -8,7 +11,9 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 export class FixedToggleComponent implements OnInit {
   @Output() clickRequest = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    public routerUtil: RouterUtilService
+  ) { }
 
   ngOnInit() {
   }

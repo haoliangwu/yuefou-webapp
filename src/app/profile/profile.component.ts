@@ -4,6 +4,7 @@ import { slideLeftTransition } from '../animations/router-transition';
 import { UserService } from './services/user.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { LOCALSTORAGE } from '../constants';
+import { RouterUtilService } from '../shared/services';
 
 @Component({
   selector: 'app-profile',
@@ -18,12 +19,21 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private routerUtil: RouterUtilService
   ) { }
 
   ngOnInit() {
     this.userService.me().subscribe(e => {
       this.storage.store(LOCALSTORAGE.USER, e.data.me);
     });
+  }
+
+  animationStart(event) {
+    this.routerUtil.routerAnimation$.next(false);
+  }
+
+  animationDone(event) {
+    this.routerUtil.routerAnimation$.next(true);
   }
 }

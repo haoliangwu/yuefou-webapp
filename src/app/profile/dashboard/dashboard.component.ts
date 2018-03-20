@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../services/activity.service';
-import { Observable } from 'apollo-link';
 import { Activity } from '../../model';
 import { tap } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-dashboard',

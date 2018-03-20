@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 import { MaterialModule, DialogModule } from './modules';
-import { FormUtilService, LocationUtilService } from './services';
+import { FormUtilService, LocationUtilService, RouterUtilService } from './services';
 import { PageNotFoundComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 
@@ -39,7 +39,8 @@ export class SharedModule {
       // services
       providers: [
         FormUtilService,
-        LocationUtilService
+        LocationUtilService,
+        RouterUtilService
       ]
     };
   }

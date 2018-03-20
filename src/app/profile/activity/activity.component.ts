@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../services/activity.service';
 import { Activity } from '../../model';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
 import * as R from 'ramda';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-activity',
@@ -15,8 +14,8 @@ export class ActivityComponent implements OnInit {
   activities$: Observable<Activity[]>;
 
   constructor(
-   private activityService: ActivityService,
-   private router: Router
+    private activityService: ActivityService,
+    private router: Router
   ) { }
 
   ngOnInit() {
