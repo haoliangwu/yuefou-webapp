@@ -1,17 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { ProgressStatus, ActivityType, Activity } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Subscription } from 'apollo-client/util/Observable';
-import { mapTo, debounceTime } from 'rxjs/operators';
+import { mapTo, debounceTime, publishBehavior, refCount, switchMap, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
 import { FormUtilService } from '../../shared/services';
 import { ActivityService } from '../services/activity.service';
 import { ToastrService } from 'ngx-toastr';
 import { TOAST } from '../../constants';
+import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 
 const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location']);
 
@@ -20,7 +21,7 @@ const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt
   templateUrl: './activity-create.component.html',
   styleUrls: ['./activity-create.component.scss']
 })
-export class ActivityCreateComponent implements OnInit, OnDestroy {
+export class ActivityCreateComponent implements OnInit {
 
   now = new Date();
   form: FormGroup;
@@ -34,7 +35,8 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
     private router: Router,
     private formUtil: FormUtilService,
     private activityService: ActivityService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private dialogUtil: DialogUtilService
   ) { }
 
   ngOnInit() {
@@ -61,11 +63,10 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
     this.update$ = merge(
       this.form.valueChanges.pipe(mapTo(true)),
       this.reset$.pipe(mapTo(false))).pipe(
-        debounceTime(100)
+        debounceTime(100),
+        publishBehavior(false),
+        refCount()
       );
-  }
-
-  ngOnDestroy() {
   }
 
   save() {
@@ -94,6 +95,22 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
     this.reset$.next();
   }
 
+  delete(activity: Activity) {
+    const dialogRef = this.dialogUtil.confirm({
+      data: {
+        message: '确定要删除该项活动？'
+      }
+    });
+
+    dialogRef.afterClosed().pipe(
+      switchMap(() => this.activityService.delete(activity.id)),
+      tap(() => {
+        this.redirect();
+        this.toastService.success(TOAST.SUCCESS.BASE);
+      })
+    ).subscribe();
+  }
+
   private create() {
     const nextActivity = this.form.getRawValue();
 
@@ -101,7 +118,7 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
       .subscribe(activity => {
         this.toastService.success(TOAST.SUCCESS.CREATE_ACTIVITY);
 
-        this.router.navigate(['/profile/activity/list']);
+        this.redirect();
       });
   }
 
@@ -112,21 +129,11 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
       .subscribe(activity => {
         this.toastService.success(TOAST.SUCCESS.UPDATE_ACTIVITY);
 
-        this.router.navigate(['/profile/activity/list']);
+        this.redirect();
       });
   }
 
-  // validateIsInvalidDate(control: AbstractControl) {
-  //   const d: Date = control.value;
-
-  //   if (Object.prototype.toString.call(d) === '[object Date]') {
-  //     if (isNaN(d.getTime())) {
-  //       return { invalid: true };
-  //     } else {
-  //       return null;
-  //     }
-  //   } else {
-  //     return { invalid: true };
-  //   }
-  // }
+  private redirect() {
+    this.router.navigate(['/profile/activity/list']);
+  }
 }

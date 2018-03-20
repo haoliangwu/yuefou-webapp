@@ -4,6 +4,10 @@ import { Activity } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
+import { switchMap, tap } from 'rxjs/operators';
+import { TOAST } from '../../constants';
 
 @Component({
   selector: 'app-activity',
@@ -16,7 +20,9 @@ export class ActivityComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastService: ToastrService,
+    private dialogUtil: DialogUtilService
   ) { }
 
   ngOnInit() {
@@ -31,8 +37,20 @@ export class ActivityComponent implements OnInit {
     this.router.navigate(['/profile/activity/update/:id', { id: activity.id }]);
   }
 
-  delete() {
+  delete(activity: Activity) {
+    const dialogRef = this.dialogUtil.confirm({
+      data: {
+        message: '确定要删除该项活动？'
+      }
+    });
 
+    dialogRef.afterClosed().pipe(
+      switchMap(() => this.activityService.delete(activity.id)),
+      tap(() => {
+        this.toastService.success(TOAST.SUCCESS.BASE);
+        this.ngOnInit();
+      })
+    ).subscribe();
   }
 
   share() {

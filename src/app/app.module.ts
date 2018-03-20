@@ -59,8 +59,7 @@ const appRoutes: Routes = [
     // app root route
     // should be last one
     RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true }
+      appRoutes
     ),
   ],
   providers: [],

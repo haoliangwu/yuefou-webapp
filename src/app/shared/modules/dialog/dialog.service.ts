@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { CreateActivityDialogComponent } from './create-activity-dialog/create-activity-dialog.component';
 import { ComponentType } from '@angular/cdk/portal';
-import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent, ConfirmData } from './confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs/Observable';
 import { filter } from 'rxjs/operators';
 import { AttendActivityComponent } from './attend-activity/attend-activity.component';
@@ -31,7 +31,7 @@ export class DialogUtilService {
     return this.open<CreateActivityDialogComponent>(CreateActivityDialogComponent, opts);
   }
 
-  confirm(opts: MatDialogConfig = {}) {
+  confirm(opts: MatDialogConfig<ConfirmData> = {}) {
     return this.open<ConfirmDialogComponent>(ConfirmDialogComponent, opts);
   }
 }

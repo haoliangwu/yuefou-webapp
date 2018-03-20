@@ -5,7 +5,7 @@
       <span fxFlex></span>
       <mat-icon color="primary" matTooltip="确定" *ngIf="update$ | async" (click)="save()">done</mat-icon>
       <mat-icon color="primary" matTooltip="取消" *ngIf="update$ | async" (click)="cancel()">clear</mat-icon>
-      <mat-icon color="warn" matTooltip="删除" *ngIf="activity">delete</mat-icon>
+      <mat-icon color="warn" matTooltip="删除" *ngIf="activity" (click)="delete(activity)">delete</mat-icon>
     </mat-toolbar-row>
   </mat-toolbar>
   <form fxFlex [formGroup]="form">

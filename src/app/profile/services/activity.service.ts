@@ -53,4 +53,12 @@ export class ActivityService {
       map(R.path(['data', 'updateActivity']))
     );
   }
+
+  delete(id: string): Observable<Activity> {
+    const mutation = gql`mutation {deleteActivity(id:"${id}"){id}}`;
+
+    return this.apollo.mutate({ mutation }).pipe(
+      map(R.path(['data', 'deleteActivity']))
+    );
+  }
 }
