@@ -1,7 +1,7 @@
 <div fxLayout="column" class="activity-create-panel" full>
   <mat-toolbar>
     <mat-toolbar-row>
-      <span>Create Activity</span>
+      <span>{{activity ? 'update-activity' : 'create-activity'}}</span>
       <span fxFlex></span>
       <mat-icon color="primary" matTooltip="确定" *ngIf="update$ | async" (click)="save()">done</mat-icon>
       <mat-icon color="primary" matTooltip="取消" *ngIf="update$ | async" (click)="cancel()">clear</mat-icon>

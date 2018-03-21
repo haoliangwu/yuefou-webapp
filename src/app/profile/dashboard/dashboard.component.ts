@@ -4,6 +4,7 @@ import { Activity } from '../../model';
 import { tap, map } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
-    private dialogUtil: DialogUtilService
+    private dialogUtil: DialogUtilService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -33,5 +35,9 @@ export class DashboardComponent implements OnInit {
       // TODO 参加活动
       tap(e => e)
     ).subscribe();
+  }
+
+  update(activity: Activity) {
+    this.router.navigate(['/profile/activity/update/:id', { id: activity.id }]);
   }
 }
