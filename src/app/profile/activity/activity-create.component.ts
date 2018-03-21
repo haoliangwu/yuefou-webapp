@@ -13,6 +13,7 @@ import { ActivityService } from './activity.service';
 import { ToastrService } from 'ngx-toastr';
 import { TOAST } from '../../constants';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
+import { TranslateService } from '@ngx-translate/core';
 
 const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location']);
 
@@ -36,7 +37,8 @@ export class ActivityCreateComponent implements OnInit {
     private formUtil: FormUtilService,
     private activityService: ActivityService,
     private toastService: ToastrService,
-    private dialogUtil: DialogUtilService
+    private dialogUtil: DialogUtilService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -106,7 +108,7 @@ export class ActivityCreateComponent implements OnInit {
       switchMap(() => this.activityService.delete(activity.id)),
       tap(() => {
         this.redirect();
-        this.toastService.success(TOAST.SUCCESS.BASE);
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
       })
     ).subscribe();
   }
@@ -116,7 +118,7 @@ export class ActivityCreateComponent implements OnInit {
 
     this.activityService.create(nextActivity)
       .subscribe(activity => {
-        this.toastService.success(TOAST.SUCCESS.CREATE_ACTIVITY);
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
         this.redirect();
       });
@@ -127,7 +129,7 @@ export class ActivityCreateComponent implements OnInit {
 
     this.activityService.update(id, nextActivity)
       .subscribe(activity => {
-        this.toastService.success(TOAST.SUCCESS.UPDATE_ACTIVITY);
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 
         this.redirect();
       });

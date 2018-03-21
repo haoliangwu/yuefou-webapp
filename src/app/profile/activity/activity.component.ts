@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { TOAST } from '../../constants';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-activity',
@@ -23,6 +24,7 @@ export class ActivityComponent implements OnInit {
     private router: Router,
     private toastService: ToastrService,
     private dialogUtil: DialogUtilService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -50,7 +52,7 @@ export class ActivityComponent implements OnInit {
       filter(e => !!e),
       switchMap(() => this.activityService.delete(activity.id)),
       tap(() => {
-        this.toastService.success(TOAST.SUCCESS.BASE);
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
       })
     ).subscribe();
   }

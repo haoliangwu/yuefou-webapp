@@ -13,7 +13,7 @@ import { onError } from 'apollo-link-error';
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
 import { ToastrModule, ToastContainerModule, ToastrService } from 'ngx-toastr';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
@@ -92,6 +92,7 @@ export class AppModule {
     apollo: Apollo,
     httpLinkService: HttpLink,
     private toastrService: ToastrService,
+    private translate: TranslateService
   ) {
     const authLink = new ApolloLink((operation, forward) => {
       operation.setContext({
@@ -120,7 +121,7 @@ export class AppModule {
       if (networkError) {
         console.error(`[Network error]: ${networkError}`);
 
-        this.toastrService.error(TOAST.ERROR.BASE);
+        this.toastrService.error(this.translate.instant('TOAST.ERROR.BASE'));
       }
     });
 

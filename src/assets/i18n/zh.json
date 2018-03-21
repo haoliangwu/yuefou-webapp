@@ -30,5 +30,25 @@
   },
   "COMMON": {
     "NONE": "无"
+  },
+  "TOAST": {
+    "SUCCESS": {
+     " SIGN_UP": "注册成功",
+      "LOGIN": "登录成功",
+      "LOGOUT": "退出成功",
+      "CREATE_SUCCESS": "创建成功",
+      "UPDATE_SUCCESS": "编辑成功",
+      "BASE": "操作成功"
+    },
+    "WARN": {
+      "INVALID_FORM": "存在不合法的表单项"
+    },
+    "FAIL": {
+      "LOGIN": "登录失败",
+      "BASE": "操作失败"
+    },
+    "ERROR": {
+      "BASE": "未知错误发生，请联系管理员"
+    }
   }
 }

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormUtilService } from '../../shared/services/form-util.service';
 import { opacityTransition } from '../../animations/transition';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface LoginFormVal {
   email: string;
@@ -34,7 +35,8 @@ export class UserLoginComponent implements OnInit {
     private storage: LocalStorageService,
     private router: Router,
     private toastrService: ToastrService,
-    private formUtil: FormUtilService
+    private formUtil: FormUtilService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -70,7 +72,7 @@ export class UserLoginComponent implements OnInit {
   signupOrLogin() {
     if (this.loginForm.invalid) {
       this.formUtil.validateAllFormFields(this.loginForm);
-      this.toastrService.warning(TOAST.WARN.INVALID_FORM);
+      this.toastrService.warning(this.translate.instant('TOAST.WARN.INVALID_FORM'));
       return;
     }
 
@@ -91,7 +93,7 @@ export class UserLoginComponent implements OnInit {
         result => {
           const { signup: { token } } = result.data as SignupMutationPayload;
 
-          this.toastrService.success(TOAST.SUCCESS.SIGN_UP);
+          this.toastrService.success(this.translate.instant('TOAST.SUCCESS.SIGN_UP'));
 
           this.redirect(token, true);
         }
@@ -104,7 +106,7 @@ export class UserLoginComponent implements OnInit {
         result => {
           const { login: { token } } = result.data as LoginMutationPayload;
 
-          this.toastrService.success(TOAST.SUCCESS.LOGIN);
+          this.toastrService.success(this.translate.instant(TOAST.SUCCESS.LOGIN));
 
           this.redirect(token, value.isRemember);
         }

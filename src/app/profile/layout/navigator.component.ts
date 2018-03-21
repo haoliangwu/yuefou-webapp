@@ -5,6 +5,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { ToastrService } from 'ngx-toastr';
 import { LOCALSTORAGE, TOAST } from '../../constants';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navigator',
@@ -24,7 +25,8 @@ export class NavigatorComponent implements OnInit {
     private storage: LocalStorageService,
     private toastService: ToastrService,
     private profileComp: ProfileComponent,
-    private dialogUtil: DialogUtilService
+    private dialogUtil: DialogUtilService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class NavigatorComponent implements OnInit {
           this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
           this.storage.clear(LOCALSTORAGE.USER);
 
-          this.toastService.success(TOAST.SUCCESS.LOGOUT);
+          this.toastService.success(this.translate.instant('TOAST.SUCCESS.LOGOUT'));
         });
       });
   }
