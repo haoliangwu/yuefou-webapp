@@ -6,7 +6,7 @@
   "ACTIVITY": {
     "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
     "TYPE": {
-      "HOST": "主人模式",
+      "HOST": "招待模式",
       "TASK": "任务模式",
       "POTLUCK": "百家宴"
     },
