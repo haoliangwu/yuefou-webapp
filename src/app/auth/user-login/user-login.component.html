@@ -6,10 +6,10 @@
         <mat-error>
           <div ngxErrors="email">
             <span ngxError="email" when="dirty">
-              email format is invalid
+              {{'AUTH.ERRORS.EMAIL_INVALID' | translate}}
             </span>
             <span ngxError="required" when="touched">
-              email is required
+              {{'AUTH.ERRORS.EMAIL_REQUIRED' | translate}}
             </span>
           </div>
         </mat-error>
@@ -19,7 +19,7 @@
         <mat-error>
           <div ngxErrors="password">
             <div ngxError="required" when="touched">
-              password is required
+              {{'AUTH.ERRORS.PASSWORD_REQUIRED' | translate}}
             </div>
           </div>
         </mat-error>

@@ -14,7 +14,7 @@
       <mat-error>
         <div ngxErrors="title">
           <span ngxError="required" when="touched">
-            title is required
+            {{'ACTIVITY.ERRORS.TITLE_REQUIRED' | translate}}
           </span>
         </div>
       </mat-error>
@@ -27,44 +27,45 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [min]="now" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}" formControlName="startedAt"
-        required>
+      <input matInput [min]="now" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
+        formControlName="startedAt" required>
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker></mat-datepicker>
       <mat-error>
         <div ngxErrors="startedAt">
           <span ngxError="required" when="touched">
-            startedAt is required or invalid
+            {{'ACTIVITY.ERRORS.START_REQUIRED' | translate}}
           </span>
         </div>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="{{'ACTIVITY.FORM.END' | translate}}" formControlName="endedAt"
-        required>
+      <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="{{'ACTIVITY.FORM.END' | translate}}"
+        formControlName="endedAt" required>
       <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
       <mat-datepicker #endPicker></mat-datepicker>
       <mat-error>
         <div ngxErrors="endedAt">
           <span ngxError="required" when="touched">
-            endedAt is required or invalid
+            {{'ACTIVITY.ERRORS.END_REQUIRED' | translate}}
           </span>
         </div>
       </mat-error>
     </mat-form-field>
     <mat-form-field full="width">
-      <textarea matInput placeholder="{{'ACTIVITY.FORM.LOCATION' | translate}}" formControlName="location" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"
-        required></textarea>
+      <textarea matInput placeholder="{{'ACTIVITY.FORM.LOCATION' | translate}}" formControlName="location" matTextareaAutosize
+        matAutosizeMinRows="1" matAutosizeMaxRows="4" required></textarea>
       <mat-error>
         <div ngxErrors="location">
           <span ngxError="required" when="touched">
-            location is required
+            {{'ACTIVITY.ERRORS.LOCATION_REQUIRED' | translate}}
           </span>
         </div>
       </mat-error>
     </mat-form-field>
     <mat-form-field full="width">
-      <textarea matInput placeholder="{{'ACTIVITY.FORM.DESC' | translate}}" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"></textarea>
+      <textarea matInput placeholder="{{'ACTIVITY.FORM.DESC' | translate}}" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1"
+        matAutosizeMaxRows="4"></textarea>
     </mat-form-field>
   </form>
 </div>

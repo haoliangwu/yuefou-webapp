@@ -8,6 +8,7 @@ import { AttendActivityComponent } from './attend-activity/attend-activity.compo
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgxErrorsModule
+    NgxErrorsModule,
+    TranslateModule
   ],
   declarations: [
     CreateActivityDialogComponent,

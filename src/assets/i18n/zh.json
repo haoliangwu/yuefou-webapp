@@ -3,6 +3,13 @@
     "CREATOR_HINT": "是该活动的发起者",
     "STARTED_AT": "活动开始于"
   },
+  "AUTH": {
+    "ERRORS": {
+      "EMAIL_REQUIRED": "邮箱地址是必填项",
+      "PASSWORD_REQUIRED": "密码是必填项",
+      "EMAIL_INVALID": "邮箱地址格式不合法"
+    }
+  },
   "ACTIVITY": {
     "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
     "TYPE": {
@@ -23,6 +30,12 @@
       "END": "结束时间",
       "LOCATION": "活动地点",
       "DESC": "活动描述"
+    },
+    "ERRORS": {
+      "TITLE_REQUIRED": "主题是必填项",
+      "START_REQUIRED": "开始时间是必填项或不是有效的日期格式",
+      "END_REQUIRED": "结束时间是必填项或不是有效的日期格式",
+      "LOCATION_REQUIRED": "活动地址是必填项"
     }
   },
   "DATE": {
@@ -33,7 +46,7 @@
   },
   "TOAST": {
     "SUCCESS": {
-     " SIGN_UP": "注册成功",
+      " SIGN_UP": "注册成功",
       "LOGIN": "登录成功",
       "LOGOUT": "退出成功",
       "CREATE_SUCCESS": "创建成功",
@@ -49,6 +62,22 @@
     },
     "ERROR": {
       "BASE": "未知错误发生，请联系管理员"
+    }
+  },
+  "DIALOG": {
+    "CONFIRM": {
+      "DEFAULT_MESSAGE": "确定要进行这项操作吗？",
+      "DEFAULT_YES_TEXT": "确定",
+      "DEFAULT_NO_TEXT": "取消"
+    },
+    "ATTEND_ACTIVITY": {
+      "DEFAULT_MESSAGE": "请输入验证码",
+      "DEFAULT_YES_TEXT": "参加",
+      "DEFAULT_NO_TEXT": "不了，谢谢",
+      "ERRORS": {
+        "REQUIRED": "邀请码是必填项",
+        "UNEXISTED": "邀请码不存在"
+      }
     }
   }
 }

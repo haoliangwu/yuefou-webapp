@@ -2,17 +2,18 @@
 <mat-dialog-content>
   <form [formGroup]="form" [noValidate]="true">
     <mat-form-field>
-      <input matInput required placeholder="输入邀请码" formControlName="code" autofocus />
+      <input matInput required placeholder="{{'DIALOG.ATTEND_ACTIVITY.DEFAULT_MESSAGE' | translate}}" formControlName="code" autofocus
+      />
       <button mat-button *ngIf="form.get('code').value" matSuffix mat-icon-button aria-label="Clear" (click)="form.get('code').reset()">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error>
         <div ngxErrors="code">
           <span ngxError="unExist" when="dirty">
-            invitation-code-is-unexisted
+            {{'DIALOG.ATTEND_ACTIVITY.ERRORS.UNEXISTED' | translate}}
           </span>
           <span ngxError="required" when="touched">
-            invitation-code-is-required
+            {{'DIALOG.ATTEND_ACTIVITY.ERRORS.REQUIRED' | translate}}
           </span>
         </div>
       </mat-error>
@@ -21,6 +22,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close>不了, 谢谢</button>
-  <button mat-raised-button (click)="attend()" color="primary">参加</button>
+  <button mat-raised-button mat-dialog-close>
+    {{'DIALOG.ATTEND_ACTIVITY.DEFAULT_NO_TEXT' | translate}}
+  </button>
+  <button mat-raised-button (click)="attend()" color="primary">
+    {{'DIALOG.ATTEND_ACTIVITY.DEFAULT_YES_TEXT' | translate}}
+  </button>
 </mat-dialog-actions>

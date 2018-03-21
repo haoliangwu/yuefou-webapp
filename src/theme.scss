@@ -31,9 +31,14 @@ $yuefou-app-theme: mat-light-theme($yuefou-app-primary, $yuefou-app-accent, $yue
 
 @import "app/profile/activity/activity-theme.scss";
 
-@include activity-theme($yuefou-app-theme)
+@include activity-theme($yuefou-app-theme);
 
 // Using the $theme variable from the pre-built theme you can call the theming function
+
+/* md override */
+mat-form-field:not(:first-child) {
+  margin: .5em 0 0 0;
+}
 
 /* util class */
 .affix {
