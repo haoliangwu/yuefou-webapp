@@ -1,4 +1,4 @@
-<mat-card class="activity-card" *ngFor="let activity of activities">
+<mat-card class="activity-card" *ngFor="let activity of activities$ | async">
   <mat-card-header>
     <mat-card-title>{{activity.title}}</mat-card-title>
     <mat-card-subtitle>{{activity.creator.name}} 是该活动的发起者</mat-card-subtitle>
@@ -16,4 +16,4 @@
     </button>
   </mat-card-actions>
 </mat-card>
-<app-fixed-toggle (clickRequest)="attendActivity()"></app-fixed-toggle>
+<app-fixed-toggle icon="input" (clickRequest)="attendActivity()"></app-fixed-toggle>

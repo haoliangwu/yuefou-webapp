@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity/activity.service';
 import { Activity } from '../../model';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
+import { Apollo } from 'apollo-angular';
+import { ActivitiesQuery } from '../activity/activity.graphql';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,20 +13,21 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  activities: Activity[];
+  activities$: Observable<Activity[]>;
 
   panelOpenState: boolean;
 
   constructor(
     private activityService: ActivityService,
     private dialogUtil: DialogUtilService,
+    private apollo: Apollo
   ) { }
 
   ngOnInit() {
-    this.activityService.activities()
-      .subscribe(activities => {
-        this.activities = activities;
-      });
+    this.activities$ = this.apollo.watchQuery<{ activities: Activity[] }>({
+      query: ActivitiesQuery
+    }).valueChanges
+      .pipe(map(e => e.data.activities));
   }
 
   attendActivity() {

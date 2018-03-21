@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./fixed-toggle.component.scss']
 })
 export class FixedToggleComponent implements OnInit {
+  @Input() icon = 'playlist_add';
   @Output() clickRequest = new EventEmitter();
 
   constructor(
