@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Subscription } from 'apollo-client/util/Observable';
-import { mapTo, debounceTime, publishBehavior, refCount, switchMap, tap } from 'rxjs/operators';
+import { mapTo, debounceTime, publishBehavior, refCount, switchMap, tap, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
 import { FormUtilService } from '../../shared/services';
@@ -105,6 +105,7 @@ export class ActivityCreateComponent implements OnInit {
     });
 
     dialogRef.afterClosed().pipe(
+      filter(e => !!e),
       switchMap(() => this.activityService.delete(activity.id)),
       tap(() => {
         this.redirect();
