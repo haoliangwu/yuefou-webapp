@@ -5,6 +5,7 @@ import { tap, map } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,11 +20,11 @@ export class DashboardComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private dialogUtil: DialogUtilService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.activityService.activities$.valueChanges
+    this.activities$ = this.activityService.activitiesWatch().valueChanges
       .pipe(map(e => e.data.activities));
   }
 

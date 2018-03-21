@@ -26,7 +26,7 @@ export class ActivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.activityService.activities$.valueChanges
+    this.activities$ = this.activityService.activitiesWatch().valueChanges
       .pipe(map(e => e.data.activities));
   }
 

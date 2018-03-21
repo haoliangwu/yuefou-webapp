@@ -15,10 +15,6 @@ import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutaion
 
 @Injectable()
 export class ActivityService {
-  activities$: QueryRef<{ activities: Activity[] }> = this.apollo.watchQuery({
-    query: ActivitiesQuery
-  });
-
   constructor(
     private apollo: Apollo
   ) { }
@@ -31,6 +27,12 @@ export class ActivityService {
     const variables = { id };
 
     return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables });
+  }
+
+  activitiesWatch(): QueryRef<{activities: Activity[]}> {
+    return this.apollo.watchQuery({
+      query: ActivitiesQuery
+    });
   }
 
   activities(): Observable<Activity[]> {
@@ -49,13 +51,6 @@ export class ActivityService {
     return this.apollo.query({ query: ActivityQuery, variables }).pipe(
       map(accessor)
     );
-  }
-
-  activity$Factory(id: string): QueryRef<{ activity: Activity }> {
-    return this.apollo.watchQuery({
-      query: ActivityQuery,
-      variables: { id }
-    });
   }
 
   create(activity: Activity): Observable<Activity> {
