@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityService } from '../services/activity.service';
+import { ActivityService } from './activity.service';
 import { Activity } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { TOAST } from '../../constants';
+import { Apollo } from 'apollo-angular';
+import { ActivitiesQuery } from './activity.graphql';
 
 @Component({
   selector: 'app-activity',
@@ -22,11 +24,15 @@ export class ActivityComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastService: ToastrService,
-    private dialogUtil: DialogUtilService
+    private dialogUtil: DialogUtilService,
+    private apollo: Apollo
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.activityService.activities();
+    this.activities$ = this.apollo.watchQuery<{ activities: Activity[] }>({
+      query: ActivitiesQuery
+    }).valueChanges
+      .pipe(map(e => e.data.activities));
   }
 
   create() {
@@ -44,11 +50,12 @@ export class ActivityComponent implements OnInit {
       }
     });
 
+
     dialogRef.afterClosed().pipe(
+      filter(e => !!e),
       switchMap(() => this.activityService.delete(activity.id)),
       tap(() => {
         this.toastService.success(TOAST.SUCCESS.BASE);
-        this.ngOnInit();
       })
     ).subscribe();
   }

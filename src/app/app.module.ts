@@ -21,6 +21,8 @@ import { LOCALSTORAGE, TOAST } from './constants';
 import { ProfileModule } from './profile/profile.module';
 import { SharedModule } from './shared/shared.module';
 
+import * as R from 'ramda';
+
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
@@ -111,7 +113,7 @@ export class AppModule {
 
     apollo.create({
       link: from([authLink, errorLink, httpLink]),
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({}),
       defaultOptions: {
         query: {
           errorPolicy: 'all'

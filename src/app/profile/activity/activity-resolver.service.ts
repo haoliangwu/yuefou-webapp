@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Activity } from '../../model';
 import { Observable } from 'rxjs/Observable';
-import { ActivityService } from '../services/activity.service';
+import { ActivityService } from './activity.service';
 
 
 @Injectable()

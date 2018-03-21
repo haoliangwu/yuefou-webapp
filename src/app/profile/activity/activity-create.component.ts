@@ -9,7 +9,7 @@ import { mapTo, debounceTime, publishBehavior, refCount, switchMap, tap } from '
 import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
 import { FormUtilService } from '../../shared/services';
-import { ActivityService } from '../services/activity.service';
+import { ActivityService } from './activity.service';
 import { ToastrService } from 'ngx-toastr';
 import { TOAST } from '../../constants';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';

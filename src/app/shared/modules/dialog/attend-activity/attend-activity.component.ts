@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgModel, FormControl, AsyncValidatorFn, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { FormUtilService } from '../../../services';
-import { ActivityService } from '../../../../profile/services/activity.service';
+import { ActivityService } from '../../../../profile/activity/activity.service';
 import { map } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material';
 

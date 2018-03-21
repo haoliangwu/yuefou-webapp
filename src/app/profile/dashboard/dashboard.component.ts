@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityService } from '../services/activity.service';
+import { ActivityService } from '../activity/activity.service';
 import { Activity } from '../../model';
 import { tap } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';

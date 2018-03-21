@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
+import { DataProxy } from 'apollo-cache';
+import { FetchResult } from 'apollo-link';
+import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { ApolloQueryResult } from 'apollo-client';
 import { Activity } from '../../model';
 import { map } from 'rxjs/operators';
 import * as R from 'ramda';
 import { merge, compose, dissoc } from 'ramda';
-import { DataProxy } from 'apollo-cache';
-import { FetchResult } from 'apollo-link';
-import { ActivitiesQuery, ActivityQuery } from '../activity/activity.query';
+
+import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutaion, UpdateActivityMutaion, DeleteActivityMutaion } from '../activity/activity.graphql';
 
 @Injectable()
 export class ActivityService {
-
   constructor(
     private apollo: Apollo
   ) { }
@@ -24,24 +24,30 @@ export class ActivityService {
   }
 
   private cacheActivity(id: string, proxy: DataProxy) {
-    return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables: { id } });
+    const variables = { id };
+
+    return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables });
   }
 
   activities(): Observable<Activity[]> {
+    const accessor = R.path<Activity[]>(['data', 'activities']);
+
     return this.apollo.query({ query: ActivitiesQuery }).pipe(
-      map(R.path(['data', 'activities']))
+      map(accessor)
     );
   }
 
   activity(id): Observable<Activity> {
-    return this.apollo.query({ query: ActivityQuery, variables: { id } }).pipe(
-      map(R.path(['data', 'activity']))
+    const accessor = R.path<Activity>(['data', 'activity']);
+
+    const variables = { id };
+
+    return this.apollo.query({ query: ActivityQuery, variables }).pipe(
+      map(accessor)
     );
   }
 
   create(activity: Activity): Observable<Activity> {
-    const mutation = gql`mutation createActivity($activity:CreateActivityInput){createActivity(activity:$activity){id title desc status type location startedAt endedAt}}`;
-
     const accessor = R.path<Activity>(['data', 'createActivity']);
 
     const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
@@ -54,14 +60,12 @@ export class ActivityService {
 
     const variables = { activity };
 
-    return this.apollo.mutate({ mutation, update, variables }).pipe(
+    return this.apollo.mutate({ mutation: CreateActivityMutaion, update, variables }).pipe(
       map(accessor)
     );
   }
 
   update(id: string, activity: Activity): Observable<Activity> {
-    const mutation = gql`mutation updateActivity($activity:UpdateActivityInput){updateActivity(activity:$activity){id title desc status type location startedAt endedAt}}`;
-
     const accessor = R.path<Activity>(['data', 'updateActivity']);
 
     const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
@@ -79,14 +83,12 @@ export class ActivityService {
 
     const variables = { activity: formatFn(activity) };
 
-    return this.apollo.mutate({ mutation, update, variables }).pipe(
+    return this.apollo.mutate({ mutation: UpdateActivityMutaion, update, variables }).pipe(
       map(accessor)
     );
   }
 
   delete(id: string): Observable<Activity> {
-    const mutation = gql`mutation {deleteActivity(id:"${id}"){id}}`;
-
     const accessor = R.path<Activity>(['data', 'deleteActivity']);
 
     const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
@@ -97,7 +99,9 @@ export class ActivityService {
       proxy.writeQuery({ query: ActivitiesQuery, data });
     };
 
-    return this.apollo.mutate({ mutation, update }).pipe(
+    const variables = { id };
+
+    return this.apollo.mutate({ mutation: DeleteActivityMutaion, variables, update }).pipe(
       map(accessor)
     );
   }
