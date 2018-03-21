@@ -5468,9 +5468,9 @@ ngx-avatar@^2.9.0:
     is-retina "^1.0.3"
     ts-md5 "^1.2.0"
 
-ngx-loading-mask@^0.5.2:
-  version "0.5.2"
-  resolved "http://registry.npm.taobao.org/ngx-loading-mask/download/ngx-loading-mask-0.5.2.tgz#75b08a81a29168012ea5872b4fb38c307bb5a465"
+ngx-loading-mask@5.3.1:
+  version "5.3.1"
+  resolved "http://registry.npm.taobao.org/ngx-loading-mask/download/ngx-loading-mask-5.3.1.tgz#741c5345efcb4e6d89d7b68f97c55c29bf9c572d"
   dependencies:
     "@angular/animations" "^5.0.0"
     "@angular/cdk" "^5.1.1"

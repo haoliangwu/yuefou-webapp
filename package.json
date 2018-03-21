@@ -53,7 +53,7 @@
     "graphql": "^0.13.1",
     "graphql-tag": "^2.8.0",
     "ngx-avatar": "^2.9.0",
-    "ngx-loading-mask": "^0.5.2",
+    "ngx-loading-mask": "5.3.1",
     "ngx-toastr": "^8.3.0",
     "ngx-webstorage": "^2.0.1",
     "ramda": "^0.25.0",

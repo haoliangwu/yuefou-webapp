@@ -99,7 +99,7 @@ export class AppModule {
 
       operation.setContext({
         headers: new HttpHeaders({
-          [LOADING_MASK_HEADER]: group || DEFAULT_MASK_GROUP,
+          [LOADING_MASK_HEADER]: R.defaultTo(DEFAULT_MASK_GROUP, group),
           'Authorization': `Bearer ${this.token}`
         })
       });
