@@ -4,8 +4,6 @@ import { Activity } from '../../model';
 import { tap, map } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
-import { Apollo } from 'apollo-angular';
-import { ActivitiesQuery } from '../activity/activity.graphql';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,14 +17,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
-    private dialogUtil: DialogUtilService,
-    private apollo: Apollo
+    private dialogUtil: DialogUtilService
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.apollo.watchQuery<{ activities: Activity[] }>({
-      query: ActivitiesQuery
-    }).valueChanges
+    this.activities$ = this.activityService.activities$.valueChanges
       .pipe(map(e => e.data.activities));
   }
 

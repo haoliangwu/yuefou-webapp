@@ -8,8 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { TOAST } from '../../constants';
-import { Apollo } from 'apollo-angular';
-import { ActivitiesQuery } from './activity.graphql';
 
 @Component({
   selector: 'app-activity',
@@ -25,13 +23,10 @@ export class ActivityComponent implements OnInit {
     private router: Router,
     private toastService: ToastrService,
     private dialogUtil: DialogUtilService,
-    private apollo: Apollo
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.apollo.watchQuery<{ activities: Activity[] }>({
-      query: ActivitiesQuery
-    }).valueChanges
+    this.activities$ = this.activityService.activities$.valueChanges
       .pipe(map(e => e.data.activities));
   }
 

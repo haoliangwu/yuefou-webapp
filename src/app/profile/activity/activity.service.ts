@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Injectable, Query } from '@angular/core';
+import { Apollo, QueryRef } from 'apollo-angular';
 import { DataProxy } from 'apollo-cache';
 import { FetchResult } from 'apollo-link';
 import { ApolloQueryResult } from 'apollo-client';
@@ -15,6 +15,10 @@ import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutaion
 
 @Injectable()
 export class ActivityService {
+  activities$: QueryRef<{ activities: Activity[] }> = this.apollo.watchQuery({
+    query: ActivitiesQuery
+  });
+
   constructor(
     private apollo: Apollo
   ) { }
@@ -37,7 +41,7 @@ export class ActivityService {
     );
   }
 
-  activity(id): Observable<Activity> {
+  activity(id: string): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'activity']);
 
     const variables = { id };
@@ -45,6 +49,13 @@ export class ActivityService {
     return this.apollo.query({ query: ActivityQuery, variables }).pipe(
       map(accessor)
     );
+  }
+
+  activity$Factory(id: string): QueryRef<{ activity: Activity }> {
+    return this.apollo.watchQuery({
+      query: ActivityQuery,
+      variables: { id }
+    });
   }
 
   create(activity: Activity): Observable<Activity> {
