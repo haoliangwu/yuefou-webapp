@@ -31,3 +31,8 @@ export const TOAST = {
 
 // export const DEFAULT_ASSETS_HOST = 'http://yuefou.littlelyon.com';
 export const DEFAULT_ASSETS_HOST = 'http://58.87.91.173';
+
+export const LANGUAGE = {
+  AVAILABLE: ['zh', 'en'],
+  DEFAULT: 'zh'
+};

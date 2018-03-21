@@ -1,7 +1,7 @@
 <div fxLayout="column" class="activity-create-panel" full>
   <mat-toolbar>
     <mat-toolbar-row>
-      <span>{{activity ? 'update-activity' : 'create-activity'}}</span>
+      <span>{{(activity ? 'ACTIVITY.UPDATE' : 'ACTIVITY.CREATE') | translate}}</span>
       <span fxFlex></span>
       <mat-icon color="primary" matTooltip="确定" *ngIf="update$ | async" (click)="save()">done</mat-icon>
       <mat-icon color="primary" matTooltip="取消" *ngIf="update$ | async" (click)="cancel()">clear</mat-icon>
@@ -10,7 +10,7 @@
   </mat-toolbar>
   <form fxFlex [formGroup]="form">
     <mat-form-field full="width">
-      <input matInput placeholder="title" formControlName="title" required>
+      <input matInput placeholder="{{'ACTIVITY.FORM.TITLE' | translate}}" formControlName="title" required>
       <mat-error>
         <div ngxErrors="title">
           <span ngxError="required" when="touched">
@@ -20,14 +20,14 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="type" formControlName="type">
-        <mat-option [value]="'HOST'">host</mat-option>
-        <mat-option [value]="'TASK'">task</mat-option>
-        <mat-option [value]="'POTLUCK'">potluck</mat-option>
+      <mat-select placeholder="{{'ACTIVITY.FORM.TYPE' | translate}}" formControlName="type">
+        <mat-option [value]="'HOST'">{{'ACTIVITY.TYPE.HOST' | translate}}</mat-option>
+        <mat-option [value]="'TASK'">{{'ACTIVITY.TYPE.TASK' | translate}}</mat-option>
+        <mat-option [value]="'POTLUCK'">{{'ACTIVITY.TYPE.POTLUCK' | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [min]="now" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="start date" formControlName="startedAt"
+      <input matInput [min]="now" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}" formControlName="startedAt"
         required>
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker></mat-datepicker>
@@ -40,7 +40,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="end date" formControlName="endedAt"
+      <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="{{'ACTIVITY.FORM.END' | translate}}" formControlName="endedAt"
         required>
       <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
       <mat-datepicker #endPicker></mat-datepicker>
@@ -53,7 +53,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field full="width">
-      <textarea matInput placeholder="location" formControlName="location" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"
+      <textarea matInput placeholder="{{'ACTIVITY.FORM.LOCATION' | translate}}" formControlName="location" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"
         required></textarea>
       <mat-error>
         <div ngxErrors="location">
@@ -64,7 +64,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field full="width">
-      <textarea matInput placeholder="description" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"></textarea>
+      <textarea matInput placeholder="{{'ACTIVITY.FORM.DESC' | translate}}" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="4"></textarea>
     </mat-form-field>
   </form>
 </div>

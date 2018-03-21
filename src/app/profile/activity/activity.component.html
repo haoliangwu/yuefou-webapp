@@ -3,7 +3,7 @@
     <mat-expansion-panel *ngFor="let activity of activities$ | async">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <span class="list-text" matLine> {{activity.type}} </span>
+          <span class="list-text" matLine> {{'ACTIVITY.TYPE.' + activity.type | translate}} </span>
           <span class="list-text" matLine> {{activity.title}} </span>
           <span fxFlex></span>
         </mat-panel-title>
@@ -13,13 +13,13 @@
       </ng-template>
       <mat-action-row>
         <button mat-icon-button color="primary">
-          <mat-icon matTooltip="编辑" (click)="update(activity)">edit</mat-icon>
+          <mat-icon (click)="update(activity)">edit</mat-icon>
         </button>
         <button mat-icon-button color="warn">
-          <mat-icon matTooltip="删除" (click)="delete(activity)">delete_forever</mat-icon>
+          <mat-icon (click)="delete(activity)">delete_forever</mat-icon>
         </button>
         <button mat-icon-button color="accent">
-          <mat-icon matTooltip="分享" (click)="share(activity)">share</mat-icon>
+          <mat-icon (click)="share(activity)">share</mat-icon>
         </button>
       </mat-action-row>
     </mat-expansion-panel>

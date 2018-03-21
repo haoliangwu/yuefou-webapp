@@ -9,6 +9,7 @@ import { MaterialModule, DialogModule } from './modules';
 import { FormUtilService, LocationUtilService, RouterUtilService } from './services';
 import { PageNotFoundComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { EnterKeyDirective, FullDirective } from './dires';
     NgxErrorsModule,
     MaterialModule,
     DialogModule,
+    TranslateModule,
     // directives
     EnterKeyDirective,
     FullDirective

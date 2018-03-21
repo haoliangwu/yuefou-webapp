@@ -216,6 +216,14 @@
     tree-kill "^1.0.0"
     webpack-sources "^1.1.0"
 
+"@ngx-translate/core@^9.1.1":
+  version "9.1.1"
+  resolved "http://registry.npm.taobao.org/@ngx-translate/core/download/@ngx-translate/core-9.1.1.tgz#ae103928836b8a9e069fd2e2e76fa2198cc7e628"
+
+"@ngx-translate/http-loader@^2.0.1":
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/@ngx-translate/http-loader/download/@ngx-translate/http-loader-2.0.1.tgz#aa67788e64bfa8652691a77b022b3b4031209113"
+
 "@schematics/angular@0.3.2":
   version "0.3.2"
   resolved "http://registry.npm.taobao.org/@schematics/angular/download/@schematics/angular-0.3.2.tgz#be209a032a3e4577992d94fbaa14bd4bfde485e2"
@@ -7791,10 +7799,6 @@ tildify@^1.0.0:
   resolved "http://registry.npm.taobao.org/tildify/download/tildify-1.2.0.tgz#dcec03f55dca9b7aa3e5b04f21817eb56e63588a"
   dependencies:
     os-homedir "^1.0.0"
-
-time-ago-kor@^0.1.14:
-  version "0.1.14"
-  resolved "http://registry.npm.taobao.org/time-ago-kor/download/time-ago-kor-0.1.14.tgz#bdaa95f1abb39b75e44d09cd98d426b0f6ae7068"
 
 time-stamp@^1.0.0:
   version "1.1.0"

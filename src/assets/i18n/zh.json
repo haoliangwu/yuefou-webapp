@@ -1,0 +1,34 @@
+{
+  "DASHBOARD": {
+    "CREATOR_HINT": "是该活动的发起者",
+    "STARTED_AT": "活动开始于"
+  },
+  "ACTIVITY": {
+    "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
+    "TYPE": {
+      "HOST": "主人模式",
+      "TASK": "任务模式",
+      "POTLUCK": "百家宴"
+    },
+    "TIME": "时间安排",
+    "DESC": "活动描述",
+    "TASK": "任务",
+    "PARTICIPANT": "参与人",
+    "CREATE": "创建活动",
+    "UPDATE": "编辑活动",
+    "FORM": {
+      "TITLE": "活动主题",
+      "TYPE": "活动类型",
+      "START": "开始时间",
+      "END": "结束时间",
+      "LOCATION": "活动地点",
+      "DESC": "活动描述"
+    }
+  },
+  "DATE": {
+    "TO": "至"
+  },
+  "COMMON": {
+    "NONE": "无"
+  }
+}
