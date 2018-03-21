@@ -12,6 +12,7 @@ import * as R from 'ramda';
 import { merge, compose, dissoc } from 'ramda';
 
 import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutaion, UpdateActivityMutaion, DeleteActivityMutaion } from '../activity/activity.graphql';
+import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 
 @Injectable()
 export class ActivityService {
@@ -29,7 +30,7 @@ export class ActivityService {
     return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables });
   }
 
-  activitiesWatch(): QueryRef<{activities: Activity[]}> {
+  activitiesWatch(): QueryRef<{ activities: Activity[] }> {
     return this.apollo.watchQuery({
       query: ActivitiesQuery
     });
@@ -109,6 +110,17 @@ export class ActivityService {
 
     return this.apollo.mutate({ mutation: DeleteActivityMutaion, variables, update }).pipe(
       map(accessor)
+    );
+  }
+
+  isActivityExist(id: string): Observable<boolean> {
+    const accessor = R.path<Activity>(['data', 'activity']);
+
+    const variables = { id, [LOADING_MASK_HEADER]: false };
+
+    return this.apollo.query({ query: ActivityQuery, variables }).pipe(
+      map(accessor),
+      map(e => R.complement(R.isNil)(e))
     );
   }
 }

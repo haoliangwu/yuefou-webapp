@@ -40,12 +40,12 @@ export class AttendActivityComponent implements OnInit {
   }
 
   validateCode(control: AbstractControl) {
-    const validate = val => this.activityService.activity(val).pipe(
-      map(activity => {
-        if (!activity) {
-          return { unExist: true };
-        } else {
+    const validate = val => this.activityService.isActivityExist(val).pipe(
+      map(exist => {
+        if (exist) {
           return null;
+        } else {
+          return { unExist: true };
         }
       })
     );

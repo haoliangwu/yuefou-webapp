@@ -95,9 +95,11 @@ export class AppModule {
     private translate: TranslateService
   ) {
     const authLink = new ApolloLink((operation, forward) => {
+      const group = operation.variables[LOADING_MASK_HEADER];
+
       operation.setContext({
         headers: new HttpHeaders({
-          [LOADING_MASK_HEADER]: operation.variables[LOADING_MASK_HEADER] || DEFAULT_MASK_GROUP,
+          [LOADING_MASK_HEADER]: group || DEFAULT_MASK_GROUP,
           'Authorization': `Bearer ${this.token}`
         })
       });
