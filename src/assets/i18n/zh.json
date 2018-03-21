@@ -23,6 +23,7 @@
     "PARTICIPANT": "参与人",
     "CREATE": "创建活动",
     "UPDATE": "编辑活动",
+    "SHARE": "已复制活动邀请码至粘贴板",
     "FORM": {
       "TITLE": "活动主题",
       "TYPE": "活动类型",
@@ -51,6 +52,7 @@
       "LOGOUT": "退出成功",
       "CREATE_SUCCESS": "创建成功",
       "UPDATE_SUCCESS": "编辑成功",
+      "COPY_SUCCESS": "已复制到粘贴板",
       "BASE": "操作成功"
     },
     "WARN": {

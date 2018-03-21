@@ -14,6 +14,9 @@
     <button mat-icon-button color="primary" (click)="update(activity)">
       <mat-icon>edit</mat-icon>
     </button>
+    <button mat-icon-button color="accent" ngxClipboard [cbContent]="activity.id" (cbOnSuccess)="share()">
+      <mat-icon>share</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>
 <app-fixed-toggle icon="input" (clickRequest)="attendActivity()"></app-fixed-toggle>

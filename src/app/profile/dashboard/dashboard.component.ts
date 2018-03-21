@@ -41,4 +41,8 @@ export class DashboardComponent implements OnInit {
   update(activity: Activity) {
     this.router.navigate(['/profile/activity/update/:id', { id: activity.id }]);
   }
+
+  share() {
+    this.activityService.share();
+  }
 }

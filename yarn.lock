@@ -5468,6 +5468,12 @@ ngx-avatar@^2.9.0:
     is-retina "^1.0.3"
     ts-md5 "^1.2.0"
 
+ngx-clipboard@^10.0.0:
+  version "10.0.0"
+  resolved "http://registry.npm.taobao.org/ngx-clipboard/download/ngx-clipboard-10.0.0.tgz#1facba48db2ffe72f0f7975a50ad6abe1429373a"
+  dependencies:
+    ngx-window-token "0.0.4"
+
 ngx-loading-mask@5.3.1:
   version "5.3.1"
   resolved "http://registry.npm.taobao.org/ngx-loading-mask/download/ngx-loading-mask-5.3.1.tgz#741c5345efcb4e6d89d7b68f97c55c29bf9c572d"
@@ -5495,6 +5501,10 @@ ngx-toastr@^8.3.0:
 ngx-webstorage@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/ngx-webstorage/download/ngx-webstorage-2.0.1.tgz#232446262241e8fd0d794a03821c0b5e28459295"
+
+ngx-window-token@0.0.4:
+  version "0.0.4"
+  resolved "http://registry.npm.taobao.org/ngx-window-token/download/ngx-window-token-0.0.4.tgz#47e7aaa465411c4ab5f7ba17601bc593c956c736"
 
 no-case@^2.2.0:
   version "2.3.2"

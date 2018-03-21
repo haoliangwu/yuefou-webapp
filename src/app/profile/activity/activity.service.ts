@@ -13,11 +13,15 @@ import { merge, compose, dissoc } from 'ramda';
 
 import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutaion, UpdateActivityMutaion, DeleteActivityMutaion } from '../activity/activity.graphql';
 import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ActivityService {
   constructor(
-    private apollo: Apollo
+    private apollo: Apollo,
+    private toastService: ToastrService,
+    private translate: TranslateService
   ) { }
 
   private cacheActivites(proxy: DataProxy) {
@@ -122,5 +126,9 @@ export class ActivityService {
       map(accessor),
       map(e => R.complement(R.isNil)(e))
     );
+  }
+
+  share() {
+    this.toastService.success(this.translate.instant('ACTIVITY.SHARE'));
   }
 }

@@ -58,6 +58,6 @@ export class ActivityComponent implements OnInit {
   }
 
   share() {
-
+    this.activityService.share();
   }
 }
