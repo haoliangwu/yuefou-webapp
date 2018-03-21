@@ -1,10 +1,22 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material';
+
+export class EagerInvalidMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Injectable()
 export class FormUtilService {
 
   constructor() { }
+
+  get eagerInvalidMatcher() {
+    return new EagerInvalidMatcher();
+  }
 
   /*
    trigger all formControl validators

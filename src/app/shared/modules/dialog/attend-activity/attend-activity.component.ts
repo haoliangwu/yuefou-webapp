@@ -3,7 +3,7 @@ import { NgModel, FormControl, AsyncValidatorFn, FormGroup, Validators, Abstract
 import { of } from 'rxjs/observable/of';
 import { FormUtilService } from '../../../services';
 import { ActivityService } from '../../../../profile/activity/activity.service';
-import { map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, delay } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -22,7 +22,7 @@ export class AttendActivityComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<AttendActivityComponent>,
-    private formUtil: FormUtilService,
+    public formUtil: FormUtilService,
     private activityService: ActivityService
   ) { }
 
@@ -40,7 +40,7 @@ export class AttendActivityComponent implements OnInit {
   }
 
   validateCode(control: AbstractControl) {
-    return this.activityService.activity(control.value).pipe(
+    const validate = val => this.activityService.activity(val).pipe(
       map(activity => {
         if (!activity) {
           return { unExist: true };
@@ -48,6 +48,11 @@ export class AttendActivityComponent implements OnInit {
           return null;
         }
       })
+    );
+
+    return of(control.value).pipe(
+      delay(350),
+      switchMap(validate)
     );
   }
 
