@@ -34,3 +34,11 @@ export interface Activity {
   participants: User[];
   tasks: any[];
 }
+
+export interface Task {
+  id: string;
+  name: string;
+  status: ProgressStatus;
+  activity: Activity;
+  assignee: User;
+}

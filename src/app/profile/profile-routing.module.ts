@@ -6,11 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TaskComponent } from './task/task.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { ActivityRoute } from './activity/activity.module';
-
-const TaskRoute: Route = {
-  path: 'task',
-  component: TaskComponent
-};
+import { TaskRoute } from './task/task.module';
 
 const RecipeRoute: Route = {
   path: 'recipe',
