@@ -115,7 +115,7 @@ export class AppModule {
           );
 
           // TODO server 端需要返回按错误代码标识的错误信息
-          this.toastrService.error(message);
+          this.toastrService.error(this.translate.instant(`SERVER.ERROR.${message}`));
         },
         );
       }

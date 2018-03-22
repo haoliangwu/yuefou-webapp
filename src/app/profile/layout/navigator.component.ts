@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LOCALSTORAGE, TOAST } from '../../constants';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'app-navigator',
@@ -26,7 +27,8 @@ export class NavigatorComponent implements OnInit {
     private toastService: ToastrService,
     private profileComp: ProfileComponent,
     private dialogUtil: DialogUtilService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private apollo: Apollo
   ) { }
 
   ngOnInit() {
@@ -46,6 +48,11 @@ export class NavigatorComponent implements OnInit {
     dialogRef.afterClosed()
       .filter(e => !!e)
       .subscribe(e => {
+        const client = this.apollo.getClient();
+
+        // 退出时需要重置 cache
+        client.cache.reset();
+
         this.router.navigate(['/login']).then(() => {
           this.storage.clear(LOCALSTORAGE.API_TOKEN);
           this.storage.clear(LOCALSTORAGE.REMEMBER_ME);

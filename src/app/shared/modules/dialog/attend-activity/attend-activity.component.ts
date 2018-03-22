@@ -36,7 +36,13 @@ export class AttendActivityComponent implements OnInit {
       return;
     }
 
-    this.dialogRef.close();
+    const { value: activityId } = this.form.get('code');
+
+    this.activityService.attend(activityId).subscribe(
+      e => {
+        this.dialogRef.close();
+      });
+
   }
 
   validateCode(control: AbstractControl) {

@@ -3,6 +3,7 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
 import { ApolloQueryResult } from 'apollo-client';
+import { ActivitiesQuery } from '../profile/activity/activity.graphql';
 
 export interface LoginMutationPayload {
   login: {
@@ -26,7 +27,9 @@ export class AuthService {
   login(email: string, password: string): Observable<ApolloQueryResult<LoginMutationPayload>> {
     const mutation = gql`mutation{login(email:"${email}", password: "${password}"){token}}`;
 
-    return this.apollo.mutate({ mutation });
+    return this.apollo.mutate({
+      mutation
+    });
   }
 
   signup(email: string, password: string, name: string): Observable<ApolloQueryResult<SignupMutationPayload>> {

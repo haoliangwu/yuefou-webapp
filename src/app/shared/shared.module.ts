@@ -9,14 +9,19 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { MaterialModule, DialogModule } from './modules';
 import { FormUtilService, LocationUtilService, RouterUtilService } from './services';
-import { PageNotFoundComponent } from './comps';
+import { PageNotFoundComponent, FixedToggleComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     EnterKeyDirective,
-    FullDirective
+    FullDirective,
+    FixedToggleComponent
+  ],
+  imports: [
+    CommonModule,
+    MaterialModule
   ],
   exports: [
     // base
@@ -32,8 +37,9 @@ import { EnterKeyDirective, FullDirective } from './dires';
     ClipboardModule,
     // directives
     EnterKeyDirective,
-    FullDirective
+    FullDirective,
     // comps
+    FixedToggleComponent
   ]
 })
 export class SharedModule {

@@ -6,15 +6,17 @@ import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { Activity } from '../../model';
 import { map } from 'rxjs/operators';
 import * as R from 'ramda';
-import { merge, compose, dissoc } from 'ramda';
 
-import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutaion, UpdateActivityMutaion, DeleteActivityMutaion } from '../activity/activity.graphql';
 import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+
+import { Activity } from '../../model';
+import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation } from '../activity/activity.graphql';
+import { variable } from '@angular/compiler/src/output/output_ast';
+
 
 @Injectable()
 export class ActivityService {
@@ -71,7 +73,7 @@ export class ActivityService {
 
     const variables = { activity };
 
-    return this.apollo.mutate({ mutation: CreateActivityMutaion, update, variables }).pipe(
+    return this.apollo.mutate({ mutation: CreateActivityMutation, update, variables }).pipe(
       map(accessor)
     );
   }
@@ -82,7 +84,7 @@ export class ActivityService {
     const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
       const data = this.cacheActivites(proxy);
       const originActivieData = this.cacheActivity(id, proxy);
-      const updateActivity = merge(originActivieData, accessor(result));
+      const updateActivity = R.merge(originActivieData, accessor(result));
 
       const idx = R.find(R.propEq('id', updateActivity.id), data.activities);
       data.activities = R.update(idx, updateActivity, data.activities);
@@ -90,11 +92,11 @@ export class ActivityService {
       proxy.writeQuery({ query: ActivitiesQuery, data });
     };
 
-    const formatFn = compose(dissoc('type'), merge({ id }));
+    const formatFn = R.compose(R.dissoc('type'), R.merge({ id }));
 
     const variables = { activity: formatFn(activity) };
 
-    return this.apollo.mutate({ mutation: UpdateActivityMutaion, update, variables }).pipe(
+    return this.apollo.mutate({ mutation: UpdateActivityMutation, update, variables }).pipe(
       map(accessor)
     );
   }
@@ -112,9 +114,46 @@ export class ActivityService {
 
     const variables = { id };
 
-    return this.apollo.mutate({ mutation: DeleteActivityMutaion, variables, update }).pipe(
+    return this.apollo.mutate({ mutation: DeleteActivityMutation, variables, update }).pipe(
       map(accessor)
     );
+  }
+
+  attend(id: string): Observable<Activity> {
+    const accessor = R.path<Activity>(['data', 'attendActivity']);
+
+    const variables = { id };
+
+    return this.apollo.mutate({
+      mutation: AttendActivityMutation,
+      variables,
+      refetchQueries: [
+        {
+          query: ActivitiesQuery
+        }
+      ]
+    }).pipe(
+      map(accessor)
+    );
+  }
+
+  quit(id: string): Observable<Activity> {
+    const accessor = R.path<Activity>(['data', 'quitActivity']);
+
+    const variables = { id };
+
+    return this.apollo.mutate({
+      mutation: QuitActivityMutation,
+      variables,
+      refetchQueries: [
+        {
+          query: ActivitiesQuery
+        }
+      ]
+    })
+      .pipe(
+        map(accessor)
+      );
   }
 
   isActivityExist(id: string): Observable<boolean> {

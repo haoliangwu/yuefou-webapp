@@ -63,6 +63,9 @@
     "component": {},
     "class": {
       "spec": false
+    },
+    "directive": {
+      "spec": false
     }
   }
 }

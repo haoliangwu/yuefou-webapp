@@ -27,7 +27,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput [min]="now" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
+      <input matInput [min]="minStart" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
         formControlName="startedAt" required>
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker></mat-datepicker>

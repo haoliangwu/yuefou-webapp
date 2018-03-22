@@ -24,7 +24,7 @@ const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt
 })
 export class ActivityCreateComponent implements OnInit {
 
-  now = new Date();
+  minStart: Date;
   form: FormGroup;
   activity: Activity;
   update$: Observable<boolean>;
@@ -54,11 +54,16 @@ export class ActivityCreateComponent implements OnInit {
     this.route.data.subscribe((resolve) => {
       this.activity = resolve.activity;
 
+
       if (this.activity) {
         this.form.reset(pickActivityProps(resolve.activity));
 
         // 无法更改活动的类型
         this.form.get('type').disable();
+
+        this.minStart = new Date(this.activity.startedAt);
+      } else {
+        this.minStart = new Date();
       }
     });
 

@@ -47,7 +47,7 @@
   },
   "TOAST": {
     "SUCCESS": {
-      " SIGN_UP": "注册成功",
+      "SIGN_UP": "注册成功",
       "LOGIN": "登录成功",
       "LOGOUT": "退出成功",
       "CREATE_SUCCESS": "创建成功",
@@ -80,6 +80,11 @@
         "REQUIRED": "邀请码是必填项",
         "UNEXISTED": "邀请码不存在"
       }
+    }
+  },
+  "SERVER": {
+    "ERROR": {
+      "NO_INVITE_SELF": "创建人无法邀请自己"
     }
   }
 }

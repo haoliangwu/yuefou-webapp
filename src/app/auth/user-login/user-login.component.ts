@@ -106,7 +106,7 @@ export class UserLoginComponent implements OnInit {
         result => {
           const { login: { token } } = result.data as LoginMutationPayload;
 
-          this.toastrService.success(this.translate.instant(TOAST.SUCCESS.LOGIN));
+          this.toastrService.success(this.translate.instant('TOAST.SUCCESS.LOGIN'));
 
           this.redirect(token, value.isRemember);
         }
