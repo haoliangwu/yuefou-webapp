@@ -6,7 +6,7 @@ export const ActivityFragment = gql`fragment ActivityFragment on Activity{id tit
 // query
 export const ActivitiesQuery = gql`query {activities{...ActivityFragment}} ${ActivityFragment}`;
 
-export const ActivityQuery = gql`query activity($id: String) {activity(id: $id){...ActivityFragment}} ${ActivityFragment}`;
+export const ActivityQuery = gql`query activity($id: ID!) {activity(id: $id){...ActivityFragment}} ${ActivityFragment}`;
 
 // mutation
 export const CreateActivityMutation = gql`mutation createActivity($activity:CreateActivityInput){createActivity(activity:$activity){...ActivityFragment}} ${ActivityFragment}`;

@@ -38,6 +38,7 @@ export interface Activity {
 export interface Task {
   id: string;
   name: string;
+  desc: string;
   status: ProgressStatus;
   activity: Activity;
   assignee: User;

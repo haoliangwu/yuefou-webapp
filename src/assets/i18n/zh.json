@@ -11,7 +11,6 @@
     }
   },
   "ACTIVITY": {
-    "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
     "TYPE": {
       "HOST": "招待模式",
       "TASK": "任务模式",
@@ -44,11 +43,15 @@
       "COPY_SUCCESS": "已复制到粘贴板"
     }
   },
+  "TASK": {
+    "CURRENT_ASSIGNEE": "当前指派者"
+  },
   "DATE": {
     "TO": "至"
   },
   "COMMON": {
-    "NONE": "无"
+    "NONE": "无",
+    "DEFAULT_DESC": "这个家伙很懒，什么都没有留下"
   },
   "TOAST": {
     "SUCCESS": {

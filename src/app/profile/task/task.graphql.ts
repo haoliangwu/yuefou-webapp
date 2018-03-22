@@ -1,14 +1,14 @@
 import gql from 'graphql-tag';
 
 // fragment
-export const TaskFragment = gql`fragment TaskFragment on ActivityTask{id name status assignee{id}activity{id}}`;
+export const TaskFragment = gql`fragment TaskFragment on ActivityTask{id name status assignee{id name}activity{id title participants{id name}creator{id name}}}`;
 
 const withTaskFragment = query => gql`${query} ${TaskFragment}`;
 
 // query
-export const TasksQuery = gql`{me{id}}`;
+export const TasksQuery = withTaskFragment(`{tasks{...TaskFragment}}`);
 
-export const TaskQuery = gql`{me{id}}`;
+export const TaskQuery = withTaskFragment(`query task($id:ID!) {task(id:$id) {...TaskFragment}}`);
 
 // mutation
 export const CreateTaskMutation = withTaskFragment(`mutation createTask($id: ID!, $task:CreateTaskInput){createTask(task:$task,id:$id){...TaskFragment}}`);

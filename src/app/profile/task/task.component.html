@@ -1,3 +1,40 @@
-<p>
-  task works!
-</p>
+<div fxLayout="column" class="task-list-wrapper">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let task of tasks$ | async">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{task.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{task.activity.title}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <app-task-brief-detail [task]="task"></app-task-brief-detail>
+      </ng-template>
+      <mat-action-row fxLayout="row" fxLayoutAlign="start center">
+        <span>{{'TASK.CURRENT_ASSIGNEE' | translate}}</span>
+        <span fxFlex="1em"></span>
+        <mat-chip-list>
+          <mat-chip>{{task.assignee.name}}</mat-chip>
+        </mat-chip-list>
+        <span fxFlex></span>
+        <button mat-icon-button color="primary" (click)="assign(task)" *ngIf="task | avaliableOperation:'assign'">
+          <mat-icon>touch_app</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="start(task)" *ngIf="task | avaliableOperation:'start'">
+          <mat-icon>play_circle_outline</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="done(task)" *ngIf="task | avaliableOperation:'done'">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="stop(task)" *ngIf="task | avaliableOperation:'stop'">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="reopen(task)" *ngIf="task | avaliableOperation:'reopen'">
+          <mat-icon>restore</mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
