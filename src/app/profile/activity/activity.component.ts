@@ -60,4 +60,17 @@ export class ActivityComponent implements OnInit {
   share() {
     this.activityService.share();
   }
+
+  quit(activity: Activity) {
+    this.dialogUtil.confirm({
+      data: {
+        message: `确定要退出活动【${activity.title}】吗？`
+      }
+    }).afterClosed().pipe(
+      switchMap(() => this.activityService.quit(activity.id)),
+      tap(({ title }) => {
+        this.toastService.success(this.translate.instant('ACTIVITY.TOAST.QUIT_SUCCESS', { title }));
+      })
+    ).subscribe();
+  }
 }

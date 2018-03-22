@@ -12,10 +12,13 @@
         <app-activity-detail [activity]="activity"></app-activity-detail>
       </ng-template>
       <mat-action-row>
-        <button mat-icon-button color="primary">
+        <button mat-icon-button color="primary" (click)="quit(activity)" *ngIf="activity | activityPermission:'quit'">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" *ngIf="activity | activityPermission:'update'">
           <mat-icon (click)="update(activity)">edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn">
+        <button mat-icon-button color="warn" *ngIf="activity | activityPermission:'delete'">
           <mat-icon (click)="delete(activity)">delete_forever</mat-icon>
         </button>
         <button mat-icon-button color="accent">
@@ -26,4 +29,3 @@
   </mat-accordion>
 </div>
 <app-fixed-toggle (clickRequest)="create()"></app-fixed-toggle>
-
