@@ -2,7 +2,7 @@
 <mat-dialog-content>
   <form [formGroup]="form" [noValidate]="true">
     <mat-form-field>
-      <input matInput required placeholder="{{'DIALOG.ATTEND_ACTIVITY.DEFAULT_MESSAGE' | translate}}" formControlName="code" autofocus [errorStateMatcher]="formUtil.eagerInvalidMatcher"
+      <input matInput required placeholder="{{'DIALOG.ATTEND_ACTIVITY.DEFAULT_MESSAGE' | translate}}" formControlName="code" #input [errorStateMatcher]="formUtil.eagerInvalidMatcher"
       />
       <button mat-button *ngIf="form.get('code').value" matSuffix mat-icon-button aria-label="Clear" (click)="form.get('code').reset()">
         <mat-icon>close</mat-icon>

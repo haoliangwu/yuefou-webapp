@@ -36,7 +36,7 @@ $yuefou-app-theme: mat-light-theme($yuefou-app-primary, $yuefou-app-accent, $yue
 // Using the $theme variable from the pre-built theme you can call the theming function
 
 /* md override */
-mat-form-field:not(:first-child) {
+mat-form-field:not(:first-of-type) {
   margin: .5em 0 0 0;
 }
 

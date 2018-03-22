@@ -17,4 +17,4 @@ export const DeleteActivityMutation = gql`mutation deleteActivity($id: ID!) {del
 
 export const AttendActivityMutation = gql`mutation attendActivity($id:ID!){attendActivity(id:$id){...ActivityFragment}} ${ActivityFragment}`;
 
-export const QuitActivityMutation = gql`mutation quitActivity($id:ID!){attendActivity(id:$id){...ActivityFragment}} ${ActivityFragment}`;
+export const QuitActivityMutation = gql`mutation quitActivity($id:ID!){quitActivity(id:$id){...ActivityFragment}} ${ActivityFragment}`;

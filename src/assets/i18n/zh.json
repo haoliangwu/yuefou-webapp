@@ -37,6 +37,11 @@
       "START_REQUIRED": "开始时间是必填项或不是有效的日期格式",
       "END_REQUIRED": "结束时间是必填项或不是有效的日期格式",
       "LOCATION_REQUIRED": "活动地址是必填项"
+    },
+    "TOAST": {
+      "QUIT_SUCCESS": "已退出活动【{{title}}】",
+      "ATTEND_SUCCESS": "已参加活动【{{title}}】",
+      "COPY_SUCCESS": "已复制到粘贴板"
     }
   },
   "DATE": {
@@ -52,7 +57,6 @@
       "LOGOUT": "退出成功",
       "CREATE_SUCCESS": "创建成功",
       "UPDATE_SUCCESS": "编辑成功",
-      "COPY_SUCCESS": "已复制到粘贴板",
       "BASE": "操作成功"
     },
     "WARN": {
@@ -84,7 +88,8 @@
   },
   "SERVER": {
     "ERROR": {
-      "NO_INVITE_SELF": "创建人无法邀请自己"
+      "NO_INVITE_SELF": "创建人无法邀请自己",
+      "NO_DUPLICATE_ATTEND": "您已参加该活动"
     }
   }
 }

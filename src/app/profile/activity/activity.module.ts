@@ -4,10 +4,10 @@ import { ActivityComponent } from './activity.component';
 import { ActivityDetailComponent } from './activity-detail.component';
 import { ActivityCreateComponent } from './activity-create.component';
 import { ActivityService } from './activity.service';
-import { IsCreatorPipe } from './pipes/is-creator.pipe';
 import { SharedModule } from '../../shared/shared.module';
 import { ActivityResolver } from './activity-resolver.service';
 import { Route } from '@angular/router';
+import { ActivityPermissionPipe } from './pipes/activity-permission.pipe';
 
 export const ActivityRoute: Route = {
   path: 'activity',
@@ -44,11 +44,14 @@ export const ActivityRoute: Route = {
     ActivityComponent,
     ActivityDetailComponent,
     ActivityCreateComponent,
-    IsCreatorPipe
+    ActivityPermissionPipe,
   ],
   providers: [
     ActivityService,
     ActivityResolver
+  ],
+  exports: [
+    ActivityPermissionPipe
   ]
 })
 export class ActivityModule { }

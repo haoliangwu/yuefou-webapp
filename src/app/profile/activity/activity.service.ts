@@ -150,10 +150,9 @@ export class ActivityService {
           query: ActivitiesQuery
         }
       ]
-    })
-      .pipe(
-        map(accessor)
-      );
+    }).pipe(
+      map(accessor),
+    );
   }
 
   isActivityExist(id: string): Observable<boolean> {

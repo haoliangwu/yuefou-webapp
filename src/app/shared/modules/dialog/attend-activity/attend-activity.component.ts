@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
 import { NgModel, FormControl, AsyncValidatorFn, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { of } from 'rxjs/observable/of';
 import { FormUtilService } from '../../../services';
@@ -11,7 +11,7 @@ import { MatDialogRef } from '@angular/material';
   templateUrl: './attend-activity.component.html',
   styleUrls: ['./attend-activity.component.scss']
 })
-export class AttendActivityComponent implements OnInit {
+export class AttendActivityComponent implements OnInit, AfterContentInit {
   form: FormGroup = new FormGroup({
     code: new FormControl('', [
       Validators.required,
@@ -20,13 +20,21 @@ export class AttendActivityComponent implements OnInit {
       ])
   });
 
+  @ViewChild('input') $input: ElementRef;
+
   constructor(
     private dialogRef: MatDialogRef<AttendActivityComponent>,
     public formUtil: FormUtilService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
   ) { }
 
   ngOnInit() {
+  }
+
+  ngAfterContentInit() {
+    const el: HTMLInputElement = this.$input.nativeElement;
+
+    el.focus();
   }
 
   attend() {
@@ -36,13 +44,9 @@ export class AttendActivityComponent implements OnInit {
       return;
     }
 
-    const { value: activityId } = this.form.get('code');
+    const { value } = this.form.get('code');
 
-    this.activityService.attend(activityId).subscribe(
-      e => {
-        this.dialogRef.close();
-      });
-
+    this.dialogRef.close(value);
   }
 
   validateCode(control: AbstractControl) {
