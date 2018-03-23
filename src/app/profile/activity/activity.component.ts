@@ -9,6 +9,7 @@ import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { switchMap, tap, filter, map } from 'rxjs/operators';
 import { TOAST } from '../../constants';
 import { TranslateService } from '@ngx-translate/core';
+import { QueryRef } from 'apollo-angular';
 
 @Component({
   selector: 'app-activity',
@@ -16,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
-  activities$: Observable<Activity[]>;
+  activitiesQuery: QueryRef<{activities: Activity[]}>;
 
   constructor(
     private activityService: ActivityService,
@@ -28,8 +29,7 @@ export class ActivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.activityService.activitiesWatch().valueChanges
-      .pipe(map(e => e.data.activities));
+    this.activitiesQuery = this.activityService.activitiesWatch();
   }
 
   create() {

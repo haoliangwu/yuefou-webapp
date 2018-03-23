@@ -5,7 +5,7 @@ import { tap, map, switchMap } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  activities$: Observable<Activity[]>;
+  activitiesQuery: QueryRef<{activities: Activity[]}>;
 
   panelOpenState: boolean;
 
@@ -29,8 +29,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.activityService.activitiesWatch().valueChanges
-      .pipe(map(e => e.data.activities));
+    this.activitiesQuery = this.activityService.activitiesWatch();
   }
 
   attendActivity() {

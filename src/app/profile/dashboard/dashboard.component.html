@@ -1,4 +1,4 @@
-<mat-card class="activity-card" *ngFor="let activity of activities$ | async">
+<mat-card class="activity-card" *ngFor="let activity of activitiesQuery.valueChanges | async | select: 'activities'">
   <mat-card-header>
     <mat-card-title>{{activity.title}}</mat-card-title>
     <mat-card-subtitle>{{activity.creator.name}} {{'DASHBOARD.CREATOR_HINT' | translate}}</mat-card-subtitle>

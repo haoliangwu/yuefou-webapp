@@ -24,7 +24,6 @@ const translateTaskProcessStatus = task => {
 export class TaskComponent implements OnInit {
   step = 0;
   tasksQuery: QueryRef<{ tasks: Task[] }>;
-  tasks$: Observable<Task[]>;
 
   constructor(
     private taskService: TaskService,
@@ -35,9 +34,6 @@ export class TaskComponent implements OnInit {
 
   ngOnInit() {
     this.tasksQuery = this.taskService.tasksWatch();
-    this.tasks$ = this.tasksQuery.valueChanges.pipe(
-      map(R.path(['data', 'tasks']))
-    );
 
     this.taskService.tasksSub(this.tasksQuery, (prev, { subscriptionData: { data } }) => {
       if (R.isNil(data)) {
