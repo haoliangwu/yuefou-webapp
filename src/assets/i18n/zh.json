@@ -44,7 +44,8 @@
     }
   },
   "TASK": {
-    "CURRENT_ASSIGNEE": "当前指派者"
+    "CURRENT_ASSIGNEE": "当前指派者",
+    "CHANGE_STATUS": "变为【{{status}}】"
   },
   "DATE": {
     "TO": "至"

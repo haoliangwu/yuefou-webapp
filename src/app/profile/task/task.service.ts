@@ -4,8 +4,8 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import * as R from 'ramda';
 import { map } from 'rxjs/operators';
 
-import { Task } from '../../model';
-import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation } from './task.graphql';
+import { Task, ProcessStatus } from '../../model';
+import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation } from './task.graphql';
 
 @Injectable()
 export class TaskService {
@@ -27,7 +27,7 @@ export class TaskService {
   }
 
   task() {
-    const accessor = R.path<Task[]>(['data', 'task']);
+    const accessor = R.path<Task>(['data', 'task']);
 
     return this.apollo.query({
       query: TaskQuery
@@ -35,23 +35,44 @@ export class TaskService {
   }
 
   create() {
-    const accessor = R.path<Task[]>(['data', 'createTask']);
+    const accessor = R.path<Task>(['data', 'createTask']);
 
     return this.apollo.mutate({
       mutation: CreateTaskMutation
     }).pipe(map(accessor));
   }
 
-  update() {
-    const accessor = R.path<Task[]>(['data', 'updateTask']);
+  update(task: Task) {
+    const accessor = R.path<Task>(['data', 'updateTask']);
+
+    const variables = {
+      id: task.activity.id,
+      task
+    };
 
     return this.apollo.mutate({
-      mutation: UpdateTaskMutation
+      mutation: UpdateTaskMutation,
+      variables
+    }).pipe(map(accessor));
+  }
+
+  updateTaskStatus(task: Task, status: ProcessStatus) {
+    const accessor = R.path<Task>(['data', 'updateTaskStatus']);
+
+    const variables = {
+      id: task.activity.id,
+      taskId: task.id,
+      status
+    };
+
+    return this.apollo.mutate({
+      mutation: UpdateTaskStatusMutation,
+      variables
     }).pipe(map(accessor));
   }
 
   delete() {
-    const accessor = R.path<Task[]>(['data', 'deleteTask']);
+    const accessor = R.path<Task>(['data', 'deleteTask']);
 
     return this.apollo.mutate({
       mutation: DeleteTaskMutation
@@ -59,7 +80,7 @@ export class TaskService {
   }
 
   assign() {
-    const accessor = R.path<Task[]>(['data', 'assignTask']);
+    const accessor = R.path<Task>(['data', 'assignTask']);
 
     return this.apollo.mutate({
       mutation: AssignTaskMutation

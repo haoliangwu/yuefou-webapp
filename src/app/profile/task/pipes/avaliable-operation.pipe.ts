@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Task, ProgressStatus } from '../../../model';
+import { Task, ProcessStatus } from '../../../model';
 import * as R from 'ramda';
 import { isDone, isStop, isInit, isPending } from '../../../utils';
 
@@ -15,8 +15,8 @@ export enum TaskOperation {
 const canAssign = R.complement(R.either(isDone, isStop));
 // 当任务为 初始 状态 则可以 开始
 const canStart = isInit;
-// 当任务为 非初始 状态 或 进行状态 则可以 完成
-const canDone = R.either(isPending, R.complement(isInit));
+// 当任务为 进行状态 则可以 完成
+const canDone = isPending;
 // 当任务为 初始 状态 或 进行状态 则可以 结束
 const canStop = R.either(isPending, isInit);
 // 当任务为 完成 状态 则可以 重新开始

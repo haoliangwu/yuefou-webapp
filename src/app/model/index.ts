@@ -1,4 +1,4 @@
-export enum ProgressStatus {
+export enum ProcessStatus {
   INIT = 'INIT',
   PENDING = 'PENDING',
   DONE = 'DONE',
@@ -22,7 +22,7 @@ export interface Activity {
   id: string;
   title: string;
   desc: string;
-  status: ProgressStatus;
+  status: ProcessStatus;
   type: ActivityType;
   startedAt: string;
   endedAt: string;
@@ -39,7 +39,7 @@ export interface Task {
   id: string;
   name: string;
   desc: string;
-  status: ProgressStatus;
+  status: ProcessStatus;
   activity: Activity;
   assignee: User;
 }
