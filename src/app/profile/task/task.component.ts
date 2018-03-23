@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { translateProcessStatus } from '../../utils';
+import { QueryRef } from 'apollo-angular';
 
 const translateTaskProcessStatus = task => {
   const status = R.compose(translateProcessStatus, R.prop('status'))(task);
@@ -22,6 +23,7 @@ const translateTaskProcessStatus = task => {
 })
 export class TaskComponent implements OnInit {
   step = 0;
+  tasksQuery: QueryRef<{ tasks: Task[] }>;
   tasks$: Observable<Task[]>;
 
   constructor(
@@ -32,9 +34,18 @@ export class TaskComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tasks$ = this.taskService.tasksWatch().valueChanges.pipe(
+    this.tasksQuery = this.taskService.tasksWatch();
+    this.tasks$ = this.tasksQuery.valueChanges.pipe(
       map(R.path(['data', 'tasks']))
     );
+
+    this.taskService.tasksSub(this.tasksQuery, (prev, { subscriptionData: { data } }) => {
+      if (R.isNil(data)) {
+        return prev;
+      }
+
+      return R.merge(prev, data);
+    });
   }
 
   assign(task: Task) {

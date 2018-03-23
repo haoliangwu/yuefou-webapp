@@ -20,3 +20,6 @@ export const UpdateTaskStatusMutation = withTaskFragment(`mutation updateTaskSta
 export const DeleteTaskMutation = withTaskFragment(`mutation deleteTask($id:ID!,$taskId:ID!){deleteTask(id:$id,taskId:$taskId){...TaskFragment}}`);
 
 export const AssignTaskMutation = withTaskFragment(`mutation assignTask($id:ID!,$taskId:ID!,$assigneeId:ID!){assignTask(id:$id,taskId:$taskId,assigneeId:$assigneeId){...TaskFragment}}`);
+
+// subscription
+export const UpdatedTaskSubscription = gql`subscription{updatedTask{mutation node{id name status}}}`;

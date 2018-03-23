@@ -5,10 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpHeaders, HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { ApolloModule, Apollo } from 'apollo-angular';
-import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
-import { ApolloLink, from } from 'apollo-link';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloLink, from, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { getMainDefinition } from 'apollo-utilities';
 
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
@@ -19,7 +21,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { PageNotFoundComponent } from './shared/comps/page-not-found/page-not-found.component';
-import { LOCALSTORAGE, TOAST } from './constants';
+import { LOCALSTORAGE, TOAST, APP_HOST } from './constants';
 import { ProfileModule } from './profile/profile.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -127,10 +129,30 @@ export class AppModule {
       }
     });
 
-    const httpLink = httpLinkService.create({ uri: '/graphql' });
+    const http = httpLinkService.create({ uri: '/graphql' });
+
+    const ws = new WebSocketLink({
+      uri: `ws://${APP_HOST}/graphql`,
+      options: {
+        reconnect: true,
+        // connectionParams: {
+        //   authToken: user.authToken,
+        // }
+      }
+    });
+
+    const link = split(
+      // split based on operation type
+      ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+      },
+      ws,
+      http,
+    );
 
     apollo.create({
-      link: from([authLink, errorLink, httpLink]),
+      link: from([authLink, errorLink, link]),
       cache: new InMemoryCache({}),
       defaultOptions: {
         query: {

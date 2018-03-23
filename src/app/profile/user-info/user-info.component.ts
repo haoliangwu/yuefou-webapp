@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { DEFAULT_ASSETS_HOST, LOCALSTORAGE } from '../../constants';
+import { APP_HOST, LOCALSTORAGE } from '../../constants';
 import { User } from '../../model';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { take, map, startWith, switchMap } from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class UserInfoComponent implements OnInit {
           const img = new Image();
 
           if (this.locationUtil.isInternalHost()) {
-            img.src = `${DEFAULT_ASSETS_HOST}/tmp/${user.id}/${user.avatar}`;
+            img.src = `${location.protocol}//${APP_HOST}/tmp/${user.id}/${user.avatar}`;
           } else {
             img.src = `tmp/${user.id}/${user.avatar}`;
           }

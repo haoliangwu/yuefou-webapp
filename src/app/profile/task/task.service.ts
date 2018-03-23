@@ -5,7 +5,8 @@ import * as R from 'ramda';
 import { map } from 'rxjs/operators';
 
 import { Task, ProcessStatus } from '../../model';
-import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation } from './task.graphql';
+import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation, UpdatedTaskSubscription } from './task.graphql';
+import { UpdateQueryFn } from 'apollo-client/core/watchQueryOptions';
 
 @Injectable()
 export class TaskService {
@@ -16,6 +17,13 @@ export class TaskService {
 
   tasksWatch() {
     return this.apollo.watchQuery<{ tasks: Task[] }>({ query: TasksQuery });
+  }
+
+  tasksSub(query: QueryRef<{tasks: Task[]}>, cb: UpdateQueryFn) {
+    query.subscribeToMore({
+      document: UpdatedTaskSubscription,
+      updateQuery: cb
+    });
   }
 
   tasks() {
