@@ -155,8 +155,13 @@ export class AppModule {
       link: from([authLink, errorLink, link]),
       cache: new InMemoryCache({}),
       defaultOptions: {
+        watchQuery: {
+          fetchPolicy: 'cache-and-network',
+          errorPolicy: 'ignore',
+        },
         query: {
-          errorPolicy: 'all'
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
         },
         mutate: {
           errorPolicy: 'all'
