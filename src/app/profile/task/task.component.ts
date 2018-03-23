@@ -21,6 +21,7 @@ const translateTaskProcessStatus = task => {
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+  step = 0;
   tasks$: Observable<Task[]>;
 
   constructor(
