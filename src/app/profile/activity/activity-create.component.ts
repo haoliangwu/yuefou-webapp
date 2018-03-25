@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
-import { ProcessStatus, ActivityType, Activity } from '../../model';
+import { ActivityType, Activity } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';

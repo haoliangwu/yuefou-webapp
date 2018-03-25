@@ -6,7 +6,7 @@ export const TaskFragment = gql`fragment TaskFragment on ActivityTask{id name st
 const withTaskFragment = query => gql`${query} ${TaskFragment}`;
 
 // query
-export const TasksQuery = withTaskFragment(`{tasks{...TaskFragment}}`);
+export const TasksQuery = withTaskFragment(`query tasks {tasks{...TaskFragment}}`);
 
 export const TaskQuery = withTaskFragment(`query task($id:ID!) {task(id:$id) {...TaskFragment}}`);
 
@@ -22,4 +22,4 @@ export const DeleteTaskMutation = withTaskFragment(`mutation deleteTask($id:ID!,
 export const AssignTaskMutation = withTaskFragment(`mutation assignTask($id:ID!,$taskId:ID!,$assigneeId:ID!){assignTask(id:$id,taskId:$taskId,assigneeId:$assigneeId){...TaskFragment}}`);
 
 // subscription
-export const UpdatedTaskSubscription = gql`subscription{updatedTask{mutation node{id name status}}}`;
+export const UpdatedTaskSubscription = gql`subscription updatedTask {updatedTask{mutation node{id name status}}}`;

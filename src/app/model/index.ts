@@ -1,9 +1,4 @@
-export enum ProcessStatus {
-  INIT = 'INIT',
-  PENDING = 'PENDING',
-  DONE = 'DONE',
-  STOP = 'STOP'
-}
+import { ProcessStatus } from './graphql';
 
 export interface User {
   id: string;
@@ -43,3 +38,5 @@ export interface Task {
   activity: Activity;
   assignee: User;
 }
+
+export * from './graphql';

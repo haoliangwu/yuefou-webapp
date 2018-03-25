@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Task, ProcessStatus } from '../../../model';
+import { Task } from '../../../model';
 import * as R from 'ramda';
 import { isDone, isStop, isInit, isPending } from '../../../utils';
 

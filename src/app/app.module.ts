@@ -153,7 +153,7 @@ export class AppModule {
 
     apollo.create({
       link: from([authLink, errorLink, link]),
-      cache: new InMemoryCache({}),
+      cache: new InMemoryCache(),
       defaultOptions: {
         watchQuery: {
           fetchPolicy: 'cache-and-network',
