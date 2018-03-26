@@ -40,3 +40,13 @@ export interface Task {
 }
 
 export * from './graphql';
+
+export interface AppConfig {
+  language: {
+    available: string[]
+    default: string
+  };
+  pagination: {
+    first: number
+  };
+}

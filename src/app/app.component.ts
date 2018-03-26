@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LANGUAGE } from './constants';
+import { AppConfig } from './model';
+import { AppConfigToken } from './app.config';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,12 @@ import { LANGUAGE } from './constants';
 export class AppComponent implements OnInit {
   constructor(
     private translate: TranslateService,
+    @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
   ngOnInit() {
-    this.translate.setDefaultLang(LANGUAGE.DEFAULT);
-    this.translate.addLangs(LANGUAGE.AVAILABLE);
+    this.translate.setDefaultLang(this.appConfig.language.default);
+    this.translate.addLangs(this.appConfig.language.available);
 
     const applicationLanguage = this.getAppLanguage();
     this.translate.use(applicationLanguage).subscribe();

@@ -1,3 +1,5 @@
+import * as R from 'ramda';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,7 +16,7 @@ import { getMainDefinition } from 'apollo-utilities';
 
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
-import { ToastrModule, ToastContainerModule, ToastrService } from 'ngx-toastr';
+import { ToastrModule, ToastContainerModule, ToastrService, DefaultGlobalConfig } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -25,7 +27,7 @@ import { LOCALSTORAGE, TOAST, APP_HOST } from './constants';
 import { ProfileModule } from './profile/profile.module';
 import { SharedModule } from './shared/shared.module';
 
-import * as R from 'ramda';
+import { AppConfigToken, DEFAULT_APP_CONFIG } from './app.config';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -81,7 +83,12 @@ const appRoutes: Routes = [
       appRoutes
     ),
   ],
-  providers: [],
+  providers: [
+    {
+      useValue: DEFAULT_APP_CONFIG,
+      provide: AppConfigToken
+    }
+  ],
   bootstrap: [
     AppComponent
   ]
