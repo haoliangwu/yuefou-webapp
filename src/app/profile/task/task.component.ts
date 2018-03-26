@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { TaskService } from './task.service';
-import { Task, ProcessStatus, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig } from '../../model';
+import { Task, ProcessStatus, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig, PageInfoFragmentFragment } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { map, tap, filter } from 'rxjs/operators';
@@ -26,6 +26,7 @@ export class TaskComponent implements OnInit {
   step = 0;
   tasksQuery: QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables>;
   tasks$: Observable<Task[]>;
+  pageInfo: PageInfoFragmentFragment;
 
   constructor(
     private taskService: TaskService,
@@ -43,7 +44,9 @@ export class TaskComponent implements OnInit {
     this.tasks$ = this.tasksQuery.valueChanges.pipe(
       filter(result => !result.loading),
       map(result => {
-        const { edges } = result.data.tasksConnection;
+        const { edges, pageInfo } = result.data.tasksConnection;
+
+        this.pageInfo = pageInfo;
 
         return R.map(R.prop('node'), edges) as Task[];
       })
@@ -63,8 +66,8 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  fetchMore(after: string) {
-    this.taskService.tasksFetchMore(this.tasksQuery, after);
+  loadMore() {
+    this.taskService.tasksFetchMore(this.tasksQuery, this.pageInfo.endCursor);
   }
 
   assign(task: Task) {

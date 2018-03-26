@@ -22,4 +22,5 @@
     </button>
   </mat-card-actions>
 </mat-card>
+<app-load-more (loadMoreRequest)="loadMore()" *ngIf="pageInfo?.hasNextPage"></app-load-more>
 <app-fixed-toggle icon="input" (clickRequest)="attendActivity()"></app-fixed-toggle>

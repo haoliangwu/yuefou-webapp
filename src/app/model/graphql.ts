@@ -118,8 +118,12 @@ export interface activitiesConnectionQuery {
     pageInfo:  {
       // When paginating forwards, are there more items?
       hasNextPage: boolean,
+      // When paginating backwards, are there more items?
+      hasPreviousPage: boolean,
       // When paginating forwards, the cursor to continue.
       endCursor: string | null,
+      // When paginating backwards, the cursor to continue.
+      startCursor: string | null,
     },
   },
 };
@@ -334,6 +338,17 @@ export interface tasksConnectionQuery {
         } | null,
       },
     } | null >,
+    // Information to aid in pagination.
+    pageInfo:  {
+      // When paginating forwards, are there more items?
+      hasNextPage: boolean,
+      // When paginating backwards, are there more items?
+      hasPreviousPage: boolean,
+      // When paginating forwards, the cursor to continue.
+      endCursor: string | null,
+      // When paginating backwards, the cursor to continue.
+      startCursor: string | null,
+    },
   } | null,
 };
 
@@ -566,4 +581,15 @@ export interface TaskFragmentFragment {
       name: string,
     },
   } | null,
+};
+
+export interface PageInfoFragmentFragment {
+  // When paginating forwards, are there more items?
+  hasNextPage: boolean,
+  // When paginating backwards, are there more items?
+  hasPreviousPage: boolean,
+  // When paginating forwards, the cursor to continue.
+  endCursor: string | null,
+  // When paginating backwards, the cursor to continue.
+  startCursor: string | null,
 };

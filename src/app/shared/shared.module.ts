@@ -12,17 +12,20 @@ import { FormUtilService, LocationUtilService, RouterUtilService } from './servi
 import { FixedToggleComponent, PageNotFoundComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
+import { LoadMoreComponent } from './comps/load-more/load-more.component';
 
 @NgModule({
   declarations: [
     EnterKeyDirective,
     FullDirective,
     FixedToggleComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoadMoreComponent
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    TranslateModule
   ],
   exports: [
     // base
@@ -42,7 +45,8 @@ import { ApolloModule } from 'apollo-angular';
     FullDirective,
     // comps
     FixedToggleComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoadMoreComponent
     // pipes
   ]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivityService } from './activity.service';
-import { Activity, activitiesConnectionQuery, activitiesConnectionQueryVariables, AppConfig } from '../../model';
+import { Activity, activitiesConnectionQuery, activitiesConnectionQueryVariables, AppConfig, PageInfoFragmentFragment } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -21,6 +21,7 @@ export class ActivityComponent implements OnInit {
   step = 0;
   activitiesQuery: QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables>;
   activities$: Observable<Activity[]>;
+  pageInfo: PageInfoFragmentFragment;
 
   constructor(
     private activityService: ActivityService,
@@ -40,15 +41,17 @@ export class ActivityComponent implements OnInit {
     this.activities$ = this.activitiesQuery.valueChanges.pipe(
       filter(result => !result.loading),
       map(result => {
-        const { edges } = result.data.activitiesConnection;
+        const { edges, pageInfo } = result.data.activitiesConnection;
+
+        this.pageInfo = pageInfo;
 
         return R.map(R.prop('node'), edges) as Activity[];
       })
     );
   }
 
-  fetchMore(after: string) {
-    this.activityService.activitiesFetchMore(this.activitiesQuery, after);
+  loadMore() {
+    this.activityService.activitiesFetchMore(this.activitiesQuery, this.pageInfo.endCursor);
   }
 
   create() {

@@ -2,7 +2,7 @@ import * as R from 'ramda';
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivityService } from '../activity/activity.service';
-import { Activity, activitiesQuery, activitiesConnectionQuery, activitiesConnectionQueryVariables, AppConfig } from '../../model';
+import { Activity, activitiesQuery, activitiesConnectionQuery, activitiesConnectionQueryVariables, AppConfig, PageInfoFragmentFragment } from '../../model';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
@@ -21,6 +21,7 @@ import { AppConfigToken } from '../../app.config';
 export class DashboardComponent implements OnInit {
   activitiesQuery: QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables>;
   activities$: Observable<Activity[]>;
+  pageInfo: PageInfoFragmentFragment;
 
   panelOpenState: boolean;
 
@@ -41,15 +42,17 @@ export class DashboardComponent implements OnInit {
     this.activities$ = this.activitiesQuery.valueChanges.pipe(
       filter(result => !result.loading),
       map(result => {
-        const { edges } = result.data.activitiesConnection;
+        const { edges, pageInfo } = result.data.activitiesConnection;
+
+        this.pageInfo = pageInfo;
 
         return R.map(R.prop('node'), edges) as Activity[];
       })
     );
   }
 
-  fetchMore(after: string) {
-    this.activityService.activitiesFetchMore(this.activitiesQuery, after);
+  loadMore() {
+    this.activityService.activitiesFetchMore(this.activitiesQuery, this.pageInfo.endCursor);
   }
 
   attendActivity() {
