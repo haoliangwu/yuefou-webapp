@@ -49,27 +49,22 @@ export class TaskComponent implements OnInit {
       })
     );
 
-    this.taskService.tasksSub(this.tasksQuery, (prev, { subscriptionData: { data } }) => {
-      if (R.isNil(data)) {
-        return prev;
-      }
+    this.taskService.tasksSub(this.tasksQuery, (prev: tasksConnectionQuery, { subscriptionData: { data } }) => {
+      const { updatedTask: { mutation, node } } = data;
 
-      return R.merge(prev, data);
+      switch (mutation) {
+        case 'CREATED':
+          this.tasksQuery.refetch();
+          return prev;
+        case 'UPDATED':
+        default:
+          return prev;
+      }
     });
   }
 
   fetchMore(after: string) {
-    this.tasksQuery.fetchMore({
-      variables: {
-        ...this.appConfig.pagination,
-        after
-      },
-      updateQuery: (prev: tasksConnectionQuery, { fetchMoreResult }) => {
-        fetchMoreResult.tasksConnection.edges = [...prev.tasksConnection.edges, ...fetchMoreResult.tasksConnection.edges];
-
-        return fetchMoreResult;
-      }
-    });
+    this.taskService.tasksFetchMore(this.tasksQuery, after);
   }
 
   assign(task: Task) {

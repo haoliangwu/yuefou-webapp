@@ -9,6 +9,6 @@ export const DEFAULT_APP_CONFIG: AppConfig = {
     default: 'zh'
   },
   pagination: {
-    first: 10
+    first: 15
   }
 };

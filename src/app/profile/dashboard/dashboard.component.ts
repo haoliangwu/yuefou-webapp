@@ -49,17 +49,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchMore(after: string) {
-    this.activitiesQuery.fetchMore({
-      variables: {
-        ...this.appConfig.pagination,
-        after
-      },
-      updateQuery: (prev: activitiesConnectionQuery, { fetchMoreResult }) => {
-        fetchMoreResult.activitiesConnection.edges = [...prev.activitiesConnection.edges, ...fetchMoreResult.activitiesConnection.edges];
-
-        return fetchMoreResult;
-      }
-    });
+    this.activityService.activitiesFetchMore(this.activitiesQuery, after);
   }
 
   attendActivity() {

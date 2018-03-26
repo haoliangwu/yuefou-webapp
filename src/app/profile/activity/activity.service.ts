@@ -1,4 +1,4 @@
-import { Injectable, Query } from '@angular/core';
+import { Injectable, Query, Inject } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { DataProxy } from 'apollo-cache';
 import { FetchResult } from 'apollo-link';
@@ -13,15 +13,17 @@ import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables } from '../../model';
+import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables, AppConfig } from '../../model';
 import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation, ActivitiesConnection } from '../activity/activity.graphql';
+import { AppConfigToken } from '../../app.config';
 
 @Injectable()
 export class ActivityService {
   constructor(
     private apollo: Apollo,
     private toastService: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
   private cacheActivites(proxy: DataProxy) {
@@ -44,6 +46,22 @@ export class ActivityService {
   activities(): QueryRef<activitiesQuery> {
     return this.apollo.watchQuery({
       query: ActivitiesQuery
+    });
+  }
+
+  activitiesFetchMore(query: QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables>, after: string) {
+    query.fetchMore({
+      variables: {
+        pagination: {
+          ...this.appConfig.pagination,
+          after
+        }
+      },
+      updateQuery: (prev: activitiesConnectionQuery, { fetchMoreResult }) => {
+        fetchMoreResult.activitiesConnection.edges = [...prev.activitiesConnection.edges, ...fetchMoreResult.activitiesConnection.edges];
+
+        return fetchMoreResult;
+      }
     });
   }
 

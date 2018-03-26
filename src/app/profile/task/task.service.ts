@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 
 import * as R from 'ramda';
 import { map } from 'rxjs/operators';
 
-import { Task, ProcessStatus, ForwardPaginationInput, tasksConnectionQuery, tasksConnectionQueryVariables } from '../../model';
+import { Task, ProcessStatus, ForwardPaginationInput, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig } from '../../model';
 import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation, UpdatedTaskSubscription, TasksConnection } from './task.graphql';
 import { UpdateQueryFn } from 'apollo-client/core/watchQueryOptions';
+import { AppConfigToken } from '../../app.config';
 
 @Injectable()
 export class TaskService {
 
   constructor(
-    private apollo: Apollo
+    private apollo: Apollo,
+    @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
   tasksConnection(pagination: ForwardPaginationInput): QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables> {
@@ -24,6 +26,22 @@ export class TaskService {
 
   tasks() {
     return this.apollo.watchQuery<{ tasks: Task[] }>({ query: TasksQuery });
+  }
+
+  tasksFetchMore(query: QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables>, after: string) {
+    query.fetchMore({
+      variables: {
+        pagination: {
+          ...this.appConfig.pagination,
+          after
+        }
+      },
+      updateQuery: (prev: tasksConnectionQuery, { fetchMoreResult }) => {
+        fetchMoreResult.tasksConnection.edges = [...prev.tasksConnection.edges, ...fetchMoreResult.tasksConnection.edges];
+
+        return fetchMoreResult;
+      }
+    });
   }
 
   tasksSub(query: QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables>, cb: UpdateQueryFn) {
