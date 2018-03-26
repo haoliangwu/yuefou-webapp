@@ -178,7 +178,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Activity",
+                "name": "ActivityTask",
                 "ofType": null
               },
               "isDeprecated": false,

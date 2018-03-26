@@ -4,8 +4,8 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import * as R from 'ramda';
 import { map } from 'rxjs/operators';
 
-import { Task, ProcessStatus } from '../../model';
-import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation, UpdatedTaskSubscription } from './task.graphql';
+import { Task, ProcessStatus, ForwardPaginationInput, tasksConnectionQuery, tasksConnectionQueryVariables } from '../../model';
+import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation, UpdatedTaskSubscription, TasksConnection } from './task.graphql';
 import { UpdateQueryFn } from 'apollo-client/core/watchQueryOptions';
 
 @Injectable()
@@ -15,24 +15,31 @@ export class TaskService {
     private apollo: Apollo
   ) { }
 
-  tasksWatch() {
+  tasksConnection(pagination: ForwardPaginationInput): QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables> {
+    return this.apollo.watchQuery({
+      query: TasksConnection,
+      variables: { pagination }
+    });
+  }
+
+  tasks() {
     return this.apollo.watchQuery<{ tasks: Task[] }>({ query: TasksQuery });
   }
 
-  tasksSub(query: QueryRef<{tasks: Task[]}>, cb: UpdateQueryFn) {
+  tasksSub(query: QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables>, cb: UpdateQueryFn) {
     query.subscribeToMore({
       document: UpdatedTaskSubscription,
       updateQuery: cb
     });
   }
 
-  tasks() {
-    const accessor = R.path<Task[]>(['data', 'tasks']);
+  // tasks() {
+  //   const accessor = R.path<Task[]>(['data', 'tasks']);
 
-    return this.apollo.query({
-      query: TasksQuery
-    }).pipe(map(accessor));
-  }
+  //   return this.apollo.query({
+  //     query: TasksQuery
+  //   }).pipe(map(accessor));
+  // }
 
   task() {
     const accessor = R.path<Task>(['data', 'task']);

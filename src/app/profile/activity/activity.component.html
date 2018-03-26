@@ -1,6 +1,6 @@
 <div fxLayout="column" class="activity-list-wrapper">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let activity of activities$ | async">
+    <mat-expansion-panel [expanded]="step === i" (opened)="step = i" *ngFor="let activity of activities$ | async; index as i">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <span class="list-text" matLine> {{'ACTIVITY.TYPE.' + activity.type | translate}} </span>

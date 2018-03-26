@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import * as R from 'ramda';
+
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivityService } from '../activity/activity.service';
-import { Activity, activitiesQuery } from '../../model';
+import { Activity, activitiesQuery, activitiesConnectionQuery, activitiesConnectionQueryVariables, AppConfig } from '../../model';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +11,7 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
+import { AppConfigToken } from '../../app.config';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +19,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  activitiesQuery: QueryRef<activitiesQuery>;
+  activitiesQuery: QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables>;
+  activities$: Observable<Activity[]>;
 
   panelOpenState: boolean;
 
@@ -25,11 +29,37 @@ export class DashboardComponent implements OnInit {
     private dialogUtil: DialogUtilService,
     private router: Router,
     private toastService: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
   ngOnInit() {
-    this.activitiesQuery = this.activityService.activities();
+    this.activitiesQuery = this.activityService.activitiesConnection({
+      ...this.appConfig.pagination
+    });
+
+    this.activities$ = this.activitiesQuery.valueChanges.pipe(
+      filter(result => !result.loading),
+      map(result => {
+        const { edges } = result.data.activitiesConnection;
+
+        return R.map(R.prop('node'), edges) as Activity[];
+      })
+    );
+  }
+
+  fetchMore(after: string) {
+    this.activitiesQuery.fetchMore({
+      variables: {
+        ...this.appConfig.pagination,
+        after
+      },
+      updateQuery: (prev: activitiesConnectionQuery, { fetchMoreResult }) => {
+        fetchMoreResult.activitiesConnection.edges = [...prev.activitiesConnection.edges, ...fetchMoreResult.activitiesConnection.edges];
+
+        return fetchMoreResult;
+      }
+    });
   }
 
   attendActivity() {

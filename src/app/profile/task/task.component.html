@@ -1,6 +1,6 @@
 <div fxLayout="column" class="task-list-wrapper">
   <mat-accordion>
-    <mat-expansion-panel [expanded]="step === i" (opened)="step = i" *ngFor="let task of tasksQuery.valueChanges | async | select:'tasks'; index as i">
+    <mat-expansion-panel [expanded]="step === i" (opened)="step = i" *ngFor="let task of tasks$ | async; index as i">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{task.name}}

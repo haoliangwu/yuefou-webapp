@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivityService } from './activity.service';
-import { Activity, activitiesConnectionQuery } from '../../model';
+import { Activity, activitiesConnectionQuery, activitiesConnectionQueryVariables, AppConfig } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { switchMap, tap, filter, map, flatMap } from 'rxjs/operators';
 import { TOAST } from '../../constants';
 import { TranslateService } from '@ngx-translate/core';
 import { QueryRef } from 'apollo-angular';
+import { AppConfigToken } from '../../app.config';
 
 @Component({
   selector: 'app-activity',
@@ -17,7 +18,8 @@ import { QueryRef } from 'apollo-angular';
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
-  activitiesQuery: QueryRef<activitiesConnectionQuery>;
+  step = 0;
+  activitiesQuery: QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables>;
   activities$: Observable<Activity[]>;
 
   constructor(
@@ -26,14 +28,13 @@ export class ActivityComponent implements OnInit {
     private router: Router,
     private toastService: ToastrService,
     private dialogUtil: DialogUtilService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
   ngOnInit() {
     this.activitiesQuery = this.activityService.activitiesConnection({
-      pagination: {
-        first: 10
-      }
+      ...this.appConfig.pagination
     });
 
     this.activities$ = this.activitiesQuery.valueChanges.pipe(
@@ -49,14 +50,10 @@ export class ActivityComponent implements OnInit {
   fetchMore(after: string) {
     this.activitiesQuery.fetchMore({
       variables: {
-        pagination: {
-          first: 10,
-          after
-        }
+        ...this.appConfig.pagination,
+        after
       },
       updateQuery: (prev: activitiesConnectionQuery, { fetchMoreResult }) => {
-        fetchMoreResult = fetchMoreResult as activitiesConnectionQuery;
-
         fetchMoreResult.activitiesConnection.edges = [...prev.activitiesConnection.edges, ...fetchMoreResult.activitiesConnection.edges];
 
         return fetchMoreResult;

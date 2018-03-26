@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { TaskService } from './task.service';
-import { Task, ProcessStatus } from '../../model';
+import { Task, ProcessStatus, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { translateProcessStatus } from '../../utils';
 import { QueryRef } from 'apollo-angular';
+import { AppConfigToken } from '../../app.config';
 
 const translateTaskProcessStatus = task => {
   const status = R.compose(translateProcessStatus, R.prop('status'))(task);
@@ -23,17 +24,30 @@ const translateTaskProcessStatus = task => {
 })
 export class TaskComponent implements OnInit {
   step = 0;
-  tasksQuery: QueryRef<{ tasks: Task[] }>;
+  tasksQuery: QueryRef<tasksConnectionQuery, tasksConnectionQueryVariables>;
+  tasks$: Observable<Task[]>;
 
   constructor(
     private taskService: TaskService,
     private dialogUtil: DialogUtilService,
     private translate: TranslateService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
   ngOnInit() {
-    this.tasksQuery = this.taskService.tasksWatch();
+    this.tasksQuery = this.taskService.tasksConnection({
+      ...this.appConfig.pagination
+    });
+
+    this.tasks$ = this.tasksQuery.valueChanges.pipe(
+      filter(result => !result.loading),
+      map(result => {
+        const { edges } = result.data.tasksConnection;
+
+        return R.map(R.prop('node'), edges) as Task[];
+      })
+    );
 
     this.taskService.tasksSub(this.tasksQuery, (prev, { subscriptionData: { data } }) => {
       if (R.isNil(data)) {
@@ -41,6 +55,20 @@ export class TaskComponent implements OnInit {
       }
 
       return R.merge(prev, data);
+    });
+  }
+
+  fetchMore(after: string) {
+    this.tasksQuery.fetchMore({
+      variables: {
+        ...this.appConfig.pagination,
+        after
+      },
+      updateQuery: (prev: tasksConnectionQuery, { fetchMoreResult }) => {
+        fetchMoreResult.tasksConnection.edges = [...prev.tasksConnection.edges, ...fetchMoreResult.tasksConnection.edges];
+
+        return fetchMoreResult;
+      }
     });
   }
 

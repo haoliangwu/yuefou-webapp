@@ -13,10 +13,8 @@ import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Activity, activitiesConnectionQuery, activitiesQuery, activitiesConnectionQueryVariables } from '../../model';
+import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables } from '../../model';
 import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation, ActivitiesConnection } from '../activity/activity.graphql';
-import { variable } from '@angular/compiler/src/output/output_ast';
-
 
 @Injectable()
 export class ActivityService {
@@ -36,10 +34,10 @@ export class ActivityService {
     return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables });
   }
 
-  activitiesConnection(pagination: activitiesConnectionQueryVariables): QueryRef<activitiesConnectionQuery> {
+  activitiesConnection(pagination: ForwardPaginationInput): QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables> {
     return this.apollo.watchQuery({
       query: ActivitiesConnection,
-      variables: pagination
+      variables: { pagination }
     });
   }
 

@@ -163,7 +163,6 @@ export class AppModule {
       cache: new InMemoryCache(),
       defaultOptions: {
         watchQuery: {
-          fetchPolicy: 'cache-and-network',
           errorPolicy: 'ignore',
         },
         query: {

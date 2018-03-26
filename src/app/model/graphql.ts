@@ -41,6 +41,15 @@ export interface UpdateActivityInput {
   status?: ProcessStatus | null,
 };
 
+export interface CreateTaskInput {
+  name: string,
+};
+
+export interface UpdateTaskInput {
+  id: string,
+  name?: string | null,
+};
+
 export enum MutationType {
   CREATED = "CREATED",
   DELETED = "DELETED",
@@ -267,6 +276,239 @@ export interface quitActivityMutation {
       id: string,
       name: string,
     } > | null,
+  },
+};
+
+export interface tasksQuery {
+  tasks:  Array< {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
+  } >,
+};
+
+export interface tasksConnectionQueryVariables {
+  pagination?: ForwardPaginationInput | null,
+};
+
+export interface tasksConnectionQuery {
+  tasksConnection:  {
+    // A list of edges.
+    edges:  Array< {
+      // The item at the end of the edge.
+      node:  {
+        id: string,
+        name: string,
+        status: ProcessStatus,
+        assignee:  {
+          id: string,
+          name: string,
+        } | null,
+        activity:  {
+          id: string,
+          title: string,
+          participants:  Array< {
+            id: string,
+            name: string,
+          } > | null,
+          creator:  {
+            id: string,
+            name: string,
+          },
+        } | null,
+      },
+    } | null >,
+  } | null,
+};
+
+export interface taskQueryVariables {
+  id: string,
+};
+
+export interface taskQuery {
+  task:  {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
+  } | null,
+};
+
+export interface createTaskMutationVariables {
+  id: string,
+  task: CreateTaskInput,
+};
+
+export interface createTaskMutation {
+  createTask:  {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
+  },
+};
+
+export interface updateTaskMutationVariables {
+  id: string,
+  task: UpdateTaskInput,
+};
+
+export interface updateTaskMutation {
+  updateTask:  {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
+  },
+};
+
+export interface updateTaskStatusMutationVariables {
+  id: string,
+  taskId: string,
+  status: ProcessStatus,
+};
+
+export interface updateTaskStatusMutation {
+  updateTaskStatus:  {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
+  },
+};
+
+export interface deleteTaskMutationVariables {
+  id: string,
+  taskId: string,
+};
+
+export interface deleteTaskMutation {
+  deleteTask:  {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
+  },
+};
+
+export interface assignTaskMutationVariables {
+  id: string,
+  taskId: string,
+  assigneeId: string,
+};
+
+export interface assignTaskMutation {
+  assignTask:  {
+    id: string,
+    name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
   },
 };
 
