@@ -13,8 +13,8 @@ import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Activity } from '../../model';
-import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation } from '../activity/activity.graphql';
+import { Activity, activitiesConnectionQuery, activitiesQuery, activitiesConnectionQueryVariables } from '../../model';
+import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation, ActivitiesConnection } from '../activity/activity.graphql';
 import { variable } from '@angular/compiler/src/output/output_ast';
 
 
@@ -36,19 +36,26 @@ export class ActivityService {
     return proxy.readQuery<{ activity: Activity }>({ query: ActivityQuery, variables });
   }
 
-  activitiesWatch(): QueryRef<{ activities: Activity[] }> {
+  activitiesConnection(pagination: activitiesConnectionQueryVariables): QueryRef<activitiesConnectionQuery> {
+    return this.apollo.watchQuery({
+      query: ActivitiesConnection,
+      variables: pagination
+    });
+  }
+
+  activities(): QueryRef<activitiesQuery> {
     return this.apollo.watchQuery({
       query: ActivitiesQuery
     });
   }
 
-  activities(): Observable<Activity[]> {
-    const accessor = R.path<Activity[]>(['data', 'activities']);
+  // activities(): Observable<Activity[]> {
+  //   const accessor = R.path<Activity[]>(['data', 'activities']);
 
-    return this.apollo.query({ query: ActivitiesQuery }).pipe(
-      map(accessor)
-    );
-  }
+  //   return this.apollo.query({ query: ActivitiesQuery }).pipe(
+  //     map(accessor)
+  //   );
+  // }
 
   activity(id: string): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'activity']);

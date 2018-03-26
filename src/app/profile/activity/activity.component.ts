@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from './activity.service';
-import { Activity } from '../../model';
+import { Activity, activitiesConnectionQuery } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
-import { switchMap, tap, filter, map } from 'rxjs/operators';
+import { switchMap, tap, filter, map, flatMap } from 'rxjs/operators';
 import { TOAST } from '../../constants';
 import { TranslateService } from '@ngx-translate/core';
 import { QueryRef } from 'apollo-angular';
@@ -17,7 +17,8 @@ import { QueryRef } from 'apollo-angular';
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
-  activitiesQuery: QueryRef<{activities: Activity[]}>;
+  activitiesQuery: QueryRef<activitiesConnectionQuery>;
+  activities$: Observable<Activity[]>;
 
   constructor(
     private activityService: ActivityService,
@@ -29,7 +30,38 @@ export class ActivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activitiesQuery = this.activityService.activitiesWatch();
+    this.activitiesQuery = this.activityService.activitiesConnection({
+      pagination: {
+        first: 10
+      }
+    });
+
+    this.activities$ = this.activitiesQuery.valueChanges.pipe(
+      filter(result => !result.loading),
+      map(result => {
+        const { edges } = result.data.activitiesConnection;
+
+        return R.map(R.prop('node'), edges) as Activity[];
+      })
+    );
+  }
+
+  fetchMore(after: string) {
+    this.activitiesQuery.fetchMore({
+      variables: {
+        pagination: {
+          first: 10,
+          after
+        }
+      },
+      updateQuery: (prev: activitiesConnectionQuery, { fetchMoreResult }) => {
+        fetchMoreResult = fetchMoreResult as activitiesConnectionQuery;
+
+        fetchMoreResult.activitiesConnection.edges = [...prev.activitiesConnection.edges, ...fetchMoreResult.activitiesConnection.edges];
+
+        return fetchMoreResult;
+      }
+    });
   }
 
   create() {

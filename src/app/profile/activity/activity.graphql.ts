@@ -6,6 +6,8 @@ export const ActivityFragment = gql`fragment ActivityFragment on Activity{id tit
 // query
 export const ActivitiesQuery = gql`query activities {activities{...ActivityFragment}} ${ActivityFragment}`;
 
+export const ActivitiesConnection = gql`query activitiesConnection($pagination:ForwardPaginationInput){activitiesConnection(pagination:$pagination){edges{node{...ActivityFragment}}pageInfo{hasNextPage endCursor}}} ${ActivityFragment}`;
+
 export const ActivityQuery = gql`query activity($id: ID!) {activity(id: $id){...ActivityFragment}} ${ActivityFragment}`;
 
 // mutation

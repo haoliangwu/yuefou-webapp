@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity/activity.service';
-import { Activity } from '../../model';
+import { Activity, activitiesQuery } from '../../model';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs/Observable';
@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  activitiesQuery: QueryRef<{activities: Activity[]}>;
+  activitiesQuery: QueryRef<activitiesQuery>;
 
   panelOpenState: boolean;
 
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activitiesQuery = this.activityService.activitiesWatch();
+    this.activitiesQuery = this.activityService.activities();
   }
 
   attendActivity() {

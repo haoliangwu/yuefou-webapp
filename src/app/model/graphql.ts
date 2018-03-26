@@ -16,6 +16,12 @@ export enum ActivityType {
 }
 
 
+export interface ForwardPaginationInput {
+  first: number,
+  after?: string | null,
+  skip?: number | null,
+};
+
 export interface CreateActivityInput {
   title: string,
   type?: ActivityType | null,
@@ -65,6 +71,48 @@ export interface activitiesQuery {
       name: string,
     } > | null,
   } >,
+};
+
+export interface activitiesConnectionQueryVariables {
+  pagination?: ForwardPaginationInput | null,
+};
+
+export interface activitiesConnectionQuery {
+  activitiesConnection:  {
+    // A list of edges.
+    edges:  Array< {
+      // The item at the end of the edge.
+      node:  {
+        id: string,
+        title: string,
+        desc: string | null,
+        status: ProcessStatus | null,
+        type: ActivityType,
+        location: string,
+        startedAt: string,
+        endedAt: string,
+        creator:  {
+          id: string,
+          name: string,
+        },
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        tasks:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+      },
+    } | null >,
+    // Information to aid in pagination.
+    pageInfo:  {
+      // When paginating forwards, are there more items?
+      hasNextPage: boolean,
+      // When paginating forwards, the cursor to continue.
+      endCursor: string | null,
+    },
+  },
 };
 
 export interface activityQueryVariables {
