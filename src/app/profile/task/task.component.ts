@@ -3,7 +3,7 @@ import { TaskService } from './task.service';
 import { Task, ProcessStatus, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig, PageInfoFragmentFragment } from '../../model';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
-import { map, tap, filter } from 'rxjs/operators';
+import { map, tap, filter, flatMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -83,7 +83,7 @@ export class TaskComponent implements OnInit {
   }
 
   stop(task: Task) {
-    this.updateStatus(task, ProcessStatus.STOP);
+      this.updateStatus(task, ProcessStatus.STOP);
   }
 
   reopen(task: Task) {
@@ -91,12 +91,18 @@ export class TaskComponent implements OnInit {
   }
 
   private updateStatus(task: Task, status: ProcessStatus) {
-    this.taskService.updateTaskStatus(task, status).pipe(
+    this.dialogUtil.confirm({
+      data: {
+        message: this.translate.instant(`DIALOG.TASK_OPERATION.${status}`)
+      }
+    }).afterClosed().pipe(
+      filter(e => !!e),
+      flatMap(() => this.taskService.updateTaskStatus(task, status)),
       tap(nextTask => {
         nextTask = translateTaskProcessStatus(nextTask);
 
         this.toastService.success(this.translate.instant('TASK.CHANGE_STATUS', nextTask), nextTask.name);
-      }),
+      })
     ).subscribe();
   }
 }

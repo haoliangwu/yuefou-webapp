@@ -1,5 +1,7 @@
 <h2 mat-dialog-title>{{(message ? message: 'DIALOG.CONFIRM.DEFAULT_MESSAGE') | translate}}</h2>
-<mat-dialog-actions>
+<mat-dialog-actions fxLayout="row" fxLayoutALign="center center">
+  <span fxFlex></span>
   <button mat-raised-button mat-dialog-close>{{(noText ? noText : 'DIALOG.CONFIRM.DEFAULT_NO_TEXT') | translate}}</button>
   <button mat-raised-button [mat-dialog-close]="true" color="primary">{{(yesText ? yesText : 'DIALOG.CONFIRM.DEFAULT_YES_TEXT') | translate}}</button>
+  <span fxFlex></span>
 </mat-dialog-actions>

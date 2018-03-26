@@ -89,6 +89,12 @@
         "REQUIRED": "邀请码是必填项",
         "UNEXISTED": "邀请码不存在"
       }
+    },
+    "TASK_OPERATION": {
+      "STOP": "确定要终止该任务吗？",
+      "DONE": "确定要完成该任务吗？",
+      "INIT": "确定要重新开始该任务吗？",
+      "PENDING": "确定要开始该任务吗？"
     }
   },
   "SERVER": {
