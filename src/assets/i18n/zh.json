@@ -45,7 +45,10 @@
   },
   "TASK": {
     "CURRENT_ASSIGNEE": "当前指派者",
-    "CHANGE_STATUS": "变为【{{status}}】"
+    "CHANGE_STATUS": "变为【{{status}}】",
+    "TOAST": {
+      "ASSIGN_SUCCESS": "指派【{{task.name}}】任务给【{{target.name}}】"
+    }
   },
   "DATE": {
     "TO": "至"
@@ -82,6 +85,7 @@
       "DEFAULT_NO_TEXT": "取消"
     },
     "ATTEND_ACTIVITY": {
+      "TITLE": "参加一个活动",
       "DEFAULT_MESSAGE": "请输入验证码",
       "DEFAULT_YES_TEXT": "参加",
       "DEFAULT_NO_TEXT": "不了，谢谢",
@@ -95,6 +99,11 @@
       "DONE": "确定要完成该任务吗？",
       "INIT": "确定要重新开始该任务吗？",
       "PENDING": "确定要开始该任务吗？"
+    },
+    "ASSIGN_TASK": {
+      "TITLE": "指派任务",
+      "DEFAULT_YES_TEXT": "指派",
+      "DEFAULT_NO_TEXT": "取消"
     }
   },
   "SERVER": {

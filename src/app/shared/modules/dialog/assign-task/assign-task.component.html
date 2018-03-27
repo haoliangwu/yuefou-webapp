@@ -1,0 +1,17 @@
+<h2 mat-dialog-title> {{'DIALOG.ASSIGN_TASK.TITLE' | translate}}</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-select [(value)]="assignee">
+      <mat-option [value]="assignee" *ngFor="let assignee of data.assignees">{{assignee.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>
+    {{'DIALOG.ASSIGN_TASK.DEFAULT_NO_TEXT' | translate}}
+  </button>
+  <button mat-raised-button (click)="assign()" color="primary">
+    {{'DIALOG.ASSIGN_TASK.DEFAULT_YES_TEXT' | translate}}
+  </button>
+</mat-dialog-actions>

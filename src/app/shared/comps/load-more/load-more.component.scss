@@ -1,6 +1,7 @@
-mat-toolbar {
-    &.load-more-toolbar {
-        font-size: 14px;
-        color: rgba(0, 0, 0, .7);
-    }
+.load-more-toolbar {
+    font-size: 14px;
+    height: 2em;
+    padding: .5em;
+    margin: .5em 0 0 0;
+    color: rgba(0, 0, 0, .7);
 }

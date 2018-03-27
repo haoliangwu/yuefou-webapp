@@ -4,7 +4,7 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import * as R from 'ramda';
 import { map } from 'rxjs/operators';
 
-import { Task, ProcessStatus, ForwardPaginationInput, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig } from '../../model';
+import { Task, ProcessStatus, ForwardPaginationInput, tasksConnectionQuery, tasksConnectionQueryVariables, AppConfig, assignTaskMutationVariables } from '../../model';
 import { TasksQuery, TaskQuery, CreateTaskMutation, UpdateTaskMutation, DeleteTaskMutation, AssignTaskMutation, UpdateTaskStatusMutation, UpdatedTaskSubscription, TasksConnection } from './task.graphql';
 import { UpdateQueryFn } from 'apollo-client/core/watchQueryOptions';
 import { AppConfigToken } from '../../app.config';
@@ -112,11 +112,12 @@ export class TaskService {
     }).pipe(map(accessor));
   }
 
-  assign() {
+  assign(variables: assignTaskMutationVariables) {
     const accessor = R.path<Task>(['data', 'assignTask']);
 
     return this.apollo.mutate({
-      mutation: AssignTaskMutation
+      mutation: AssignTaskMutation,
+      variables
     }).pipe(map(accessor));
   }
 }

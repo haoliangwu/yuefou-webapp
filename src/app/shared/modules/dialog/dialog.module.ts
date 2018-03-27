@@ -9,6 +9,7 @@ import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { TranslateModule } from '@ngx-translate/core';
+import { AssignTaskComponent } from './assign-task/assign-task.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [
     CreateActivityDialogComponent,
     ConfirmDialogComponent,
-    AttendActivityComponent
+    AttendActivityComponent,
+    AssignTaskComponent
   ],
   providers: [
     DialogUtilService
@@ -30,7 +32,8 @@ import { TranslateModule } from '@ngx-translate/core';
   entryComponents: [
     CreateActivityDialogComponent,
     ConfirmDialogComponent,
-    AttendActivityComponent
+    AttendActivityComponent,
+    AssignTaskComponent
   ]
 })
 export class DialogModule { }
