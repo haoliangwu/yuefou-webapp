@@ -19,6 +19,8 @@ import { AppConfigToken } from '../../app.config';
 
 @Injectable()
 export class ActivityService {
+  private pagination: ForwardPaginationInput;
+
   constructor(
     private apollo: Apollo,
     private toastService: ToastrService,
@@ -26,8 +28,8 @@ export class ActivityService {
     @Inject(AppConfigToken) private appConfig: AppConfig
   ) { }
 
-  private cacheActivites(proxy: DataProxy) {
-    return proxy.readQuery<{ activities: Activity[] }>({ query: ActivitiesQuery });
+  private cacheActivites(proxy: DataProxy, variables: activitiesConnectionQueryVariables = { pagination: this.appConfig.pagination }): activitiesConnectionQuery {
+    return proxy.readQuery<activitiesConnectionQuery>({ query: ActivitiesConnection, variables });
   }
 
   private cacheActivity(id: string, proxy: DataProxy) {
@@ -37,25 +39,23 @@ export class ActivityService {
   }
 
   activitiesConnection(pagination: ForwardPaginationInput): QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables> {
+    this.pagination = pagination;
+
     return this.apollo.watchQuery({
       query: ActivitiesConnection,
       variables: { pagination }
     });
   }
 
-  activities(): QueryRef<activitiesQuery> {
-    return this.apollo.watchQuery({
-      query: ActivitiesQuery
-    });
-  }
-
   activitiesFetchMore(query: QueryRef<activitiesConnectionQuery, activitiesConnectionQueryVariables>, after: string) {
-    query.fetchMore({
+    this.pagination = {
+      ...this.appConfig.pagination,
+      after
+    };
+
+    return query.fetchMore({
       variables: {
-        pagination: {
-          ...this.appConfig.pagination,
-          after
-        }
+        pagination: this.pagination
       },
       updateQuery: (prev: activitiesConnectionQuery, { fetchMoreResult }) => {
         fetchMoreResult.activitiesConnection.edges = [...prev.activitiesConnection.edges, ...fetchMoreResult.activitiesConnection.edges];
@@ -65,13 +65,11 @@ export class ActivityService {
     });
   }
 
-  // activities(): Observable<Activity[]> {
-  //   const accessor = R.path<Activity[]>(['data', 'activities']);
-
-  //   return this.apollo.query({ query: ActivitiesQuery }).pipe(
-  //     map(accessor)
-  //   );
-  // }
+  activities(): QueryRef<activitiesQuery> {
+    return this.apollo.watchQuery({
+      query: ActivitiesQuery
+    });
+  }
 
   activity(id: string): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'activity']);
@@ -85,18 +83,20 @@ export class ActivityService {
 
   create(activity: Activity): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'createActivity']);
-
-    const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
-      const data = this.cacheActivites(proxy);
-
-      data.activities = R.append(accessor(result), data.activities);
-
-      proxy.writeQuery({ query: ActivitiesQuery, data });
-    };
-
     const variables = { activity };
 
-    return this.apollo.mutate({ mutation: CreateActivityMutation, update, variables }).pipe(
+    return this.apollo.mutate({
+      mutation: CreateActivityMutation,
+      refetchQueries: [
+        {
+          query: ActivitiesConnection,
+          variables: {
+            pagination: this.pagination
+          }
+        }
+      ],
+      variables
+    }).pipe(
       map(accessor)
     );
   }
@@ -104,22 +104,11 @@ export class ActivityService {
   update(id: string, activity: Activity): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'updateActivity']);
 
-    const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
-      const data = this.cacheActivites(proxy);
-      const originActivieData = this.cacheActivity(id, proxy);
-      const updateActivity = R.merge(originActivieData, accessor(result));
-
-      const idx = R.find(R.propEq('id', updateActivity.id), data.activities);
-      data.activities = R.update(idx, updateActivity, data.activities);
-
-      proxy.writeQuery({ query: ActivitiesQuery, data });
-    };
-
     const formatFn = R.compose(R.dissoc('type'), R.merge({ id }));
 
     const variables = { activity: formatFn(activity) };
 
-    return this.apollo.mutate({ mutation: UpdateActivityMutation, update, variables }).pipe(
+    return this.apollo.mutate({ mutation: UpdateActivityMutation, variables }).pipe(
       map(accessor)
     );
   }
@@ -127,17 +116,20 @@ export class ActivityService {
   delete(id: string): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'deleteActivity']);
 
-    const update = (proxy: DataProxy, result: FetchResult<Activity>) => {
-      const data = this.cacheActivites(proxy);
-
-      data.activities = R.filter(R.complement(R.propEq('id', accessor(result).id)), data.activities);
-
-      proxy.writeQuery({ query: ActivitiesQuery, data });
-    };
-
     const variables = { id };
 
-    return this.apollo.mutate({ mutation: DeleteActivityMutation, variables, update }).pipe(
+    return this.apollo.mutate({
+      mutation: DeleteActivityMutation,
+      variables,
+      refetchQueries: [
+        {
+          query: ActivitiesConnection,
+          variables: {
+            pagination: this.pagination
+          }
+        }
+      ]
+    }).pipe(
       map(accessor)
     );
   }
@@ -152,7 +144,10 @@ export class ActivityService {
       variables,
       refetchQueries: [
         {
-          query: ActivitiesQuery
+          query: ActivitiesConnection,
+          variables: {
+            pagination: this.pagination
+          }
         }
       ]
     }).pipe(
@@ -170,7 +165,10 @@ export class ActivityService {
       variables,
       refetchQueries: [
         {
-          query: ActivitiesQuery
+          query: ActivitiesConnection,
+          variables: {
+            pagination: this.pagination
+          }
         }
       ]
     }).pipe(
