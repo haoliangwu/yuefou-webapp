@@ -7,6 +7,7 @@ import { TaskService } from './task.service';
 import { TaskBriefDetailComponent } from './task-brief-detail.component';
 import { AvaliableOperationPipe } from './pipes/avaliable-operation.pipe';
 import { TaskOperationService } from './task-operation.service';
+import { TaskStatusSuffixPipe } from './pipes/task-status-suffix.pipe';
 
 export const TaskRoute: Route = {
   path: 'task',
@@ -31,14 +32,16 @@ export const TaskRoute: Route = {
   declarations: [
     TaskComponent,
     TaskBriefDetailComponent,
-    AvaliableOperationPipe
+    AvaliableOperationPipe,
+    TaskStatusSuffixPipe
   ],
   providers: [
-    TaskService
+    TaskService,
     TaskOperationService
   ],
   exports: [
-    AvaliableOperationPipe
+    AvaliableOperationPipe,
+    TaskStatusSuffixPipe
   ]
 })
 export class TaskModule { }

@@ -1,9 +1,13 @@
-<h2 mat-dialog-title> {{'DIALOG.ASSIGN_TASK.TITLE' | translate}}</h2>
+<h2 mat-dialog-title style="margin: 0;"> {{'DIALOG.ASSIGN_TASK.TITLE' | translate}}</h2>
+
 <mat-dialog-content>
   <mat-form-field>
-    <mat-select [(value)]="assignee">
+    <mat-select [(value)]="assignee" (selectionChange)="isCurrentSelected = assignee.id === data.current.id">
       <mat-option [value]="assignee" *ngFor="let assignee of data.assignees">{{assignee.name}}</mat-option>
     </mat-select>
+    <mat-hint *ngIf="isCurrentSelected">
+      <span class="minor-text">{{'TASK.CURRENT_ASSIGNEE' | translate}}</span>
+    </mat-hint>
   </mat-form-field>
 </mat-dialog-content>
 

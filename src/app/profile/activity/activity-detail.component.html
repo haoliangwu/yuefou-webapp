@@ -21,11 +21,11 @@
   <div class="activity-detail-content">
     <mat-list *ngIf="activity.tasks.length > 0">
       <mat-list-item *ngFor="let task of activity.tasks">
-        <!-- <mat-icon matListIcon>folder</mat-icon> -->
         <div matLine fxLayout="row" fxLayoutAlign="start center">
-          <span fxFlex>
-            {{task.name}}
+          <span class="activity-task-item" fxFlex>
+            {{task | taskStatusSuffix}}
           </span>
+          <span fxFlex="1em"></span>
           <button mat-icon-button color="primary" (click)="taskOperationService.assign(task)" *ngIf="task | avaliableOperation:'assign'">
             <mat-icon>touch_app</mat-icon>
           </button>

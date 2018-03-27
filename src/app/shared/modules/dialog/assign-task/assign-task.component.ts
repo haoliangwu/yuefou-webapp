@@ -5,6 +5,7 @@ import { User } from '../../../../model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 export interface AssignTaskDialogData {
+  current?: User;
   assignees: User[];
 }
 
@@ -15,18 +16,30 @@ export interface AssignTaskDialogData {
 })
 export class AssignTaskComponent implements OnInit {
 
+  isCurrentSelected = false;
   assignee: User;
 
   constructor(
-    private dialogRef: MatDialogRef<AssignTaskComponent, User>,
+    private dialogRef: MatDialogRef<AssignTaskComponent, User | boolean>,
     @Inject(MAT_DIALOG_DATA) public data: AssignTaskDialogData
   ) { }
 
   ngOnInit() {
-    this.assignee = R.head(this.data.assignees);
+    if (this.data.current) {
+      this.assignee = R.find(R.propEq('id', this.data.current.id), this.data.assignees);
+
+      this.isCurrentSelected = true;
+    } else {
+      this.assignee = R.head(this.data.assignees);
+      this.isCurrentSelected = false;
+    }
   }
 
   assign() {
-    this.dialogRef.close(this.assignee);
+    if (this.isCurrentSelected) {
+      this.dialogRef.close(false);
+    } else {
+      this.dialogRef.close(this.assignee);
+    }
   }
 }

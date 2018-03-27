@@ -36,11 +36,12 @@ export class TaskOperationService {
     const creator = R.path<User>(['activity', 'creator'], task);
     const participants = R.path<User[]>(['activity', 'participants'], task);
 
-    const excludeUser = R.filter(R.complement(R.propEq('id', this.user.id)));
+    // const excludeUser = R.filter(R.complement(R.propEq('id', this.user.id)));
 
     this.assignDialogRef = this.dialogUtil.assignTask({
       data: {
-        assignees: excludeUser([...participants, creator])
+        current: task.assignee,
+        assignees: R.uniqBy(R.prop('id'), ([...participants, creator]))
       }
     });
 
