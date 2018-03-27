@@ -19,19 +19,19 @@
           <mat-chip>{{task.assignee.name}}</mat-chip>
         </mat-chip-list>
         <span fxFlex></span>
-        <button mat-icon-button color="primary" (click)="assign(task)" *ngIf="task | avaliableOperation:'assign'">
+        <button mat-icon-button color="primary" (click)="taskOperationService.assign(task)" *ngIf="task | avaliableOperation:'assign'">
           <mat-icon>touch_app</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="start(task)" *ngIf="task | avaliableOperation:'start'">
+        <button mat-icon-button color="primary" (click)="taskOperationService.start(task)" *ngIf="task | avaliableOperation:'start'">
           <mat-icon>play_circle_outline</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="done(task)" *ngIf="task | avaliableOperation:'done'">
+        <button mat-icon-button color="primary" (click)="taskOperationService.done(task)" *ngIf="task | avaliableOperation:'done'">
           <mat-icon>done</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="stop(task)" *ngIf="task | avaliableOperation:'stop'">
+        <button mat-icon-button color="warn" (click)="taskOperationService.stop(task)" *ngIf="task | avaliableOperation:'stop'">
           <mat-icon>close</mat-icon>
         </button>
-        <button mat-icon-button color="accent" (click)="reopen(task)" *ngIf="task | avaliableOperation:'reopen'">
+        <button mat-icon-button color="accent" (click)="taskOperationService.reopen(task)" *ngIf="task | avaliableOperation:'reopen'">
           <mat-icon>restore</mat-icon>
         </button>
       </mat-action-row>

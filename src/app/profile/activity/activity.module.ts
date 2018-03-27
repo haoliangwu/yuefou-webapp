@@ -8,6 +8,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ActivityResolver } from './activity-resolver.service';
 import { Route } from '@angular/router';
 import { ActivityPermissionPipe } from './pipes/activity-permission.pipe';
+import { TaskModule } from '../task/task.module';
 
 export const ActivityRoute: Route = {
   path: 'activity',
@@ -38,7 +39,8 @@ export const ActivityRoute: Route = {
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    TaskModule
   ],
   declarations: [
     ActivityComponent,

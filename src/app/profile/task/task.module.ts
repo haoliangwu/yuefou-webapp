@@ -6,6 +6,7 @@ import { TaskComponent } from './task.component';
 import { TaskService } from './task.service';
 import { TaskBriefDetailComponent } from './task-brief-detail.component';
 import { AvaliableOperationPipe } from './pipes/avaliable-operation.pipe';
+import { TaskOperationService } from './task-operation.service';
 
 export const TaskRoute: Route = {
   path: 'task',
@@ -34,8 +35,10 @@ export const TaskRoute: Route = {
   ],
   providers: [
     TaskService
+    TaskOperationService
   ],
   exports: [
+    AvaliableOperationPipe
   ]
 })
 export class TaskModule { }

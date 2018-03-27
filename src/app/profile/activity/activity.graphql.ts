@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { PageInfoFragment } from '../../utils/pagination.graphql';
+import { TaskFragment } from '../task/task.graphql';
 
 // fragment
 export const ActivityFragment = gql`fragment ActivityFragment on Activity {
@@ -20,10 +21,9 @@ export const ActivityFragment = gql`fragment ActivityFragment on Activity {
     name
   }
   tasks {
-    id
-    name
+    ...TaskFragment
   }
-}`;
+} ${TaskFragment}`;
 
 // query
 export const ActivitiesQuery = gql`query activities {

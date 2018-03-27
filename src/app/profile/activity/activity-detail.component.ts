@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TaskOperationService } from '../task/task-operation.service';
 
 @Component({
   selector: 'app-activity-detail',
@@ -8,7 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ActivityDetailComponent implements OnInit {
   @Input() activity;
 
-  constructor() { }
+  constructor(
+    public taskOperationService: TaskOperationService
+  ) { }
 
   ngOnInit() {
   }
