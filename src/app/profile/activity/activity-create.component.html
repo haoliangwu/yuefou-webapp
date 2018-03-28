@@ -77,8 +77,7 @@
         </mat-form-field>
       </form>
       <mat-action-row>
-        <button mat-button color="accent" (click)="step = step - 1">{{'COMMON.PREVIOUS' | translate}}</button>
-        <button mat-button color="primary" (click)="step = step + 1">{{'COMMON.NEXT' | translate}}</button>
+        <app-expanded-panel-stepper [isHead]="true" [(step)]="step"></app-expanded-panel-stepper>
       </mat-action-row>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="isTaskType$ | async" [expanded]="step === 1" (opened)="step = 1">
@@ -87,6 +86,9 @@
           <span>{{'ACTIVITY.TASK_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-action-row>
+        <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
+      </mat-action-row>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="isHostType$ | async" [expanded]="step === 1" (opened)="step = 1">
       <mat-expansion-panel-header [expandedHeight]="expandedHeight">
@@ -94,13 +96,23 @@
           <span>{{'ACTIVITY.RECIPE_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-action-row>
+        <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
+      </mat-action-row>
     </mat-expansion-panel>
+
+    <!-- 暂时不支持直接邀请活动参与人 -->
     <!-- <mat-expansion-panel [expanded]="step === 2" (opened)="step = 2">
       <mat-expansion-panel-header [expandedHeight]="expandedHeight">
         <mat-panel-title>
           <span>{{'ACTIVITY.PARTICIPANTS_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-action-row>
+        <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
+      </mat-action-row>
+      <div class="minor-text">
+      </div>
     </mat-expansion-panel> -->
   </mat-accordion>
 </div>

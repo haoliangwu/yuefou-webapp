@@ -92,7 +92,7 @@
     },
     "ATTEND_ACTIVITY": {
       "TITLE": "参加一个活动",
-      "DEFAULT_MESSAGE": "请输入验证码",
+      "DEFAULT_MESSAGE": "请输入邀请码",
       "DEFAULT_YES_TEXT": "参加",
       "DEFAULT_NO_TEXT": "不了，谢谢",
       "ERRORS": {

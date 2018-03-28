@@ -13,6 +13,7 @@ import { FixedToggleComponent, PageNotFoundComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
 import { LoadMoreComponent } from './comps/load-more/load-more.component';
+import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/expanded-panel-stepper.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoadMoreComponent } from './comps/load-more/load-more.component';
     FullDirective,
     FixedToggleComponent,
     PageNotFoundComponent,
-    LoadMoreComponent
+    LoadMoreComponent,
+    ExpandedPanelStepperComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { LoadMoreComponent } from './comps/load-more/load-more.component';
     // comps
     FixedToggleComponent,
     PageNotFoundComponent,
-    LoadMoreComponent
+    LoadMoreComponent,
+    ExpandedPanelStepperComponent
     // pipes
   ]
 })
