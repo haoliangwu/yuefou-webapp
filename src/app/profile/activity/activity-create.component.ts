@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
-import { ActivityType, Activity } from '../../model';
+import { ActivityType, Activity, Task } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
@@ -29,9 +29,10 @@ export class ActivityCreateComponent implements OnInit {
   minStart$: Observable<Date>;
   initType$: Observable<ActivityType>;
   update$: Observable<boolean>;
+  tasks$: Observable<Task[]>;
 
   expandedHeight = '48px';
-  step = 0;
+  step = 1;
 
   form: FormGroup;
   activity: Activity;
@@ -80,6 +81,13 @@ export class ActivityCreateComponent implements OnInit {
       refCount()
     );
 
+    this.tasks$ = resolveActivity$.pipe(
+      filter(R.complement(R.isNil)),
+      map(activity => activity.tasks),
+      filter(R.complement(R.either(R.isNil, R.isEmpty))),
+      startWith([])
+    );
+
     this.isDetail$ = resolveActivity$.pipe(map(activity => !!activity));
 
     this.minStart$ = resolveActivity$.pipe(
@@ -87,7 +95,7 @@ export class ActivityCreateComponent implements OnInit {
     );
 
     this.initType$ = resolveActivity$.pipe(
-      map(activity => activity ? activity.type : ActivityType.HOST)
+      map(activity => activity ? activity.type : ActivityType.TASK)
     );
 
     this.isTaskType$ = merge(this.form.get('type').valueChanges, this.initType$).pipe(

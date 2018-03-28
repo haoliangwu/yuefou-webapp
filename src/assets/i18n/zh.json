@@ -50,8 +50,15 @@
   "TASK": {
     "CURRENT_ASSIGNEE": "当前指派者",
     "CHANGE_STATUS": "变为【{{status}}】",
+    "CREATE_NAME_PLACEHOLDER": "新增任务",
+    "UPDATE_NAME_PLACEHOLDER": "更新任务",
+    "CREATE_NAME_PLACEHOLDER_HINT": "简单的任务名称具有更好的说明性",
     "TOAST": {
       "ASSIGN_SUCCESS": "指派【{{task.name}}】任务给【{{target.name}}】"
+    },
+    "ERRORS": {
+      "NAME_REQUIRED": "任务名称是必填项",
+      "NAME_MAXLENGTH": "任务名称长度不能超过48个字"
     }
   },
   "DATE": {

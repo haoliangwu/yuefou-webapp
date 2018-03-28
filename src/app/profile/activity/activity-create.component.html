@@ -86,6 +86,7 @@
           <span>{{'ACTIVITY.TASK_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <app-tasks-manage-list [tasks]="tasks$ | async"></app-tasks-manage-list>
       <mat-action-row>
         <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
       </mat-action-row>

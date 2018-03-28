@@ -8,6 +8,7 @@ import { TaskBriefDetailComponent } from './task-brief-detail.component';
 import { AvaliableOperationPipe } from './pipes/avaliable-operation.pipe';
 import { TaskOperationService } from './task-operation.service';
 import { TaskStatusSuffixPipe } from './pipes/task-status-suffix.pipe';
+import { TasksManageListComponent, TasksManageListCreateItemComponent } from './tasks-manage-list';
 
 export const TaskRoute: Route = {
   path: 'task',
@@ -33,7 +34,9 @@ export const TaskRoute: Route = {
     TaskComponent,
     TaskBriefDetailComponent,
     AvaliableOperationPipe,
-    TaskStatusSuffixPipe
+    TaskStatusSuffixPipe,
+    TasksManageListComponent,
+    TasksManageListCreateItemComponent
   ],
   providers: [
     TaskService,
@@ -41,7 +44,8 @@ export const TaskRoute: Route = {
   ],
   exports: [
     AvaliableOperationPipe,
-    TaskStatusSuffixPipe
+    TaskStatusSuffixPipe,
+    TasksManageListComponent
   ]
 })
 export class TaskModule { }

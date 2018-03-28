@@ -1,0 +1,33 @@
+<div class="list-item">
+  <div class="detail-wrapper" fxLayout="row" fxLayoutAlign="start center" *ngIf="task && !editable">
+    <span fxFlex>{{task.name}}</span>
+    <button mat-icon-button aria-label="edit" color="primary" (click)="edit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="edit" color="warn" (click)="delete()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+  <form [formGroup]="form" *ngIf="!task || editable">
+    <mat-form-field full>
+      <input formControlName="name" type="tel" #taskName matInput [placeholder]="(task ? 'TASK.UPDATE_NAME_PLACEHOLDER' : 'TASK.CREATE_NAME_PLACEHOLDER') | translate" (enterKey)="save()">
+      <button type="button" matSuffix mat-icon-button aria-label="add" (click)="save()">
+        <mat-icon>done</mat-icon>
+      </button>
+      <!-- <mat-hint align="start" *ngIf="form.valid">
+        <strong>{{'TASK.CREATE_NAME_PLACEHOLDER_HINT' | translate}}</strong>
+      </mat-hint> -->
+      <mat-hint align="end">{{taskName.value.length}} / 48</mat-hint>
+      <mat-error>
+        <div ngxErrors="name">
+          <span ngxError="required" when="touched">
+            {{'TASK.ERRORS.NAME_REQUIRED' | translate}}
+          </span>
+          <span ngxError="maxlength" when="touched">
+            {{'TASK.ERRORS.NAME_MAXLENGTH' | translate}}
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
