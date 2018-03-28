@@ -50,3 +50,10 @@ export interface AppConfig {
     first: number
   };
 }
+
+export interface DataId {
+  id: string | number;
+  __typename: string;
+}
+
+export type DataIdFromObjectResolver = (o: DataId) => any;

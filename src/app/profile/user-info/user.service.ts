@@ -15,7 +15,7 @@ export class UserService {
   ) { }
 
   me(): Observable<ApolloQueryResult<{ me: User }>> {
-    const query = gql`{me{id name avatar}}`;
+    const query = gql`query me {me{id name avatar}}`;
 
     return this.apollo.query({ query });
   }

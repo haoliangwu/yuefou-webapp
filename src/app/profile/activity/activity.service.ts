@@ -1,7 +1,6 @@
 import { Injectable, Query, Inject } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { DataProxy } from 'apollo-cache';
-import { FetchResult } from 'apollo-link';
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
@@ -13,9 +12,10 @@ import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables, AppConfig } from '../../model';
+import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables, AppConfig, deleteActivityMutation, quitActivityMutation } from '../../model';
 import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation, ActivitiesConnection } from '../activity/activity.graphql';
 import { AppConfigToken } from '../../app.config';
+import { UpdateFetchResult } from '../../../custom-typings';
 
 @Injectable()
 export class ActivityService {
@@ -189,5 +189,33 @@ export class ActivityService {
 
   share() {
     this.toastService.success(this.translate.instant('ACTIVITY.SHARE'));
+  }
+
+  // TODO 分页数据的缓存修改函数工厂
+  private removeActivitiesReducerFactory<U>(cb: (data: U) => string) {
+    return this.activitiesReducerFactory<U, activitiesConnectionQuery>((r, d) => {
+      const { activitiesConnection: { edges } } = d;
+
+      const idx = R.find(R.propEq('id', cb(r.data)), edges);
+
+      d.activitiesConnection.edges = R.remove(idx, 1, edges);
+
+      return d;
+    });
+  }
+
+  private activitiesReducerFactory<U, T>(cb: (r: UpdateFetchResult<U>, d: T) => any) {
+    return (proxy: DataProxy, result: UpdateFetchResult<U>) => {
+      const data = proxy.readQuery<T>({
+        query: ActivitiesConnection,
+        variables: { pagination: this.pagination }
+      });
+
+      proxy.writeQuery({
+        data: cb(result, data),
+        query: ActivitiesConnection,
+        variables: { pagination: this.pagination }
+      });
+    };
   }
 }

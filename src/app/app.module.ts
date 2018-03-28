@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-import { NgModule } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -27,7 +27,9 @@ import { LOCALSTORAGE, TOAST, APP_HOST } from './constants';
 import { ProfileModule } from './profile/profile.module';
 import { SharedModule } from './shared/shared.module';
 
-import { AppConfigToken, DEFAULT_APP_CONFIG } from './app.config';
+import { AppConfigProvider, DataIdFromObjectProvider, DataIdFromObjectToken } from './app.config';
+import { OperationDefinitionNode } from 'graphql';
+import { DataIdFromObjectResolver } from './model';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -84,10 +86,8 @@ const appRoutes: Routes = [
     ),
   ],
   providers: [
-    {
-      useValue: DEFAULT_APP_CONFIG,
-      provide: AppConfigToken
-    }
+    AppConfigProvider,
+    DataIdFromObjectProvider
   ],
   bootstrap: [
     AppComponent
@@ -101,9 +101,14 @@ export class AppModule {
     apollo: Apollo,
     httpLinkService: HttpLink,
     private toastrService: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(DataIdFromObjectToken) private dataIdFromObject: DataIdFromObjectResolver
   ) {
     const authLink = new ApolloLink((operation, forward) => {
+      if (operation.operationName === 'IntrospectionQuery') {
+        return forward(operation);
+      }
+
       const group = operation.variables[LOADING_MASK_HEADER];
 
       operation.setContext({
@@ -118,9 +123,9 @@ export class AppModule {
 
     const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.map(({ message, code, path }) => {
+        graphQLErrors.map(({ message, source, path }) => {
           console.error(
-            `[GraphQL error]: Message: ${message}, Code: ${code}, Path: ${path}`,
+            `[GraphQL error]: Message: ${message}, Source: ${source}, Path: ${path}`,
           );
 
           // TODO server 端需要返回按错误代码标识的错误信息
@@ -151,7 +156,7 @@ export class AppModule {
     const link = split(
       // split based on operation type
       ({ query }) => {
-        const { kind, operation } = getMainDefinition(query);
+        const { kind, operation } = getMainDefinition(query) as OperationDefinitionNode;
         return kind === 'OperationDefinition' && operation === 'subscription';
       },
       ws,
@@ -160,7 +165,9 @@ export class AppModule {
 
     apollo.create({
       link: from([authLink, errorLink, link]),
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({
+        dataIdFromObject: this.dataIdFromObject
+      }),
       defaultOptions: {
         watchQuery: {
           errorPolicy: 'ignore',
