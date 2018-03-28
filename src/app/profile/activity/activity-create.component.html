@@ -5,67 +5,102 @@
       <span fxFlex></span>
       <mat-icon color="primary" matTooltip="确定" *ngIf="update$ | async" (click)="save()">done</mat-icon>
       <mat-icon color="primary" matTooltip="取消" *ngIf="update$ | async" (click)="cancel()">clear</mat-icon>
-      <mat-icon color="warn" matTooltip="删除" *ngIf="activity" (click)="delete(activity)">delete_forever</mat-icon>
+      <mat-icon color="warn" matTooltip="删除" *ngIf="isDetail$ | async" (click)="delete(activity)">delete_forever</mat-icon>
     </mat-toolbar-row>
   </mat-toolbar>
-  <form fxFlex [formGroup]="form">
-    <mat-form-field full="width">
-      <input matInput placeholder="{{'ACTIVITY.FORM.TITLE' | translate}}" formControlName="title" required>
-      <mat-error>
-        <div ngxErrors="title">
-          <span ngxError="required" when="touched">
-            {{'ACTIVITY.ERRORS.TITLE_REQUIRED' | translate}}
-          </span>
-        </div>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="{{'ACTIVITY.FORM.TYPE' | translate}}" formControlName="type">
-        <mat-option [value]="'HOST'">{{'ACTIVITY.TYPE.HOST' | translate}}</mat-option>
-        <mat-option [value]="'TASK'">{{'ACTIVITY.TYPE.TASK' | translate}}</mat-option>
-        <mat-option [value]="'POTLUCK'">{{'ACTIVITY.TYPE.POTLUCK' | translate}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [min]="minStart" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
-        formControlName="startedAt" required>
-      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-      <mat-datepicker #startPicker></mat-datepicker>
-      <mat-error>
-        <div ngxErrors="startedAt">
-          <span ngxError="required" when="touched">
-            {{'ACTIVITY.ERRORS.START_REQUIRED' | translate}}
-          </span>
-        </div>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="{{'ACTIVITY.FORM.END' | translate}}"
-        formControlName="endedAt" required>
-      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-      <mat-datepicker #endPicker></mat-datepicker>
-      <mat-error>
-        <div ngxErrors="endedAt">
-          <span ngxError="required" when="touched">
-            {{'ACTIVITY.ERRORS.END_REQUIRED' | translate}}
-          </span>
-        </div>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field full="width">
-      <textarea matInput placeholder="{{'ACTIVITY.FORM.LOCATION' | translate}}" formControlName="location" matTextareaAutosize
-        matAutosizeMinRows="1" matAutosizeMaxRows="4" required></textarea>
-      <mat-error>
-        <div ngxErrors="location">
-          <span ngxError="required" when="touched">
-            {{'ACTIVITY.ERRORS.LOCATION_REQUIRED' | translate}}
-          </span>
-        </div>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field full="width">
-      <textarea matInput placeholder="{{'ACTIVITY.FORM.DESC' | translate}}" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1"
-        matAutosizeMaxRows="4"></textarea>
-    </mat-form-field>
-  </form>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0">
+      <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+        <mat-panel-title>
+          <span>{{'ACTIVITY.BASIC_INFO' | translate}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form fxFlex [formGroup]="form">
+        <mat-form-field full="width">
+          <input matInput placeholder="{{'ACTIVITY.FORM.TITLE' | translate}}" formControlName="title" required>
+          <mat-error>
+            <div ngxErrors="title">
+              <span ngxError="required" when="touched">
+                {{'ACTIVITY.ERRORS.TITLE_REQUIRED' | translate}}
+              </span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="{{'ACTIVITY.FORM.TYPE' | translate}}" formControlName="type">
+            <mat-option [value]="'HOST'">{{'ACTIVITY.TYPE.HOST' | translate}}</mat-option>
+            <mat-option [value]="'TASK'">{{'ACTIVITY.TYPE.TASK' | translate}}</mat-option>
+            <mat-option [value]="'POTLUCK'">{{'ACTIVITY.TYPE.POTLUCK' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [min]="minStart$ | async" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
+            formControlName="startedAt" required>
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error>
+            <div ngxErrors="startedAt">
+              <span ngxError="required" when="touched">
+                {{'ACTIVITY.ERRORS.START_REQUIRED' | translate}}
+              </span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [min]="form.get('startedAt').value" [matDatepicker]="endPicker" placeholder="{{'ACTIVITY.FORM.END' | translate}}"
+            formControlName="endedAt" required>
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-error>
+            <div ngxErrors="endedAt">
+              <span ngxError="required" when="touched">
+                {{'ACTIVITY.ERRORS.END_REQUIRED' | translate}}
+              </span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field full="width">
+          <textarea matInput placeholder="{{'ACTIVITY.FORM.LOCATION' | translate}}" formControlName="location" matTextareaAutosize
+            matAutosizeMinRows="1" matAutosizeMaxRows="4" required></textarea>
+          <mat-error>
+            <div ngxErrors="location">
+              <span ngxError="required" when="touched">
+                {{'ACTIVITY.ERRORS.LOCATION_REQUIRED' | translate}}
+              </span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field full="width">
+          <textarea matInput placeholder="{{'ACTIVITY.FORM.DESC' | translate}}" formControlName="desc" matTextareaAutosize matAutosizeMinRows="1"
+            matAutosizeMaxRows="4"></textarea>
+        </mat-form-field>
+      </form>
+      <mat-action-row>
+        <button mat-button color="accent" (click)="step = step - 1">{{'COMMON.PREVIOUS' | translate}}</button>
+        <button mat-button color="primary" (click)="step = step + 1">{{'COMMON.NEXT' | translate}}</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="isTaskType$ | async" [expanded]="step === 1" (opened)="step = 1">
+      <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+        <mat-panel-title>
+          <span>{{'ACTIVITY.TASK_INFO' | translate}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="isHostType$ | async" [expanded]="step === 1" (opened)="step = 1">
+      <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+        <mat-panel-title>
+          <span>{{'ACTIVITY.RECIPE_INFO' | translate}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <!-- <mat-expansion-panel [expanded]="step === 2" (opened)="step = 2">
+      <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+        <mat-panel-title>
+          <span>{{'ACTIVITY.PARTICIPANTS_INFO' | translate}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel> -->
+  </mat-accordion>
 </div>

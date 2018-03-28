@@ -1,12 +1,16 @@
 mat-toolbar {
-  mat-icon  {
-    margin: 0 0 0 .5em;
-  }
+    mat-icon {
+        margin: 0 0 0 .5em;
+    }
 }
 
 .activity-create-panel {
-  form {
-    padding: .5em 1em;
-    overflow: auto;
-  }
+    form {
+        padding: .5em 1em;
+        overflow: auto;
+    }
+}
+
+mat-action-row {
+    padding: 8px 8px 8px 24px;
 }

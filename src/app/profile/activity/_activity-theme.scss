@@ -7,9 +7,9 @@
     $accent: map-get($theme, accent); // Use mat-color to extract individual colors from a palette as necessary.
     .activity-create-panel {
         form {
-            border: 2px solid mat-color($mat-gray, 200);
+            // border: 2px solid mat-color($mat-gray, 200);
             background: #fff;
-            border-top: none;
+            // border-top: none;
         }
     }
 }

@@ -5,8 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
 import { Subscription } from 'apollo-client/util/Observable';
-import { mapTo, debounceTime, publishBehavior, refCount, switchMap, tap, filter } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
+import { mapTo, debounceTime, publishBehavior, refCount, switchMap, tap, filter, map, startWith, publish } from 'rxjs/operators';
 import { merge } from 'rxjs/observable/merge';
 import { FormUtilService } from '../../shared/services';
 import { ActivityService } from './activity.service';
@@ -14,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TOAST } from '../../constants';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
 
 const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location']);
 
@@ -23,11 +23,18 @@ const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt
   styleUrls: ['./activity-create.component.scss']
 })
 export class ActivityCreateComponent implements OnInit {
+  isDetail$: Observable<boolean>;
+  isTaskType$: Observable<boolean>;
+  isHostType$: Observable<boolean>;
+  minStart$: Observable<Date>;
+  initType$: Observable<ActivityType>;
+  update$: Observable<boolean>;
 
-  minStart: Date;
+  expandedHeight = '48px';
+  step = 0;
+
   form: FormGroup;
   activity: Activity;
-  update$: Observable<boolean>;
   reset$ = new Subject();
 
   constructor(
@@ -51,25 +58,52 @@ export class ActivityCreateComponent implements OnInit {
       location: ''
     });
 
-    this.route.data.subscribe((resolve) => {
-      this.activity = resolve.activity;
+    const resolveActivity$: Observable<Activity> = this.route.data.pipe(
+      tap((resolve) => {
+        this.activity = resolve.activity;
 
+        const typeControl = this.form.get('type');
 
-      if (this.activity) {
-        this.form.reset(pickActivityProps(resolve.activity));
+        if (this.activity) {
+          this.form.reset(pickActivityProps(resolve.activity));
 
-        // 无法更改活动的类型
-        this.form.get('type').disable();
+          // 无法更改活动的类型
+          typeControl.disable();
 
-        this.minStart = new Date(this.activity.startedAt);
-      } else {
-        this.minStart = new Date();
-      }
-    });
+          this.reset$.next();
+        }
+      }),
+      map(resolve => resolve.activity),
+      publish(),
+      refCount()
+    );
 
-    this.update$ = merge(
-      this.form.valueChanges.pipe(mapTo(true)),
-      this.reset$.pipe(mapTo(false))).pipe(
+    this.isDetail$ = resolveActivity$.pipe(map(activity => !!activity));
+
+    this.minStart$ = resolveActivity$.pipe(
+      map(activity => activity ? new Date(activity.startedAt) : new Date())
+    );
+
+    this.initType$ = resolveActivity$.pipe(
+      map(activity => activity ? activity.type : ActivityType.HOST)
+    );
+
+    this.isTaskType$ = merge(this.form.get('type').valueChanges, this.initType$).pipe(
+      map(type => {
+        return R.equals(type, ActivityType.TASK);
+      }),
+      startWith(true)
+    );
+
+    this.isHostType$ = merge(this.form.get('type').valueChanges, this.initType$).pipe(
+      map(type => {
+        return R.equals(type, ActivityType.HOST);
+      }),
+      startWith(true)
+    );
+
+    this.update$ = merge(this.form.valueChanges.pipe(mapTo(true)), this.reset$.pipe(mapTo(false)))
+      .pipe(
         debounceTime(100),
         publishBehavior(false),
         refCount()

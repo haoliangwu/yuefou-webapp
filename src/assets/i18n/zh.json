@@ -20,6 +20,10 @@
     "DESC": "活动描述",
     "TASK": "任务",
     "PARTICIPANT": "参与人",
+    "BASIC_INFO": "基本信息",
+    "TASK_INFO": "任务",
+    "RECIPE_INFO": "菜单",
+    "PARTICIPANTS_INFO": "参与人",
     "CREATE": "创建活动",
     "UPDATE": "编辑活动",
     "SHARE": "已复制活动邀请码至粘贴板",
@@ -56,7 +60,9 @@
   "COMMON": {
     "NONE": "无",
     "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
-    "LOAD_MORE": "加载更多"
+    "LOAD_MORE": "加载更多",
+    "NEXT": "下一步",
+    "PREVIOUS": "上一步"
   },
   "TOAST": {
     "SUCCESS": {
