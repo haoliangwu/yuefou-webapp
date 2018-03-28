@@ -49,14 +49,16 @@ export class ActivityCreateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.form = this.fb.group({
+    const defaultForm = {
       title: '',
       desc: '',
       type: ActivityType.HOST,
       startedAt: null,
       endedAt: null,
       location: ''
-    });
+    };
+
+    this.form = this.fb.group(defaultForm);
 
     const resolveActivity$: Observable<Activity> = this.route.data.pipe(
       tap((resolve) => {
@@ -74,7 +76,7 @@ export class ActivityCreateComponent implements OnInit {
         }
       }),
       map(resolve => resolve.activity),
-      publish(),
+      publishBehavior(null),
       refCount()
     );
 
