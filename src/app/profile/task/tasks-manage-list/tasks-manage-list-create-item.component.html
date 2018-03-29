@@ -20,7 +20,7 @@
       <mat-hint align="end">{{taskName.value.length}} / 48</mat-hint>
       <mat-error>
         <div ngxErrors="name">
-          <span ngxError="required" when="touched">
+          <span ngxError="required">
             {{'TASK.ERRORS.NAME_REQUIRED' | translate}}
           </span>
           <span ngxError="maxlength" when="touched">

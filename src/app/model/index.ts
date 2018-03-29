@@ -52,8 +52,20 @@ export interface AppConfig {
 }
 
 export interface DataId {
-  id: string | number;
+  id: string;
   __typename: string;
 }
 
 export type DataIdFromObjectResolver = (o: DataId) => any;
+
+export enum UpdateOperation {
+  CREATE = 'create',
+  DELETE = 'delete',
+  UPDATE = 'update'
+}
+
+export interface UpdateOperationPayload<T> {
+  operation: UpdateOperation;
+  data: T;
+  fake?: boolean;
+}

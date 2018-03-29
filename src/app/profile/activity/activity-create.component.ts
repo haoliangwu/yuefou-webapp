@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
-import { ActivityType, Activity, Task } from '../../model';
+import { ActivityType, Activity, Task, UpdateOperationPayload, UpdateOperation } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
@@ -14,29 +14,47 @@ import { TOAST } from '../../constants';
 import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
+import { TasksManageListComponent } from '../task/tasks-manage-list';
+import { of } from 'rxjs/observable/of';
 
-const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location']);
+const DEFAULT_ACTIVITY_FORM = {
+  title: '',
+  desc: '',
+  type: ActivityType.TASK,
+  startedAt: null,
+  endedAt: null,
+  location: ''
+};
+
+const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location', 'tasks', 'participants']);
 
 @Component({
   selector: 'app-activity-create',
   templateUrl: './activity-create.component.html',
   styleUrls: ['./activity-create.component.scss']
 })
-export class ActivityCreateComponent implements OnInit {
+export class ActivityCreateComponent implements OnInit, AfterViewInit {
   isDetail$: Observable<boolean>;
   isTaskType$: Observable<boolean>;
   isHostType$: Observable<boolean>;
   minStart$: Observable<Date>;
   initType$: Observable<ActivityType>;
-  update$: Observable<boolean>;
-  tasks$: Observable<Task[]>;
+  update$: Observable<boolean> = of(false);
+  reset$ = new Subject();
 
   expandedHeight = '48px';
   step = 1;
 
   form: FormGroup;
   activity: Activity;
-  reset$ = new Subject();
+  tasks: Task[];
+  updatedTasksMeta = {
+    create: [] as Partial<Task>[],
+    update: [] as Task[],
+    delete: [] as string[]
+  };
+
+  @ViewChild(TasksManageListComponent) tasksManageListComp: TasksManageListComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -50,16 +68,7 @@ export class ActivityCreateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const defaultForm = {
-      title: '',
-      desc: '',
-      type: ActivityType.HOST,
-      startedAt: null,
-      endedAt: null,
-      location: ''
-    };
-
-    this.form = this.fb.group(defaultForm);
+    this.form = this.fb.group(DEFAULT_ACTIVITY_FORM);
 
     const resolveActivity$: Observable<Activity> = this.route.data.pipe(
       tap((resolve) => {
@@ -74,18 +83,15 @@ export class ActivityCreateComponent implements OnInit {
           typeControl.disable();
 
           this.reset$.next();
+
+          this.tasks = this.activity.tasks;
+        } else {
+          this.tasks = [];
         }
       }),
       map(resolve => resolve.activity),
       publishBehavior(null),
       refCount()
-    );
-
-    this.tasks$ = resolveActivity$.pipe(
-      filter(R.complement(R.isNil)),
-      map(activity => activity.tasks),
-      filter(R.complement(R.either(R.isNil, R.isEmpty))),
-      startWith([])
     );
 
     this.isDetail$ = resolveActivity$.pipe(map(activity => !!activity));
@@ -111,8 +117,17 @@ export class ActivityCreateComponent implements OnInit {
       }),
       startWith(true)
     );
+  }
 
-    this.update$ = merge(this.form.valueChanges.pipe(mapTo(true)), this.reset$.pipe(mapTo(false)))
+  ngAfterViewInit() {
+    const updateOn$ = merge(this.form.valueChanges, this.tasksManageListComp.updateTasksRequest).pipe(
+      mapTo(true)
+    );
+    const updateOff$ = this.reset$.pipe(
+      mapTo(false)
+    );
+
+    this.update$ = merge(this.update$, updateOn$, updateOff$)
       .pipe(
         debounceTime(100),
         publishBehavior(false),
@@ -136,11 +151,17 @@ export class ActivityCreateComponent implements OnInit {
 
   cancel() {
     if (this.activity) {
-      const resetActivity = pickActivityProps(this.activity);
+      const resetActivity: Activity = pickActivityProps(this.activity);
 
+      // reset basic info
       this.form.reset(resetActivity);
+      // reset tasks
+
+      this.tasks = resetActivity.tasks;
     } else {
-      this.form.reset();
+      // reset to default
+      this.form.reset(DEFAULT_ACTIVITY_FORM);
+      this.tasks = [];
     }
 
     this.reset$.next();
@@ -163,8 +184,41 @@ export class ActivityCreateComponent implements OnInit {
     ).subscribe();
   }
 
+  updateTasksRequest(payload: UpdateOperationPayload<Task | Partial<Task>>) {
+    const { create, update } = this.updatedTasksMeta;
+
+    switch (payload.operation) {
+      case UpdateOperation.CREATE:
+        this.updatedTasksMeta.create.push(payload.data);
+        break;
+      case UpdateOperation.DELETE:
+        // 如果删除的是刚刚增加的 task
+        this.updatedTasksMeta.create = R.filter(R.complement(R.propEq('id', payload.data.id)), create);
+        // 如果删除的是刚刚编辑的 task
+        this.updatedTasksMeta.update = R.filter(R.complement(R.propEq('id', payload.data.id)), update);
+
+        if (!payload.fake) {
+          this.updatedTasksMeta.delete.push(payload.data.id);
+        }
+        break;
+      case UpdateOperation.UPDATE:
+        const idx = R.findIndex(R.propEq('id', payload.data.id), create);
+
+        if (idx > -1) {
+          // 如果编辑的是刚刚创建的 task
+          this.updatedTasksMeta.create = R.update(idx, payload.data, create);
+        } else {
+          this.updatedTasksMeta.update.push(payload.data as Task);
+        }
+        break;
+
+    }
+  }
+
   private create() {
     const nextActivity = this.form.getRawValue();
+
+    console.log(this.tasks);
 
     this.activityService.create(nextActivity)
       .subscribe(activity => {
@@ -176,6 +230,8 @@ export class ActivityCreateComponent implements OnInit {
 
   private update(id: string) {
     const nextActivity = this.form.getRawValue();
+
+    console.log(this.updatedTasksMeta);
 
     this.activityService.update(id, nextActivity)
       .subscribe(activity => {

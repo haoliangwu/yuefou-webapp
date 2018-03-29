@@ -6,5 +6,4 @@ import { Injectable } from '@angular/core';
 export class RamdaUtilService {
 
   isNilOrEmpty = R.either(R.isNil, R.isEmpty);
-
 }
