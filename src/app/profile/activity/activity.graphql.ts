@@ -52,14 +52,14 @@ export const ActivityQuery = gql`query activity($id: ID!) {
 } ${ActivityFragment}`;
 
 // mutation
-export const CreateActivityMutation = gql`mutation createActivity($activity: CreateActivityInput!) {
-  createActivity(activity: $activity) {
+export const CreateActivityMutation = gql`mutation createActivity($activity: CreateActivityInput!, $tasksMeta: TasksMetaInput) {
+  createActivity(activity: $activity, tasksMeta: $tasksMeta) {
     ...ActivityFragment
   }
 } ${ActivityFragment}`;
 
-export const UpdateActivityMutation = gql`mutation updateActivity($activity: UpdateActivityInput!) {
-  updateActivity(activity: $activity) {
+export const UpdateActivityMutation = gql`mutation updateActivity($activity: UpdateActivityInput!, $tasksMeta: TasksMetaInput) {
+  updateActivity(activity: $activity, tasksMeta: $tasksMeta) {
     ...ActivityFragment
   }
 } ${ActivityFragment}`;

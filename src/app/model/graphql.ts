@@ -31,14 +31,10 @@ export interface CreateActivityInput {
   endedAt?: string | null,
 };
 
-export interface UpdateActivityInput {
-  id: string,
-  title?: string | null,
-  location?: string | null,
-  desc?: string | null,
-  startedAt?: string | null,
-  endedAt?: string | null,
-  status?: ProcessStatus | null,
+export interface TasksMetaInput {
+  create?: Array< CreateTaskInput > | null,
+  update?: Array< UpdateTaskInput > | null,
+  delete?: Array< string > | null,
 };
 
 export interface CreateTaskInput {
@@ -48,6 +44,16 @@ export interface CreateTaskInput {
 export interface UpdateTaskInput {
   id: string,
   name?: string | null,
+};
+
+export interface UpdateActivityInput {
+  id: string,
+  title?: string | null,
+  location?: string | null,
+  desc?: string | null,
+  startedAt?: string | null,
+  endedAt?: string | null,
+  status?: ProcessStatus | null,
 };
 
 export enum MutationType {
@@ -62,7 +68,7 @@ export interface activitiesQuery {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus | null,
+    status: ProcessStatus,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -78,6 +84,23 @@ export interface activitiesQuery {
     tasks:  Array< {
       id: string,
       name: string,
+      status: ProcessStatus,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
     } > | null,
   } >,
 };
@@ -95,7 +118,7 @@ export interface activitiesConnectionQuery {
         id: string,
         title: string,
         desc: string | null,
-        status: ProcessStatus | null,
+        status: ProcessStatus,
         type: ActivityType,
         location: string,
         startedAt: string,
@@ -111,6 +134,23 @@ export interface activitiesConnectionQuery {
         tasks:  Array< {
           id: string,
           name: string,
+          status: ProcessStatus,
+          assignee:  {
+            id: string,
+            name: string,
+          } | null,
+          activity:  {
+            id: string,
+            title: string,
+            participants:  Array< {
+              id: string,
+              name: string,
+            } > | null,
+            creator:  {
+              id: string,
+              name: string,
+            },
+          } | null,
         } > | null,
       },
     } | null >,
@@ -137,7 +177,7 @@ export interface activityQuery {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus | null,
+    status: ProcessStatus,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -153,12 +193,30 @@ export interface activityQuery {
     tasks:  Array< {
       id: string,
       name: string,
+      status: ProcessStatus,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
     } > | null,
   } | null,
 };
 
 export interface createActivityMutationVariables {
   activity: CreateActivityInput,
+  tasksMeta?: TasksMetaInput | null,
 };
 
 export interface createActivityMutation {
@@ -166,7 +224,7 @@ export interface createActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus | null,
+    status: ProcessStatus,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -182,12 +240,30 @@ export interface createActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
+      status: ProcessStatus,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
     } > | null,
   },
 };
 
 export interface updateActivityMutationVariables {
   activity: UpdateActivityInput,
+  tasksMeta?: TasksMetaInput | null,
 };
 
 export interface updateActivityMutation {
@@ -195,7 +271,7 @@ export interface updateActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus | null,
+    status: ProcessStatus,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -211,6 +287,23 @@ export interface updateActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
+      status: ProcessStatus,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
     } > | null,
   },
 };
@@ -234,7 +327,7 @@ export interface attendActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus | null,
+    status: ProcessStatus,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -250,6 +343,23 @@ export interface attendActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
+      status: ProcessStatus,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
     } > | null,
   },
 };
@@ -263,7 +373,7 @@ export interface quitActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus | null,
+    status: ProcessStatus,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -279,6 +389,23 @@ export interface quitActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
+      status: ProcessStatus,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
     } > | null,
   },
 };
@@ -542,7 +669,7 @@ export interface ActivityFragmentFragment {
   id: string,
   title: string,
   desc: string | null,
-  status: ProcessStatus | null,
+  status: ProcessStatus,
   type: ActivityType,
   location: string,
   startedAt: string,
@@ -558,6 +685,23 @@ export interface ActivityFragmentFragment {
   tasks:  Array< {
     id: string,
     name: string,
+    status: ProcessStatus,
+    assignee:  {
+      id: string,
+      name: string,
+    } | null,
+    activity:  {
+      id: string,
+      title: string,
+      participants:  Array< {
+        id: string,
+        name: string,
+      } > | null,
+      creator:  {
+        id: string,
+        name: string,
+      },
+    } | null,
   } > | null,
 };
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ComponentRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
-import { ActivityType, Activity, Task, UpdateOperationPayload, UpdateOperation } from '../../model';
+import { ActivityType, Activity, Task, UpdateOperationPayload, UpdateOperation, UpdateMeta } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
@@ -48,10 +48,10 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   activity: Activity;
   tasks: Task[];
-  updatedTasksMeta = {
-    create: [] as Partial<Task>[],
-    update: [] as Task[],
-    delete: [] as string[]
+  updatedTasksMeta: UpdateMeta<Task> = {
+    create: [],
+    update: [],
+    delete: []
   };
 
   @ViewChild(TasksManageListComponent) tasksManageListComp: TasksManageListComponent;
@@ -218,22 +218,27 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   private create() {
     const nextActivity = this.form.getRawValue();
 
-    console.log(this.tasks);
+    const tasksMeta = {
+      create: R.map<Partial<Task>, {name: string}>(R.pick(['name']), this.tasks)
+    };
 
-    this.activityService.create(nextActivity)
-      .subscribe(activity => {
-        this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
+    this.activityService.create(nextActivity, tasksMeta).subscribe(activity => {
+      this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
-        this.redirect();
-      });
+      this.redirect();
+    });
   }
 
   private update(id: string) {
     const nextActivity = this.form.getRawValue();
 
-    console.log(this.updatedTasksMeta);
+    const tasksMeta = {
+      create: R.map<Partial<Task>, {name: string}>(R.pick(['name']), this.updatedTasksMeta.create),
+      update: R.map<Task, Task>(R.pick(['id', 'name']), this.updatedTasksMeta.update),
+      delete: this.updatedTasksMeta.delete
+    };
 
-    this.activityService.update(id, nextActivity)
+    this.activityService.update(id, nextActivity, tasksMeta)
       .subscribe(activity => {
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 

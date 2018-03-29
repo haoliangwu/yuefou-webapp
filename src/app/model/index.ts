@@ -1,5 +1,7 @@
 import { ProcessStatus } from './graphql';
 
+export type ID = string;
+
 export interface User {
   id: string;
   email: string;
@@ -57,6 +59,12 @@ export interface DataId {
 }
 
 export type DataIdFromObjectResolver = (o: DataId) => any;
+
+export interface UpdateMeta<T> {
+  create?: Array<T | Partial<T>>;
+  update?: Array<T>;
+  delete?: Array<ID>;
+}
 
 export enum UpdateOperation {
   CREATE = 'create',

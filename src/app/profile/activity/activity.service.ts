@@ -12,7 +12,7 @@ import { LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables, AppConfig, deleteActivityMutation, quitActivityMutation } from '../../model';
+import { Activity, activitiesConnectionQuery, activitiesQuery, ForwardPaginationInput, activitiesConnectionQueryVariables, AppConfig, deleteActivityMutation, quitActivityMutation, Task, UpdateMeta, createActivityMutationVariables } from '../../model';
 import { ActivitiesQuery, ActivityQuery, ActivityFragment, CreateActivityMutation, UpdateActivityMutation, DeleteActivityMutation, AttendActivityMutation, QuitActivityMutation, ActivitiesConnection } from '../activity/activity.graphql';
 import { AppConfigToken } from '../../app.config';
 import { UpdateFetchResult } from '../../../custom-typings';
@@ -81,9 +81,9 @@ export class ActivityService {
     );
   }
 
-  create(activity: Activity): Observable<Activity> {
+  create(activity: Activity, tasksMeta?: UpdateMeta<Task>): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'createActivity']);
-    const variables = { activity };
+    const variables = { activity, tasksMeta };
 
     return this.apollo.mutate({
       mutation: CreateActivityMutation,
@@ -101,12 +101,12 @@ export class ActivityService {
     );
   }
 
-  update(id: string, activity: Activity): Observable<Activity> {
+  update(id: string, activity: Activity, tasksMeta?: UpdateMeta<Task>): Observable<Activity> {
     const accessor = R.path<Activity>(['data', 'updateActivity']);
 
     const formatFn = R.compose(R.dissoc('type'), R.merge({ id }));
 
-    const variables = { activity: formatFn(activity) };
+    const variables = { activity: formatFn(activity), tasksMeta };
 
     return this.apollo.mutate({ mutation: UpdateActivityMutation, variables }).pipe(
       map(accessor)
