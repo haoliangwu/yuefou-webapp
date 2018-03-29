@@ -16,7 +16,7 @@
         <span>{{'TASK.CURRENT_ASSIGNEE' | translate}}</span>
         <span fxFlex="1em"></span>
         <mat-chip-list>
-          <mat-chip>{{task.assignee.name}}</mat-chip>
+          <mat-chip>{{task.assignee ? task.assignee.name : ('COMMON.NONE' | translate)}}</mat-chip>
         </mat-chip-list>
         <span fxFlex></span>
         <button mat-icon-button color="primary" (click)="taskOperationService.assign(task)" *ngIf="task | avaliableOperation:'assign'">
@@ -29,7 +29,7 @@
           <mat-icon>done</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="taskOperationService.stop(task)" *ngIf="task | avaliableOperation:'stop'">
-          <mat-icon>close</mat-icon>
+          <mat-icon>block</mat-icon>
         </button>
         <button mat-icon-button color="accent" (click)="taskOperationService.reopen(task)" *ngIf="task | avaliableOperation:'reopen'">
           <mat-icon>restore</mat-icon>

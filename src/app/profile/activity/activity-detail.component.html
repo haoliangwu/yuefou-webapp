@@ -36,7 +36,7 @@
             <mat-icon>done</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="taskOperationService.stop(task)" *ngIf="task | avaliableOperation:'stop'">
-            <mat-icon>close</mat-icon>
+            <mat-icon>block</mat-icon>
           </button>
           <button mat-icon-button color="accent" (click)="taskOperationService.reopen(task)" *ngIf="task | avaliableOperation:'reopen'">
             <mat-icon>restore</mat-icon>
