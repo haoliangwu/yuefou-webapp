@@ -13,6 +13,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
+import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
@@ -141,7 +142,7 @@ export class AppModule {
       }
     });
 
-    const http = httpLinkService.create({ uri: '/graphql' });
+    const http = createPersistedQueryLink().concat(httpLinkService.create({ uri: '/graphql' }));
 
     const ws = new WebSocketLink({
       uri: `ws://${APP_HOST}/graphql`,
