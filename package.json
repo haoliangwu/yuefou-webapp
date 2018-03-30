@@ -12,6 +12,7 @@
     "build": "ng build --prod",
     "lint": "ng lint",
     "test": "jest",
+    "gen:persistquery": "persistgraphql src/ persist_query.json --js --extension=ts",
     "gen:schema": "apollo-codegen introspect-schema $npm_package_config_appEndpoint --output schema.json",
     "gen:type": "apollo-codegen generate src/**/*.graphql.ts --schema schema.json --target typescript --output src/app/model/graphql.ts",
     "gen": "yarn gen:schema && yarn gen:type"
