@@ -13,7 +13,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
-import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
+import { createPersistedQueryLink } from 'angular-apollo-link-persisted-queries';
 
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
