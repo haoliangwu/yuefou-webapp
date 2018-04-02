@@ -20,7 +20,7 @@ import { of } from 'rxjs/observable/of';
 const DEFAULT_ACTIVITY_FORM = {
   title: '',
   desc: '',
-  type: ActivityType.TASK,
+  type: ActivityType.HOST,
   startedAt: null,
   endedAt: null,
   location: ''
@@ -41,9 +41,10 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   initType$: Observable<ActivityType>;
   update$: Observable<boolean> = of(false);
   reset$ = new Subject();
+  taskUpdate$ = new Subject();
 
   expandedHeight = '48px';
-  step = 1;
+  step = 0;
 
   form: FormGroup;
   activity: Activity;
@@ -53,8 +54,6 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
     update: [],
     delete: []
   };
-
-  @ViewChild(TasksManageListComponent) tasksManageListComp: TasksManageListComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -101,7 +100,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
     );
 
     this.initType$ = resolveActivity$.pipe(
-      map(activity => activity ? activity.type : ActivityType.TASK)
+      map(activity => activity ? activity.type : ActivityType.HOST)
     );
 
     this.isTaskType$ = merge(this.form.get('type').valueChanges, this.initType$).pipe(
@@ -120,7 +119,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const updateOn$ = merge(this.form.valueChanges, this.tasksManageListComp.updateTasksRequest).pipe(
+    const updateOn$ = merge(this.form.valueChanges, this.taskUpdate$).pipe(
       mapTo(true)
     );
     const updateOff$ = this.reset$.pipe(
@@ -213,6 +212,8 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
         break;
 
     }
+
+    this.taskUpdate$.next();
   }
 
   private create() {
