@@ -1,0 +1,13 @@
+<mat-list>
+  <mat-list-item *ngFor="let recipe of recipes" (click)="update(recipe)">
+    <!-- <img matListAvatar [src]="recipe.avatar"> -->
+    <img matListAvatar>
+    <h3 matLine> {{recipe.name}} </h3>
+    <p matLine>
+      <span> {{recipe.desc}} </span>
+    </p>
+    <p matLine>
+      <span> {{recipe.desc}} </span>
+    </p>
+  </mat-list-item>
+</mat-list>

@@ -1,0 +1,16 @@
+<div fxLayout="column" class="create-recipe-panel">
+  <div fxFlex="200px" class="recipe-picture"></div>
+  <div class="recipe-info">
+    <form [formGroup]="form">
+      <mat-form-field full>
+        <input matInput placeholder="标题" required>
+      </mat-form-field>
+      <app-recipe-tag-field [placeholder]="'菜式'" [tags]="styleTags" (addRequst)="addStyleTagRequest($event)" (deleteRequest)="deleteStyleTagRequest($event)"></app-recipe-tag-field>
+      <!-- <mat-form-field>
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+      </mat-form-field>
+
+       -->
+    </form>
+  </div>
+</div>

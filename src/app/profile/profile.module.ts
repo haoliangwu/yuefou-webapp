@@ -17,6 +17,7 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { ToolbarComponent } from './layout/toolbar.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { UserService } from './user-info/user.service';
+import { RecipeModule } from './recipe/recipe.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { UserService } from './user-info/user.service';
     SharedModule,
     ActivityModule,
     TaskModule,
+    RecipeModule,
     ProfileRoutingModule,
     AvatarModule,
   ],
@@ -33,7 +35,6 @@ import { UserService } from './user-info/user.service';
     NavigatorComponent,
     UserInfoComponent,
     ToolbarComponent,
-    RecipeComponent,
   ],
   providers: [
     UserService

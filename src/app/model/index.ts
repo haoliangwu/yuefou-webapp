@@ -15,6 +15,12 @@ export enum ActivityType {
   POTLUCK = 'POTLUCK'
 }
 
+export enum RecipeTagType {
+  TASTE = 'TASTE',
+  METHOD = 'METHOD',
+  STYLE = 'STYLE'
+}
+
 export interface Activity {
   id: string;
   title: string;
@@ -39,6 +45,23 @@ export interface Task {
   status: ProcessStatus;
   activity: Activity;
   assignee: User;
+}
+
+export interface Recipe {
+  id: string;
+  name: string;
+  desc?: string;
+  avatar?: string;
+  tag?: RecipeTag[];
+}
+
+export interface Tag {
+  id: string;
+  name: string;
+}
+
+export interface RecipeTag extends Tag {
+  type: RecipeTagType;
 }
 
 export * from './graphql';

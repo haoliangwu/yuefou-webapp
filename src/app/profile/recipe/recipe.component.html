@@ -1,3 +1,2 @@
-<p>
-  recipe works!
-</p>
+<app-recipe-list [recipes]="recipes$ | async"></app-recipe-list>
+<app-fixed-toggle (clickRequest)="create()"></app-fixed-toggle>
