@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, OnDestroy, ElementRef, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ElementRef, HostBinding, ChangeDetectionStrategy, Optional, Self } from '@angular/core';
 import { MatFormFieldControl, MatFormField, MatSliderChange } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { NgControl, FormControl, FormBuilder } from '@angular/forms';
+import { NgControl, FormControl, FormBuilder, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -12,7 +12,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
   styleUrls: ['./mat-slider.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: CustomMatSliderComponent }]
 })
-export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormFieldControl<number> {
+export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormFieldControl<number>, ControlValueAccessor {
   static count = 0;
 
   control: FormControl = this.fb.control('');
@@ -22,7 +22,7 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
     return this.control.value || 0;
   }
   set value(val: number) {
-    this.control.setValue(val);
+    this.propagateChange(val);
     this.stateChanges.next();
   }
 
@@ -40,7 +40,6 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
     this.stateChanges.next();
   }
 
-  ngControl: NgControl;
   focused = false;
 
   get empty(): boolean {
@@ -82,6 +81,8 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
 
   @HostBinding('attr.aria-describedby') describedBy = '';
 
+  private propagateChange = (_: any) => { };
+
   setDescribedByIds(ids: string[]): void {
     this.describedBy = ids.join(' ');
   }
@@ -90,12 +91,35 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
     // this.focused = true;
   }
 
+  change(event: MatSliderChange) {
+    this.control.setValue(event.value);
+  }
+
+  writeValue(value: number) {
+    this.control.setValue(value);
+  }
+
+  registerOnChange(fn: any) {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched(fn: any) { }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   constructor(
     private fb: FormBuilder,
     private fm: FocusMonitor,
     private elRef: ElementRef,
-    private matFormField: MatFormField
-  ) { }
+    private matFormField: MatFormField,
+    @Optional() @Self() public ngControl: NgControl
+  ) {
+    // Setting the value accessor directly (instead of using
+    // the providers) to avoid running into a circular import.
+    if (this.ngControl != null) { this.ngControl.valueAccessor = this; }
+  }
 
   ngOnInit() {
     this.fm.monitor(this.elRef.nativeElement, true).subscribe(origin => {
@@ -108,9 +132,4 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef.nativeElement);
   }
-
-  change(event: MatSliderChange) {
-    this.control.setValue(event.value);
-  }
-
 }

@@ -35,6 +35,7 @@ export class CreateRecipeComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       tags: this.fb.array([]),
+      time: [5]
     });
   }
 
