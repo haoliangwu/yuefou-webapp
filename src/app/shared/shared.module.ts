@@ -9,7 +9,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { MaterialModule, DialogModule } from './modules';
 import { FormUtilService, LocationUtilService, RouterUtilService, RamdaUtilService } from './services';
-import { FixedToggleComponent, PageNotFoundComponent } from './comps';
+import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
 import { LoadMoreComponent } from './comps/load-more/load-more.component';
@@ -22,10 +22,13 @@ import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/ex
     FixedToggleComponent,
     PageNotFoundComponent,
     LoadMoreComponent,
-    ExpandedPanelStepperComponent
+    ExpandedPanelStepperComponent,
+    CustomMatSliderComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     TranslateModule
   ],
@@ -49,7 +52,8 @@ import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/ex
     FixedToggleComponent,
     PageNotFoundComponent,
     LoadMoreComponent,
-    ExpandedPanelStepperComponent
+    ExpandedPanelStepperComponent,
+    CustomMatSliderComponent
     // pipes
   ]
 })

@@ -6,7 +6,10 @@
         <input matInput [placeholder]="'RECIPE.FORM.TITLE' | translate" required>
       </mat-form-field>
       <app-recipe-tag-field [tags]="tags" (addRequst)="addTagRequest($event)" (deleteRequest)="deleteTagRequest($event)"></app-recipe-tag-field>
-      <mat-slider min="5" max="60" step="1" value="10" tickInterval="5" thumbLabel></mat-slider>
+      <!-- <mat-slider min="5" max="60" step="1" value="10" tickInterval="5" thumbLabel></mat-slider> -->
+      <mat-form-field full>
+        <app-mat-slider placeholder="耗时"></app-mat-slider>
+      </mat-form-field>
     </form>
   </div>
 </div>
