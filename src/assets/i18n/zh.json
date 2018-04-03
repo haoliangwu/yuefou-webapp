@@ -62,6 +62,14 @@
       "NAME_MAXLENGTH": "任务名称长度不能超过48个字"
     }
   },
+  "RECIPE": {
+    "FORM": {
+      "TITLE": "标题",
+      "STYLE": "菜式",
+      "TASTE": "口味",
+      "METHOD": "烹饪方式"
+    }
+  },
   "DATE": {
     "TO": "至"
   },
@@ -70,7 +78,8 @@
     "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
     "LOAD_MORE": "加载更多",
     "NEXT": "下一步",
-    "PREVIOUS": "上一步"
+    "PREVIOUS": "上一步",
+    "TAGS": "标签"
   },
   "TOAST": {
     "SUCCESS": {

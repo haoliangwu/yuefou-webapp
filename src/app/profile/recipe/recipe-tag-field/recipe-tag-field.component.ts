@@ -1,11 +1,14 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, AfterViewInit, ComponentRef, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, AfterViewInit, ComponentRef, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Tag } from '../../../model';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipList, MatAutocomplete, MatChipInput } from '@angular/material';
 import { FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { merge } from 'rxjs/observable/merge';
-import { debounceTime, map, filter, tap } from 'rxjs/operators';
+import { debounceTime, map, filter, tap, startWith } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-recipe-tag-field',
@@ -15,6 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy {
   $input: HTMLInputElement;
   sub: Subscription;
+  filteredOptions: Observable<string[]>;
 
   @Input() options = ['a', 'b', 'c'];
   @Input() tags: FormArray;
@@ -22,7 +26,6 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
   @Input() removable = true;
   @Input() selectable = true;
   @Input() addOnBlur = true;
-  @Input() placeholder: string;
 
   @Output() addRequst = new EventEmitter<string>();
   @Output() deleteRequest = new EventEmitter<number>();
@@ -34,15 +37,25 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
   separatorKeysCodes = [ENTER, COMMA];
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
     this.$input = this.chipInputRef.nativeElement;
+
+    this.filteredOptions = fromEvent(this.$input, 'keyup')
+      .pipe(
+        map((e: Event) => (e.target as HTMLInputElement).value),
+        startWith(''),
+        map(val => this.filter(val))
+      );
+
+    this.cdr.detectChanges();
 
     const chipEnd$ = this.chipInput.chipEnd.pipe(
       map((e: MatChipInputEvent) => e.value || ''),

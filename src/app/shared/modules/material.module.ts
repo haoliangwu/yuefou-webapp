@@ -28,6 +28,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSelectModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    MatSliderModule,
     FlexLayoutModule
   ]
 })

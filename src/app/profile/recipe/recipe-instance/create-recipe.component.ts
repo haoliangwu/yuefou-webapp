@@ -3,6 +3,7 @@ import * as R from 'ramda';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { RecipeTag } from '../../../model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-recipe',
@@ -16,40 +17,36 @@ export class CreateRecipeComponent implements OnInit {
   selectable = true;
   addOnBlur = true;
 
-  get styleTags() {
-    return this.form.get('style') as FormArray;
+  get tags(): FormArray {
+    return this.form.get('tags') as FormArray;
+  }
+
+  set tags(fa: FormArray) {
+    this.form.setControl('tags', fa);
   }
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
+
     this.form = this.fb.group({
       name: ['', Validators.required],
-      style: this.fb.array([]),
-      taste: this.fb.array([]),
-      method: this.fb.array([])
+      tags: this.fb.array([]),
     });
   }
 
-  addStyleTagRequest(name: string) {
-    this.addTagRequest(name, 'style', this.styleTags);
+  addTagRequest(name: string) {
+    const { controls } = this.tags;
+
+    this.tags = this.fb.array([...controls, { name }]);
   }
 
-  deleteStyleTagRequest(idx: number) {
-    this.deleteTagRequest(idx, 'style', this.styleTags);
-  }
+  deleteTagRequest(idx: number) {
+    const { controls } = this.tags;
 
-  private addTagRequest(name: string, controlName: string, fa: FormArray) {
-    const { controls } = fa;
-
-    this.form.setControl(controlName, this.fb.array([...controls, { name }]));
-  }
-
-  private deleteTagRequest(idx: number, controlName: string, fa: FormArray) {
-    const { controls } = fa;
-
-    this.form.setControl(controlName, this.fb.array(R.remove(idx, 1, controls)));
+    this.tags = this.fb.array(R.remove(idx, 1, controls));
   }
 }

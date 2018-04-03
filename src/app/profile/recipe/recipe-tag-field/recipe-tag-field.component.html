@@ -5,11 +5,13 @@
       {{tag.value.name}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
-    <input #chipInput [placeholder]="placeholder" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" [matAutocomplete]="auto"/>
+    <!-- ISSUE chipInput 会使 input 的 placeholder 变为静态的 暂时还未深入研究是哪个库引起的问题 -->
+    <input #chipInput placeholder="标签" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" [matAutocomplete]="auto"/>
   </mat-chip-list>
 </mat-form-field>
 <mat-autocomplete #auto="matAutocomplete">
-  <mat-option *ngFor="let option of options" [value]="option">
+  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
     {{ option }}
   </mat-option>
 </mat-autocomplete>
+

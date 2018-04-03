@@ -3,14 +3,10 @@
   <div class="recipe-info">
     <form [formGroup]="form">
       <mat-form-field full>
-        <input matInput placeholder="标题" required>
+        <input matInput [placeholder]="'RECIPE.FORM.TITLE' | translate" required>
       </mat-form-field>
-      <app-recipe-tag-field [placeholder]="'菜式'" [tags]="styleTags" (addRequst)="addStyleTagRequest($event)" (deleteRequest)="deleteStyleTagRequest($event)"></app-recipe-tag-field>
-      <!-- <mat-form-field>
-        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-      </mat-form-field>
-
-       -->
+      <app-recipe-tag-field [tags]="tags" (addRequst)="addTagRequest($event)" (deleteRequest)="deleteTagRequest($event)"></app-recipe-tag-field>
+      <mat-slider min="5" max="60" step="1" value="10" tickInterval="5" thumbLabel></mat-slider>
     </form>
   </div>
 </div>
