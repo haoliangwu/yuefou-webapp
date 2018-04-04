@@ -8,12 +8,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { MaterialModule, DialogModule } from './modules';
-import { FormUtilService, LocationUtilService, RouterUtilService, RamdaUtilService } from './services';
-import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent } from './comps';
+import { FormUtilService, LocationUtilService, RouterUtilService, RamdaUtilService, FileReaderService } from './services';
+import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
 import { LoadMoreComponent } from './comps/load-more/load-more.component';
 import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/expanded-panel-stepper.component';
+import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,10 @@ import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/ex
     PageNotFoundComponent,
     LoadMoreComponent,
     ExpandedPanelStepperComponent,
-    CustomMatSliderComponent
+    CustomMatSliderComponent,
+    CameraTriggerCardComponent,
+    SafeUrlPipe,
+    SafeResourceUrlPipe
   ],
   imports: [
     CommonModule,
@@ -53,8 +57,11 @@ import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/ex
     PageNotFoundComponent,
     LoadMoreComponent,
     ExpandedPanelStepperComponent,
-    CustomMatSliderComponent
+    CustomMatSliderComponent,
+    CameraTriggerCardComponent,
     // pipes
+    SafeUrlPipe,
+    SafeResourceUrlPipe,
   ]
 })
 export class SharedModule {
@@ -67,6 +74,7 @@ export class SharedModule {
         LocationUtilService,
         RouterUtilService,
         RamdaUtilService,
+        FileReaderService
       ]
     };
   }

@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+@mixin camera-trigger-card-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+
+    .camera-panel-wrapper {
+      background: mat-color($mat-grey, 200);
+    }
+
+    .camera-indicator {
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .7);
+        color: mat-color($primary);
+    }
+}

@@ -25,13 +25,15 @@ $yuefou-app-theme: mat-light-theme($yuefou-app-primary, $yuefou-app-accent, $yue
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // Import your custom input theme file so you can call the custom-input-theme function
-@import "app/profile/user-info/user-info-theme.scss";
+@import "app/shared/theme.scss";
+@include shared-theme($yuefou-app-theme);
 
+@import "app/profile/user-info/user-info-theme.scss";
 @include user-info-theme($yuefou-app-theme);
 
 @import "app/profile/activity/activity-theme.scss";
-
 @include activity-theme($yuefou-app-theme);
+
 
 // Using the $theme variable from the pre-built theme you can call the theming function
 

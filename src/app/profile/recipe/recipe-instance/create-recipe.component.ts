@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./create-recipe.component.scss']
 })
 export class CreateRecipeComponent implements OnInit {
+  url: string;
   form: FormGroup;
 
   removable = true;
@@ -49,5 +50,10 @@ export class CreateRecipeComponent implements OnInit {
     const { controls } = this.tags;
 
     this.tags = this.fb.array(R.remove(idx, 1, controls));
+  }
+
+  snapshot(url: string) {
+    console.log(url);
+    this.url = url;
   }
 }

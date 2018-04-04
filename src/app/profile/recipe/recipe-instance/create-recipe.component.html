@@ -1,5 +1,9 @@
-<div fxLayout="column" class="create-recipe-panel">
-  <div fxFlex="200px" class="recipe-picture"></div>
+<div fxLayout="column" class="create-recipe-panel" full>
+  <div fxFlex="200px" class="recipe-picture">
+    <app-camera-trigger-card [url]="url" (changeRequest)="snapshot($event)"></app-camera-trigger-card>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxFlex="6px"></div>
   <div class="recipe-info">
     <form [formGroup]="form">
       <mat-form-field full>

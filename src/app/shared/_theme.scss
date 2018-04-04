@@ -1,0 +1,5 @@
+@import "comps/camera-trigger-card/_camera-trigger-card-theme.scss";
+
+@mixin shared-theme($theme) {
+  @include camera-trigger-card-theme($theme)
+};
