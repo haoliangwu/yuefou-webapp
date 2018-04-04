@@ -63,6 +63,8 @@
     }
   },
   "RECIPE": {
+    "CREATE": "创建菜谱",
+    "UPDATE": "编辑菜谱",
     "FORM": {
       "TITLE": "标题",
       "STYLE": "菜式",

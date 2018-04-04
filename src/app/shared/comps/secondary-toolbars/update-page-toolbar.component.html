@@ -1,0 +1,9 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span>{{titleText}}</span>
+    <span fxFlex></span>
+    <mat-icon color="primary" matTooltip="确定" *ngIf="updated" (click)="doAction(actions.SAVE)">done</mat-icon>
+    <mat-icon color="primary" matTooltip="取消" *ngIf="updated" (click)="doAction(actions.CANCEL)">clear</mat-icon>
+    <mat-icon color="warn" matTooltip="删除" *ngIf="isDetail" (click)="doAction(actions.DELETE)">delete_forever</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -92,11 +92,13 @@ export interface UpdateMeta<T> {
 export enum UpdateOperation {
   CREATE = 'create',
   DELETE = 'delete',
-  UPDATE = 'update'
+  UPDATE = 'update',
+  CANCEL = 'cancel',
+  SAVE = 'save'
 }
 
-export interface UpdateOperationPayload<T> {
+export interface UpdateOperationPayload<T = any> {
   operation: UpdateOperation;
-  data: T;
+  data?: T;
   fake?: boolean;
 }

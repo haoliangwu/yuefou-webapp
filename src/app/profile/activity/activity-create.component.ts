@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { TasksManageListComponent } from '../task/tasks-manage-list';
 import { of } from 'rxjs/observable/of';
+import { ActivityResolver } from './activity-resolver.service';
 
 const DEFAULT_ACTIVITY_FORM = {
   title: '',
@@ -31,21 +32,25 @@ const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt
 @Component({
   selector: 'app-activity-create',
   templateUrl: './activity-create.component.html',
-  styleUrls: ['./activity-create.component.scss']
+  styleUrls: ['./activity-create.component.scss'],
+  providers: [ActivityResolver]
 })
 export class ActivityCreateComponent implements OnInit, AfterViewInit {
+  activity$: Observable<Activity>;
   isDetail$: Observable<boolean>;
   isTaskType$: Observable<boolean>;
   isHostType$: Observable<boolean>;
+  titleText$: Observable<string>;
   minStart$: Observable<Date>;
   initType$: Observable<ActivityType>;
-  update$: Observable<boolean> = of(false);
+  update$: Observable<boolean>;
   reset$ = new Subject();
   taskUpdate$ = new Subject();
 
   expandedHeight = '48px';
   step = 0;
 
+  titleText: string;
   form: FormGroup;
   activity: Activity;
   tasks: Task[];
@@ -69,7 +74,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.form = this.fb.group(DEFAULT_ACTIVITY_FORM);
 
-    const resolveActivity$: Observable<Activity> = this.route.data.pipe(
+    this.activity$ = this.route.data.pipe(
       tap((resolve) => {
         this.activity = resolve.activity;
 
@@ -93,13 +98,15 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
       refCount()
     );
 
-    this.isDetail$ = resolveActivity$.pipe(map(activity => !!activity));
+    this.titleText$ = this.activity$.pipe(map(activity => activity ? 'ACTIVITY.UPDATE' : 'ACTIVITY.CREATE'));
 
-    this.minStart$ = resolveActivity$.pipe(
+    this.isDetail$ = this.activity$.pipe(map(activity => !!activity));
+
+    this.minStart$ = this.activity$.pipe(
       map(activity => activity ? new Date(activity.startedAt) : new Date())
     );
 
-    this.initType$ = resolveActivity$.pipe(
+    this.initType$ = this.activity$.pipe(
       map(activity => activity ? activity.type : ActivityType.HOST)
     );
 
@@ -126,61 +133,26 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
       mapTo(false)
     );
 
-    this.update$ = merge(this.update$, updateOn$, updateOff$)
+    this.update$ = merge(updateOn$, updateOff$)
       .pipe(
         debounceTime(100),
-        publishBehavior(false),
+        publish(),
         refCount()
       );
   }
 
-  save() {
-    this.formUtil.validateAllFormFields(this.form);
-
-    if (this.form.invalid) {
-      return;
+  actionReqset(action: UpdateOperationPayload) {
+    switch (action.operation) {
+      case UpdateOperation.SAVE:
+        this.save();
+        return;
+      case UpdateOperation.CANCEL:
+        this.cancel();
+        return;
+      case UpdateOperation.DELETE:
+        this.delete(action.data as Activity);
+        return;
     }
-
-    if (this.activity) {
-      this.update(this.activity.id);
-    } else {
-      this.create();
-    }
-  }
-
-  cancel() {
-    if (this.activity) {
-      const resetActivity: Activity = pickActivityProps(this.activity);
-
-      // reset basic info
-      this.form.reset(resetActivity);
-      // reset tasks
-
-      this.tasks = resetActivity.tasks;
-    } else {
-      // reset to default
-      this.form.reset(DEFAULT_ACTIVITY_FORM);
-      this.tasks = [];
-    }
-
-    this.reset$.next();
-  }
-
-  delete(activity: Activity) {
-    const dialogRef = this.dialogUtil.confirm({
-      data: {
-        message: '确定要删除该项活动？'
-      }
-    });
-
-    dialogRef.afterClosed().pipe(
-      filter(e => !!e),
-      switchMap(() => this.activityService.delete(activity.id)),
-      tap(() => {
-        this.redirect();
-        this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
-      })
-    ).subscribe();
   }
 
   updateTasksRequest(payload: UpdateOperationPayload<Task | Partial<Task>>) {
@@ -216,11 +188,60 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
     this.taskUpdate$.next();
   }
 
+  private save() {
+    this.formUtil.validateAllFormFields(this.form);
+
+    if (this.form.invalid) {
+      return;
+    }
+
+    if (this.activity) {
+      this.update(this.activity.id);
+    } else {
+      this.create();
+    }
+  }
+
+  private cancel() {
+    if (this.activity) {
+      const resetActivity: Activity = pickActivityProps(this.activity);
+
+      // reset basic info
+      this.form.reset(resetActivity);
+      // reset tasks
+
+      this.tasks = resetActivity.tasks;
+    } else {
+      // reset to default
+      this.formUtil.resetFormGroup(this.form);
+      this.tasks = [];
+    }
+
+    this.reset$.next();
+  }
+
+  private delete(activity: Activity) {
+    const dialogRef = this.dialogUtil.confirm({
+      data: {
+        message: '确定要删除该项活动？'
+      }
+    });
+
+    dialogRef.afterClosed().pipe(
+      filter(e => !!e),
+      switchMap(() => this.activityService.delete(activity.id)),
+      tap(() => {
+        this.redirect();
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
+      })
+    ).subscribe();
+  }
+
   private create() {
     const nextActivity = this.form.getRawValue();
 
     const tasksMeta = {
-      create: R.map<Partial<Task>, {name: string}>(R.pick(['name']), this.tasks)
+      create: R.map<Partial<Task>, { name: string }>(R.pick(['name']), this.tasks)
     };
 
     this.activityService.create(nextActivity, tasksMeta).subscribe(activity => {
@@ -234,7 +255,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
     const nextActivity = this.form.getRawValue();
 
     const tasksMeta = {
-      create: R.map<Partial<Task>, {name: string}>(R.pick(['name']), this.updatedTasksMeta.create),
+      create: R.map<Partial<Task>, { name: string }>(R.pick(['name']), this.updatedTasksMeta.create),
       update: R.map<Task, Task>(R.pick(['id', 'name']), this.updatedTasksMeta.update),
       delete: this.updatedTasksMeta.delete
     };

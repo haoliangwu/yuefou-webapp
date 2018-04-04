@@ -8,6 +8,7 @@ import { RecipeService } from './services/recipe.service';
 import { RecipeInstanceComponent } from './recipe-instance/recipe-instance.component';
 import { CreateRecipeComponent } from './recipe-instance/create-recipe.component';
 import { RecipeTagFieldComponent } from './recipe-tag-field/recipe-tag-field.component';
+import { RecipeResolver } from './services/recipe-resolver.service';
 
 export const RecipeRoute: Route = {
   path: 'recipe',
@@ -31,7 +32,10 @@ export const RecipeRoute: Route = {
     },
     {
       path: 'update/:id',
-      component: CreateRecipeComponent
+      component: CreateRecipeComponent,
+      resolve: {
+        recipe: RecipeResolver
+      }
     }
   ]
 };
@@ -49,7 +53,8 @@ export const RecipeRoute: Route = {
     RecipeTagFieldComponent
   ],
   providers: [
-    RecipeService
+    RecipeService,
+    RecipeResolver
   ],
   exports: [
   ]

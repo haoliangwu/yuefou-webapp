@@ -1,13 +1,5 @@
 <div fxLayout="column" class="activity-create-panel" full>
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <span>{{(activity ? 'ACTIVITY.UPDATE' : 'ACTIVITY.CREATE') | translate}}</span>
-      <span fxFlex></span>
-      <mat-icon color="primary" matTooltip="确定" *ngIf="update$ | async" (click)="save()">done</mat-icon>
-      <mat-icon color="primary" matTooltip="取消" *ngIf="update$ | async" (click)="cancel()">clear</mat-icon>
-      <mat-icon color="warn" matTooltip="删除" *ngIf="isDetail$ | async" (click)="delete(activity)">delete_forever</mat-icon>
-    </mat-toolbar-row>
-  </mat-toolbar>
+  <app-update-page-toolbar [data]="activity$ | async" [titleText]="titleText$ | async | translate" [updated]="update$ | async" [isDetail]="isDetail$ | async" (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
   <mat-accordion>
     <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0">
       <mat-expansion-panel-header [expandedHeight]="expandedHeight">

@@ -9,7 +9,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { MaterialModule, DialogModule } from './modules';
 import { FormUtilService, LocationUtilService, RouterUtilService, RamdaUtilService, FileReaderService } from './services';
-import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent } from './comps';
+import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent, UpdatePageToolbarComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
 import { LoadMoreComponent } from './comps/load-more/load-more.component';
@@ -27,7 +27,8 @@ import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
     CustomMatSliderComponent,
     CameraTriggerCardComponent,
     SafeUrlPipe,
-    SafeResourceUrlPipe
+    SafeResourceUrlPipe,
+    UpdatePageToolbarComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +60,7 @@ import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
     ExpandedPanelStepperComponent,
     CustomMatSliderComponent,
     CameraTriggerCardComponent,
+    UpdatePageToolbarComponent,
     // pipes
     SafeUrlPipe,
     SafeResourceUrlPipe,
