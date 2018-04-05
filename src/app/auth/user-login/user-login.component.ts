@@ -76,7 +76,7 @@ export class UserLoginComponent implements OnInit {
       return;
     }
 
-    const formRawVal: LoginFormVal = this.loginForm.getRawValue();
+    const formRawVal: LoginFormVal = this.loginForm.value;
 
     if (this.isSignup) {
       this.signup(formRawVal);

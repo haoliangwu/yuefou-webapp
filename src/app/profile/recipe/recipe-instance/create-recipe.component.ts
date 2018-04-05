@@ -36,6 +36,10 @@ export class CreateRecipeComponent implements OnInit {
   selectable = true;
   addOnBlur = true;
 
+  get tagsFGs() {
+    return this.recipe.tags.map(tag => this.fb.control(tag));
+  }
+
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
@@ -56,7 +60,14 @@ export class CreateRecipeComponent implements OnInit {
 
     this.recipe$ = this.route.data.pipe(
       map(resolve => resolve.recipe),
-      tap(recipe => this.recipe = recipe),
+      tap(recipe => {
+        this.recipe = recipe;
+
+        if (this.recipe) {
+          this.form.patchValue(this.recipe);
+          this.form.setControl('tags', this.fb.array(this.tagsFGs));
+        }
+      }),
       publishBehavior(null),
       refCount()
     );
@@ -121,18 +132,14 @@ export class CreateRecipeComponent implements OnInit {
 
   private cancel() {
     if (this.recipe) {
-      //   const resetActivity: Activity = pickActivityProps(this.activity);
+      const { name, desc, time } = this.recipe;
 
-      //   // reset basic info
-      //   this.form.reset(resetActivity);
-      //   // reset tasks
-
-      //   this.tasks = resetActivity.tasks;
+      this.form.reset({ name, desc, time });
+      this.form.setControl('tags', this.fb.array(this.tagsFGs));
     } else {
       // reset to default
-      const tagsFa = this.form.get('tags') as FormArray;
-
       this.formUtil.resetFormGroup(this.form);
+      this.formUtil.clearFormArrayControl(this.form.get('tags') as FormArray);
     }
 
     this.reset$.next();
@@ -156,13 +163,13 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   private create() {
-    const formRawValue = this.form.getRawValue();
+    const formRawValue = this.form.value;
 
     console.log(formRawValue);
   }
 
   private update(id: string) {
-    const formRawValue = this.form.getRawValue();
+    const formRawValue = this.form.value;
 
     console.log(formRawValue);
   }

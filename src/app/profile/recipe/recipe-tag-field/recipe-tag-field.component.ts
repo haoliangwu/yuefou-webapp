@@ -21,7 +21,6 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
   filteredOptions: Observable<RecipeTag[]>;
 
   @Input() options: RecipeTag[];
-  @Input() tags: FormArray;
 
   @Input() removable = true;
   @Input() selectable = true;
@@ -37,11 +36,10 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private translate: TranslateService,
-    private formArrayName: FormArrayName
+    public formArrayName: FormArrayName
   ) { }
 
   ngOnInit() {
-    this.tags = this.formArrayName.control;
   }
 
   ngAfterViewInit() {
@@ -79,17 +77,17 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
 
   private add(tagName: string | RecipeTag): void {
     if (typeof tagName === 'string' && tagName.trim()) {
-      this.tags.push(new FormControl({ name: tagName }));
+      this.formArrayName.control.push(new FormControl({ name: tagName }));
     } else {
-      this.tags.push(new FormControl(tagName));
+      this.formArrayName.control.push(new FormControl(tagName));
     }
   }
 
   private remove(tag: FormControl): void {
-    const idx = this.tags.controls.indexOf(tag);
+    const idx = this.formArrayName.control.controls.indexOf(tag);
 
     if (idx >= 0) {
-      this.tags.removeAt(idx);
+      this.formArrayName.control.removeAt(idx);
     }
   }
 

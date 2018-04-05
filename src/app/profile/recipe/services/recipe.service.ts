@@ -7,15 +7,40 @@ import { map } from 'rxjs/operators';
 const mockRecipes = [
   {
     id: '1',
-    name: 'foo'
+    name: 'foo',
+    desc: '',
+    time: 5,
+    tags: [
+      {
+        id: '1',
+        name: '甜',
+        type: RecipeTagType.TASTE
+      },
+      {
+        id: '2',
+        name: '酸',
+        type: RecipeTagType.TASTE
+      },
+      {
+        id: '3',
+        name: '辣',
+        type: RecipeTagType.TASTE
+      }
+    ]
   },
   {
     id: '2',
-    name: 'bar'
+    name: 'bar',
+    desc: '',
+    time: 10,
+    tags: []
   },
   {
     id: '3',
-    name: 'baz'
+    name: 'baz',
+    desc: '',
+    time: 15,
+    tags: []
   }
 ];
 

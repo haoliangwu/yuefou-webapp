@@ -35,14 +35,14 @@ export class FormUtilService {
   /*
    reset the FormGroup
    */
-  resetFormGroup(formGroup: FormGroup) {
+  resetFormGroup(formGroup: FormGroup, withFormArray = false) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
       if (control instanceof FormControl) {
         control.reset();
       } else if (control instanceof FormGroup) {
         this.resetFormGroup(control);
-      } else if (control instanceof FormArray) {
+      } else if (control instanceof FormArray && withFormArray) {
         this.resetFormArrayControl(control);
       }
     });
@@ -52,6 +52,13 @@ export class FormUtilService {
   reset the FormArray
    */
   resetFormArrayControl(formArray: FormArray) {
+    formArray.controls.forEach(control => control.reset());
+  }
+
+  /*
+  clear the FormArray
+   */
+  clearFormArrayControl(formArray: FormArray) {
     while (formArray.controls.length) {
       formArray.removeAt(0);
     }

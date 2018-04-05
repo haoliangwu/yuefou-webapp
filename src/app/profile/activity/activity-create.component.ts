@@ -27,8 +27,6 @@ const DEFAULT_ACTIVITY_FORM = {
   location: ''
 };
 
-const pickActivityBasicFormProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location']);
-
 @Component({
   selector: 'app-activity-create',
   templateUrl: './activity-create.component.html',
@@ -81,7 +79,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
         const typeControl = this.form.get('type');
 
         if (this.activity) {
-          this.form.setValue(pickActivityBasicFormProps(resolve.activity));
+          this.form.patchValue(resolve.activity);
 
           // 无法更改活动的类型
           typeControl.disable();
@@ -205,7 +203,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   private cancel() {
     if (this.activity) {
       // reset basic info
-      this.form.reset(pickActivityBasicFormProps(this.activity));
+      this.form.reset(this.activity);
       // reset tasks
       this.tasks = this.activity.tasks;
     } else {
@@ -235,7 +233,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   }
 
   private create() {
-    const nextActivity = this.form.getRawValue();
+    const nextActivity = this.form.value;
 
     const tasksMeta = {
       create: R.map<Partial<Task>, { name: string }>(R.pick(['name']), this.tasks)
@@ -249,7 +247,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   }
 
   private update(id: string) {
-    const nextActivity = this.form.getRawValue();
+    const nextActivity = this.form.value;
 
     const tasksMeta = {
       create: R.map<Partial<Task>, { name: string }>(R.pick(['name']), this.updatedTasksMeta.create),

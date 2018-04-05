@@ -1,7 +1,7 @@
 <mat-form-field full>
   <mat-chip-list #chipList>
-    <mat-chip *ngFor="let tag of tags.controls" [selectable]="selectable" [removable]="removable" (remove)="remove(tag)">
-      {{tag.value.name}}
+    <mat-chip *ngFor="let tag of formArrayName.control.controls" [selectable]="selectable" [removable]="removable" (remove)="remove(tag)">
+      {{tag.value?.name}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
     <!-- ISSUE chipInput 会使 input 的 placeholder 变为静态的 暂时还未深入研究是哪个库引起的问题 -->

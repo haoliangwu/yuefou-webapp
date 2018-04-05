@@ -50,9 +50,10 @@ export interface Task {
 export interface Recipe {
   id: string;
   name: string;
+  time: number;
   desc?: string;
   avatar?: string;
-  tag?: RecipeTag[];
+  tags?: RecipeTag[];
 }
 
 export interface Tag {
