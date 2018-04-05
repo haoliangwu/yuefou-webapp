@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ComponentRef, AfterViewInit } from '@angular/core';
-import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, FormArray } from '@angular/forms';
 import { ActivityType, Activity, Task, UpdateOperationPayload, UpdateOperation, UpdateMeta } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -27,7 +27,7 @@ const DEFAULT_ACTIVITY_FORM = {
   location: ''
 };
 
-const pickActivityProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location', 'tasks', 'participants']);
+const pickActivityBasicFormProps = R.pick(['title', 'desc', 'type', 'startedAt', 'endedAt', 'location']);
 
 @Component({
   selector: 'app-activity-create',
@@ -81,7 +81,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
         const typeControl = this.form.get('type');
 
         if (this.activity) {
-          this.form.reset(pickActivityProps(resolve.activity));
+          this.form.setValue(pickActivityBasicFormProps(resolve.activity));
 
           // 无法更改活动的类型
           typeControl.disable();
@@ -204,13 +204,10 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
 
   private cancel() {
     if (this.activity) {
-      const resetActivity: Activity = pickActivityProps(this.activity);
-
       // reset basic info
-      this.form.reset(resetActivity);
+      this.form.reset(pickActivityBasicFormProps(this.activity));
       // reset tasks
-
-      this.tasks = resetActivity.tasks;
+      this.tasks = this.activity.tasks;
     } else {
       // reset to default
       this.formUtil.resetFormGroup(this.form);
