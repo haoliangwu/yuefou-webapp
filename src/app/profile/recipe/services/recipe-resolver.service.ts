@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs/observable/of';
-import { Recipe } from '../../../model';
+import { Recipe, RecipeTag } from '../../../model';
 import { Observable } from 'rxjs/Observable';
 import { RecipeService } from './recipe.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -16,4 +16,15 @@ export class RecipeResolver {
     return this.recipeService.recipe(route.params.id);
   }
 
+}
+
+@Injectable()
+export class RecipeTagsResolver {
+  constructor(
+    private recipeService: RecipeService
+  ) { }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): RecipeTag[] | Observable<RecipeTag[]> | Promise<RecipeTag[]> {
+    return this.recipeService.recipeTags();
+  }
 }

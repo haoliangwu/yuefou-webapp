@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, AfterViewInit, ComponentRef, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { Tag } from '../../../model';
+import { Tag, RecipeTag } from '../../../model';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatChipList, MatAutocomplete, MatChipInput } from '@angular/material';
-import { FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormArray, FormControl, FormArrayName } from '@angular/forms';
 import { merge } from 'rxjs/observable/merge';
 import { debounceTime, map, filter, tap, startWith } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,17 +18,14 @@ import { TranslateService } from '@ngx-translate/core';
 export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy {
   $input: HTMLInputElement;
   sub: Subscription;
-  filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<RecipeTag[]>;
 
-  @Input() options = ['a', 'b', 'c'];
+  @Input() options: RecipeTag[];
   @Input() tags: FormArray;
 
   @Input() removable = true;
   @Input() selectable = true;
   @Input() addOnBlur = true;
-
-  @Output() addRequst = new EventEmitter<string>();
-  @Output() deleteRequest = new EventEmitter<number>();
 
   @ViewChild('chipInput', { read: MatChipInput }) chipInput: MatChipInput;
   @ViewChild('chipInput') chipInputRef: ElementRef;
@@ -39,10 +36,12 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private formArrayName: FormArrayName
   ) { }
 
   ngOnInit() {
+    this.tags = this.formArrayName.control;
   }
 
   ngAfterViewInit() {
@@ -69,7 +68,7 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
     this.sub = merge(chipEnd$, autoSelect$).pipe(
       debounceTime(100),
       tap(() => this.$input.value = '')
-    ).subscribe((tagName: string) => {
+    ).subscribe((tagName: string | RecipeTag) => {
       this.add(tagName);
     });
   }
@@ -78,9 +77,11 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
     this.sub.unsubscribe();
   }
 
-  private add(tagName: string): void {
-    if (tagName.trim()) {
-      this.addRequst.next(tagName);
+  private add(tagName: string | RecipeTag): void {
+    if (typeof tagName === 'string' && tagName.trim()) {
+      this.tags.push(new FormControl({ name: tagName }));
+    } else {
+      this.tags.push(new FormControl(tagName));
     }
   }
 
@@ -88,12 +89,12 @@ export class RecipeTagFieldComponent implements OnInit, AfterViewInit, OnDestroy
     const idx = this.tags.controls.indexOf(tag);
 
     if (idx >= 0) {
-      this.deleteRequest.next(idx);
+      this.tags.removeAt(idx);
     }
   }
 
-  private filter(val: string): string[] {
+  private filter(val: string): RecipeTag[] {
     return this.options.filter(option =>
-      option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+      option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
 }

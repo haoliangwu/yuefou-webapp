@@ -7,10 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { ActivatedRoute, Router } from '@angular/router';
-import { publish, refCount, map, tap, publishBehavior, mapTo, debounceTime } from 'rxjs/operators';
+import { publish, refCount, map, tap, publishBehavior, mapTo, debounceTime, filter, switchMap } from 'rxjs/operators';
 import { FormUtilService } from '../../../shared/services';
 import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
+import { DialogUtilService } from '../../../shared/modules/dialog/dialog.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-recipe',
@@ -19,6 +21,7 @@ import { merge } from 'rxjs/observable/merge';
 })
 export class CreateRecipeComponent implements OnInit {
   recipe$: Observable<Recipe>;
+  recipeTags$: Observable<RecipeTag[]>;
   isDetail$: Observable<boolean>;
   updated$: Observable<boolean>;
   titleText$: Observable<string>;
@@ -33,20 +36,14 @@ export class CreateRecipeComponent implements OnInit {
   selectable = true;
   addOnBlur = true;
 
-  get tags(): FormArray {
-    return this.form.get('tags') as FormArray;
-  }
-
-  set tags(fa: FormArray) {
-    this.form.setControl('tags', fa);
-  }
-
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
-    private formUtil: FormUtilService
+    private formUtil: FormUtilService,
+    private dialogUtil: DialogUtilService,
+    private toastService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -62,6 +59,10 @@ export class CreateRecipeComponent implements OnInit {
       tap(recipe => this.recipe = recipe),
       publishBehavior(null),
       refCount()
+    );
+
+    this.recipeTags$ = this.route.data.pipe(
+      map(resolve => resolve.recipeTags)
     );
 
     this.titleText$ = this.recipe$.pipe(
@@ -97,18 +98,6 @@ export class CreateRecipeComponent implements OnInit {
         this.delete(action.data as Recipe);
         return;
     }
-  }
-
-  addTagRequest(name: string) {
-    const { controls } = this.tags;
-
-    this.tags = this.fb.array([...controls, { name }]);
-  }
-
-  deleteTagRequest(idx: number) {
-    const { controls } = this.tags;
-
-    this.tags = this.fb.array(R.remove(idx, 1, controls));
   }
 
   snapshot(url: string) {
@@ -150,15 +139,32 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   private delete(recipe: Recipe) {
+    const dialogRef = this.dialogUtil.confirm({
+      data: {
+        message: '确定要删除该菜谱？'
+      }
+    });
 
+    dialogRef.afterClosed().pipe(
+      filter(e => !!e),
+      // switchMap(() => this.activityService.delete(activity.id)),
+      tap(() => {
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
+        this.redirect();
+      })
+    ).subscribe();
   }
 
   private create() {
+    const formRawValue = this.form.getRawValue();
 
+    console.log(formRawValue);
   }
 
   private update(id: string) {
+    const formRawValue = this.form.getRawValue();
 
+    console.log(formRawValue);
   }
 
   private redirect() {

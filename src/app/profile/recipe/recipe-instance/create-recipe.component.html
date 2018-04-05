@@ -18,7 +18,7 @@
           </div>
         </mat-error>
       </mat-form-field>
-      <app-recipe-tag-field [tags]="tags" (addRequst)="addTagRequest($event)" (deleteRequest)="deleteTagRequest($event)"></app-recipe-tag-field>
+      <app-recipe-tag-field formArrayName="tags" [options]="recipeTags$ | async"></app-recipe-tag-field>
       <mat-form-field full>
         <app-mat-slider formControlName="time" placeholder="{{'RECIPE.FORM.TIME' | translate}}"></app-mat-slider>
         <mat-hint>{{'RECIPE.HINT.TIME' | translate}}</mat-hint>
