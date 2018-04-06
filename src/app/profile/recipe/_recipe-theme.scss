@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+@import './recipe-list/recipe-list-theme.scss';
+
+@mixin recipe-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+
+    @include recipe-list-theme($theme);
+}

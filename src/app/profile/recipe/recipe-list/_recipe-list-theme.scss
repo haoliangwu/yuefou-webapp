@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+@mixin recipe-list-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    .mat-list-item {
+        .bottom-border {
+            border-bottom: 1px solid mat-color($primary, 200);
+        }
+    }
+}

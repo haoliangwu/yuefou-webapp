@@ -2,12 +2,24 @@
   <mat-list-item *ngFor="let recipe of recipes" (click)="update(recipe)">
     <!-- <img matListAvatar [src]="recipe.avatar"> -->
     <img matListAvatar>
-    <h3 matLine> {{recipe.name}} </h3>
-    <p matLine>
-      <span> {{recipe.desc}} </span>
-    </p>
-    <p matLine>
-      <span> {{recipe.desc}} </span>
-    </p>
+    <div matLine fxLayout="row" fxLayoutAlign="start center" style="margin: 0 0 1em 0;">
+      <header fxFlex>
+        {{recipe.name}}
+      </header>
+      <span>
+        {{recipe.time}}
+      </span>
+    </div>
+    <div matLine fxLayout="row" fxLayoutAlign="start center">
+      <section fxFlex>
+        {{recipe.desc}}
+      </section>
+      <mat-chip-list fxFlex>
+        <mat-chip *ngFor="let tag of recipe.tags">
+          {{tag.name}}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div matLine class="bottom-border"></div>
   </mat-list-item>
 </mat-list>

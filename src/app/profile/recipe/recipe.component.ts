@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from './services/recipe.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Recipe } from '../../model';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-recipe',
@@ -9,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class RecipeComponent implements OnInit {
 
-  recipes$;
+  recipes$: Observable<Recipe[]>;
 
   constructor(
     private recipeService: RecipeService,
