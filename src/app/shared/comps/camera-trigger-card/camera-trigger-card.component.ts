@@ -8,22 +8,18 @@ import { FileReaderService } from '../../services';
 })
 export class CameraTriggerCardComponent implements OnInit, OnDestroy {
   @Input() url: string;
-  @Output() changeRequest = new EventEmitter<string>();
+  @Output() changeRequest = new EventEmitter<File>();
 
   constructor(
-    public fileReader: FileReaderService
   ) { }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.fileReader.revokeObjectURL();
   }
 
   selectFile(files: FileList) {
-    const url = this.fileReader.createObjectURL(files[0]);
-
-    this.changeRequest.next(url);
+    this.changeRequest.next(files[0]);
   }
 }

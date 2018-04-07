@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { RecipeTag, UpdateOperation, UpdateOperationPayload, Recipe } from '../../../model';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { ActivatedRoute, Router } from '@angular/router';
 import { publish, refCount, map, tap, publishBehavior, mapTo, debounceTime, filter, switchMap } from 'rxjs/operators';
-import { FormUtilService } from '../../../shared/services';
+import { FormUtilService, FileReaderService } from '../../../shared/services';
 import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
 import { DialogUtilService } from '../../../shared/modules/dialog/dialog.service';
@@ -19,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-recipe.component.html',
   styleUrls: ['./create-recipe.component.scss'],
 })
-export class CreateRecipeComponent implements OnInit {
+export class CreateRecipeComponent implements OnInit, OnDestroy {
   recipe$: Observable<Recipe>;
   recipeTags$: Observable<RecipeTag[]>;
   isDetail$: Observable<boolean>;
@@ -47,7 +47,8 @@ export class CreateRecipeComponent implements OnInit {
     private router: Router,
     private formUtil: FormUtilService,
     private dialogUtil: DialogUtilService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private fileReader: FileReaderService,
   ) { }
 
   ngOnInit() {
@@ -97,6 +98,10 @@ export class CreateRecipeComponent implements OnInit {
       );
   }
 
+  ngOnDestroy() {
+    this.fileReader.revokeObjectURL();
+  }
+
   actionReqset(action: UpdateOperationPayload) {
     switch (action.operation) {
       case UpdateOperation.SAVE:
@@ -111,9 +116,8 @@ export class CreateRecipeComponent implements OnInit {
     }
   }
 
-  snapshot(url: string) {
-    console.log(url);
-    this.url = url;
+  snapshot(file: File) {
+    this.url = this.fileReader.createObjectURL(file);
   }
 
   private save() {

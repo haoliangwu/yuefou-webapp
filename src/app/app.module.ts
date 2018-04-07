@@ -9,7 +9,8 @@ import { HttpHeaders, HttpClientModule, HttpClient } from '@angular/common/http'
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { ApolloLink, from, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
-import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { createUploadLink } from 'apollo-upload-client';
+import { HttpLinkModule, HttpLink } from 'apollo-upload-angular-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
@@ -164,6 +165,7 @@ export class AppModule {
       http,
     );
 
+    // default apollo-client
     apollo.create({
       link: from([authLink, errorLink, link]),
       cache: new InMemoryCache({
@@ -182,5 +184,27 @@ export class AppModule {
         }
       }
     });
+
+    const uploadLink = httpLinkService.create({
+      uri: '/graphql'
+    });
+
+    // upload apollo-client
+    apollo.create({
+      link: authLink.concat(uploadLink),
+      cache: new InMemoryCache(),
+      defaultOptions: {
+        watchQuery: {
+          errorPolicy: 'ignore',
+        },
+        query: {
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
+        mutate: {
+          errorPolicy: 'all'
+        }
+      }
+    }, 'upload');
   }
 }

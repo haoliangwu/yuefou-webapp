@@ -19,4 +19,20 @@ export class UserService {
 
     return this.apollo.query({ query });
   }
+
+  uploadAvatar(file: File) {
+    const mutation = gql`mutation uploadAvatar($file: Upload!) {
+      uploadAvatar(file: $file) {
+        id
+        avatar
+      }
+    }`;
+
+    const variables = { file };
+
+    return this.apollo.use('upload').mutate({
+      mutation,
+      variables
+    });
+  }
 }
