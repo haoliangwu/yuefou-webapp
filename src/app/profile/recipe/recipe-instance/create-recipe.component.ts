@@ -164,7 +164,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(
       filter(e => !!e),
-      // switchMap(() => this.activityService.delete(activity.id)),
+      switchMap(() => this.recipeService.delete(recipe.id)),
       tap(() => {
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
         this.redirect();
@@ -179,8 +179,6 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       create: R.map(applyRecipeCategory, R.filter(isNotExisted, tags)) as RecipeTag[],
       connect: R.map(pickTagInputProps, R.filter(isExisted, tags)) as RecipeTag[]
     };
-
-
 
     this.recipeService.create(recipe, tagsMeta, ).pipe(
       tap(e => {
@@ -198,6 +196,6 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   }
 
   private redirect() {
-    this.router.navigate(['../list'], { relativeTo: this.route });
+    this.router.navigate(['../../list'], { relativeTo: this.route });
   }
 }

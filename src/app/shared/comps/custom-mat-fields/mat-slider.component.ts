@@ -5,6 +5,7 @@ import { NgControl, FormControl, FormBuilder, ControlValueAccessor } from '@angu
 import { Subject } from 'rxjs/Subject';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Subscription } from 'apollo-client/util/Observable';
 
 @Component({
   selector: 'app-mat-slider',
@@ -14,6 +15,8 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 })
 export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormFieldControl<number>, ControlValueAccessor {
   static count = 0;
+
+  sub: Subscription;
 
   control: FormControl = this.fb.control('');
 
@@ -87,9 +90,7 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
     this.describedBy = ids.join(' ');
   }
 
-  onContainerClick(event: MouseEvent): void {
-    // this.focused = true;
-  }
+  onContainerClick(event: MouseEvent): void { }
 
   change(event: MatSliderChange) {
     this.control.setValue(event.value);
@@ -126,6 +127,8 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
       this.focused = !!origin;
       this.stateChanges.next();
     });
+
+    this.sub = this.control.valueChanges.subscribe(value => this.value = value);
   }
 
   ngOnDestroy() {

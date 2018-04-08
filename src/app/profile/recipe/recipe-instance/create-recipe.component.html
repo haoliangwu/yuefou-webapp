@@ -1,5 +1,5 @@
 <div fxLayout="column" class="create-recipe-panel" full>
-  <app-update-page-toolbar [titleText]="titleText$ | async | translate" [updated]="updated$ | async" [isDetail]="isDetail$ | async"
+  <app-update-page-toolbar [data]="recipe$ | async" [titleText]="titleText$ | async | translate" [updated]="updated$ | async" [isDetail]="isDetail$ | async"
     (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
   <div fxFlex="200px" class="recipe-picture">
     <app-camera-trigger-card [url]="url" (changeRequest)="snapshot($event)"></app-camera-trigger-card>
@@ -23,6 +23,7 @@
         <app-mat-slider formControlName="time" placeholder="{{'RECIPE.FORM.TIME' | translate}}"></app-mat-slider>
         <mat-hint>{{'RECIPE.HINT.TIME' | translate}}</mat-hint>
       </mat-form-field>
+      {{this.form.get('time').value}}
       <mat-form-field full>
         <textarea formControlName="desc" matInput placeholder="{{'RECIPE.FORM.DESC' | translate}}" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
         <mat-hint>{{'RECIPE.HINT.DESC' | translate}}</mat-hint>
