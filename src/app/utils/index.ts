@@ -1,3 +1,5 @@
+export * from './fp';
+
 import { ProcessStatus } from '../model';
 import * as R from 'ramda';
 

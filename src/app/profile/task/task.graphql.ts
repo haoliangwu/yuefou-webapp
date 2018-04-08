@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { PageInfoFragment } from '../../utils/pagination.graphql';
+import { PageInfoFragment } from '../../shared/graphql';
 
 // fragment
 export const TaskFragment = gql`fragment TaskFragment on ActivityTask {

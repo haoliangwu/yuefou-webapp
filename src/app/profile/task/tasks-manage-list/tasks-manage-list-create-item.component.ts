@@ -5,7 +5,7 @@ import { Task } from '../../../model';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TaskService } from '../task.service';
 import { TasksManageListComponent } from './tasks-manage-list.component';
-import { RamdaUtilService } from '../../../shared/services';
+import { isNilOrEmpty } from '../../../utils';
 
 
 @Component({
@@ -23,7 +23,6 @@ export class TasksManageListCreateItemComponent implements OnInit {
     private fb: FormBuilder,
     private taskService: TaskService,
     private tasksManageListComp: TasksManageListComponent,
-    private ramdaUtil: RamdaUtilService,
     private el: ElementRef,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
@@ -39,7 +38,7 @@ export class TasksManageListCreateItemComponent implements OnInit {
     const name = nameControl.value;
 
     // 如果为空需要进行提示
-    if (this.ramdaUtil.isNilOrEmpty(name)) {
+    if (isNilOrEmpty(name)) {
       nameControl.setErrors({
         required: true
       });

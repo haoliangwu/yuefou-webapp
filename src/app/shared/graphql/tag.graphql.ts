@@ -9,8 +9,8 @@ export const TagFragment = gql`fragment TagFragment on Tag {
 }`;
 
 // query
-export const TagsQuery = gql`query tags {
-  tags {
+export const TagsQuery = gql`query tags($category: TagCategory) {
+  tags(category: $category) {
     ...TagFragment
   }
 } ${TagFragment}`;

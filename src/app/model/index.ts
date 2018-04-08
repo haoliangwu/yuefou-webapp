@@ -1,4 +1,4 @@
-import { ProcessStatus } from './graphql';
+import { ProcessStatus, TagCategory } from './graphql';
 
 export type ID = string;
 
@@ -59,10 +59,12 @@ export interface Recipe {
 export interface Tag {
   id: string;
   name: string;
+  default: boolean;
+  category: TagCategory;
 }
 
 export interface RecipeTag extends Tag {
-  type: RecipeTagType;
+  type?: RecipeTagType;
 }
 
 export * from './graphql';

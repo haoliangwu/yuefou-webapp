@@ -1,2 +1,3 @@
 <app-recipe-list [recipes]="recipes$ | async"></app-recipe-list>
+<app-load-more (loadMoreRequest)="loadMore()" *ngIf="pageInfo?.hasNextPage"></app-load-more>
 <app-fixed-toggle (clickRequest)="create()"></app-fixed-toggle>

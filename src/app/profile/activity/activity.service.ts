@@ -19,7 +19,7 @@ import { UpdateFetchResult } from '../../../custom-typings';
 
 @Injectable()
 export class ActivityService {
-  private pagination: ForwardPaginationInput;
+  private pagination: ForwardPaginationInput = this.appConfig.pagination;
 
   constructor(
     private apollo: Apollo,

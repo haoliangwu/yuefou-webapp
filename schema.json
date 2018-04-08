@@ -134,7 +134,18 @@
               }
             },
             {
-              "args": [],
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "category",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "TagCategory",
+                    "ofType": null
+                  }
+                }
+              ],
               "deprecationReason": null,
               "description": "",
               "isDeprecated": false,

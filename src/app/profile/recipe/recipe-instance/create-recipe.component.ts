@@ -2,7 +2,7 @@ import * as R from 'ramda';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { RecipeTag, UpdateOperation, UpdateOperationPayload, Recipe } from '../../../model';
+import { RecipeTag, UpdateOperation, UpdateOperationPayload, Recipe, CreateRecipeInput, TagsMetaInput, TagCategory } from '../../../model';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -13,6 +13,11 @@ import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
 import { DialogUtilService } from '../../../shared/modules/dialog/dialog.service';
 import { ToastrService } from 'ngx-toastr';
+import { RecipeService } from '../services/recipe.service';
+import { isNotExisted, isExisted } from '../../../utils';
+
+const applyRecipeCategory = R.merge(R.__, { category: TagCategory.RECIPE });
+const pickTagInputProps = R.pick(['id']);
 
 @Component({
   selector: 'app-create-recipe',
@@ -37,7 +42,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   addOnBlur = true;
 
   get tagsFGs() {
-    return this.recipe.tags.map(tag => this.fb.control(tag));
+    return this.recipe ? this.recipe.tags.map(tag => this.fb.control(tag)) : [];
   }
 
   constructor(
@@ -49,6 +54,7 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     private dialogUtil: DialogUtilService,
     private toastService: ToastrService,
     private fileReader: FileReaderService,
+    private recipeService: RecipeService
   ) { }
 
   ngOnInit() {
@@ -167,9 +173,22 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   }
 
   private create() {
-    const formRawValue = this.form.value;
+    const { tags, ...recipe } = this.form.value;
 
-    console.log(formRawValue);
+    const tagsMeta: TagsMetaInput = {
+      create: R.map(applyRecipeCategory, R.filter(isNotExisted, tags)) as RecipeTag[],
+      connect: R.map(pickTagInputProps, R.filter(isExisted, tags)) as RecipeTag[]
+    };
+
+
+
+    this.recipeService.create(recipe, tagsMeta, ).pipe(
+      tap(e => {
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
+
+        this.router.navigate(['../list'], { relativeTo: this.route });
+      })
+    ).subscribe();
   }
 
   private update(id: string) {

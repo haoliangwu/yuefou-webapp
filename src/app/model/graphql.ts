@@ -895,6 +895,10 @@ export interface updatedTaskSubscription {
   } | null,
 };
 
+export interface tagsQueryVariables {
+  category?: TagCategory | null,
+};
+
 export interface tagsQuery {
   tags:  Array< {
     id: string,

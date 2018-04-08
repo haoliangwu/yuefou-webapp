@@ -59,19 +59,25 @@ export class TaskService {
   //   }).pipe(map(accessor));
   // }
 
-  task() {
+  task(id: string) {
     const accessor = R.path<Task>(['data', 'task']);
 
     return this.apollo.query({
-      query: TaskQuery
+      query: TaskQuery,
+      variables: {
+        id
+      }
     }).pipe(map(accessor));
   }
 
-  create() {
+  create(task: Task) {
     const accessor = R.path<Task>(['data', 'createTask']);
 
     return this.apollo.mutate({
-      mutation: CreateTaskMutation
+      mutation: CreateTaskMutation,
+      variables: {
+        task
+      }
     }).pipe(map(accessor));
   }
 
