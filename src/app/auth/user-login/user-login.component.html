@@ -1,4 +1,5 @@
 <div class="login-panel-wrapper" [@opacityTransition]>
+  <h1 class="logo">YueFou</h1>
   <div fxLayout="column" class="login-panel">
     <form [noValidate]="true" [formGroup]="loginForm" *ngIf="!isRemember" (enterKey)="signupOrLogin($event)">
       <mat-form-field>
@@ -37,11 +38,11 @@
     </form>
 
     <div class="toggle" fxLayout="row" fxLayoutAlign="start center">
-      <button mat-raised-button color="primary" (click)="signupOrLogin()">
+      <button fxFlex mat-raised-button color="primary" (click)="signupOrLogin()">
         {{isSignup ? 'Sign Up' : 'Login'}}
       </button>
       <span fxFlex="12px"></span>
-      <button mat-button color="primary" (click)="toggleSignup()">
+      <button fxFlex mat-button color="primary" (click)="toggleSignup()">
         {{isSignup ? 'Back to Login' : 'Sign Up'}}
       </button>
     </div>

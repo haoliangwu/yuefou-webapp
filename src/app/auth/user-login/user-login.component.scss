@@ -1,42 +1,51 @@
-.login-panel-wrapper {
-  background: url('/assets/images/cat.jpg') no-repeat center/cover;
-  width: 100vw;
-  height: 100vh;
+@import "../../../mixin.scss";
 
-  .toggle {
-    margin: 2em 0 0 0;
-  }
+.login-panel-wrapper {
+    background: #e9eaec url('/assets/images/food_bcg.jpg') no-repeat bottom/contain;
+    width: 100vw;
+    height: 100vh;
+    .toggle {
+        margin: 2em 0 0 0;
+    }
+    .logo {
+      position: absolute;
+      margin: 0;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #673ab7;
+      font-weight: 200;
+    }
 }
 
 .login-panel {
-  position: fixed;
-  left: 50%;
-  top: 45%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 400px;
-  padding: 2em;
-  background: rgba(255, 255, 255, .7);
-
-  form, mat-form-field {
-    width: 100%;
-  }
-
-  mat-checkbox {
-    margin: .5em 0 0 0;
-  }
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 350px;
+    padding: 2em;
+    background: rgba(255, 255, 255, .9);
+    form,
+    mat-form-field {
+        width: 100%;
+    }
+    mat-checkbox {
+        margin: .5em 0 0 0;
+    }
 }
 
 @media (max-height: 600px) {
-  .login-panel {
-    position: fixed;
-    left: 50%;
-    top: 100px;
-    transform: translate(-50%, 0);
-    width: 300px;
-    height: 400px;
-    padding: 2em;
-    font-size: 12px;
-    background: rgba(255, 255, 255, .7);
-  }
+    .login-panel {
+        position: fixed;
+        left: 50%;
+        top: 100px;
+        transform: translate(-50%, 0);
+        width: 300px;
+        height: 400px;
+        padding: 2em;
+        font-size: 12px;
+        background: rgba(255, 255, 255, .7);
+    }
 }
