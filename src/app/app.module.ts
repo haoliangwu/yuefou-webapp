@@ -10,11 +10,11 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { ApolloLink, from, split } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
+import { createPersistedQueryLink } from 'apollo-angular-link-persisted';
 import { HttpLinkModule, HttpLink } from 'apollo-upload-angular-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
-import { createPersistedQueryLink } from 'angular-apollo-link-persisted-queries';
 
 import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
