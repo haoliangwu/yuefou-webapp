@@ -2,7 +2,7 @@
   <app-update-page-toolbar [data]="recipe$ | async" [titleText]="titleText$ | async | translate" [updated]="updated$ | async" [isDetail]="isDetail$ | async"
     (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
   <div fxFlex="200px" class="recipe-picture">
-    <app-camera-trigger-card [url]="url" (changeRequest)="snapshot($event)"></app-camera-trigger-card>
+    <app-camera-trigger-card [url]="recipeAvatar$ | async | recipeFilePrefix" (changeRequest)="snapshot($event)"></app-camera-trigger-card>
   </div>
   <mat-divider></mat-divider>
   <div fxFlex="6px"></div>

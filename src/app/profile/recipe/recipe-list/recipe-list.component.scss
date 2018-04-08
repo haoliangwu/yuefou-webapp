@@ -1,7 +1,11 @@
 .mat-list-item {
-  padding: .5em;
+    padding: .5em 0;
+    img.mat-list-avatar {
+        width: 60px;
+        height: 60px;
+    }
 }
 
 .bottom-border {
-  height: 1em;
+    height: 1em;
 }

@@ -2,7 +2,7 @@ import * as R from 'ramda';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { RecipeTag, UpdateOperation, UpdateOperationPayload, Recipe, CreateRecipeInput, TagsMetaInput, TagCategory } from '../../../model';
+import { RecipeTag, UpdateOperation, UpdateOperationPayload, Recipe, CreateRecipeInput, TagsMetaInput, TagCategory, updateRecipeMutation } from '../../../model';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -15,6 +15,7 @@ import { DialogUtilService } from '../../../shared/modules/dialog/dialog.service
 import { ToastrService } from 'ngx-toastr';
 import { RecipeService } from '../services/recipe.service';
 import { isNotExisted, isExisted } from '../../../utils';
+import { FetchResult } from 'apollo-link';
 
 const applyRecipeCategory = R.merge(R.__, { category: TagCategory.RECIPE });
 const pickTagInputProps = R.pick(['id']);
@@ -26,14 +27,16 @@ const pickTagInputProps = R.pick(['id']);
 })
 export class CreateRecipeComponent implements OnInit, OnDestroy {
   recipe$: Observable<Recipe>;
+  recipeAvatar$: Observable<string | void>;
   recipeTags$: Observable<RecipeTag[]>;
   isDetail$: Observable<boolean>;
   updated$: Observable<boolean>;
   titleText$: Observable<string>;
   reset$ = new Subject();
   taskUpdate$ = new Subject();
+  recipePictureChange$ = new Subject<string>();
 
-  url: string;
+  file: File;
   form: FormGroup;
   recipe: Recipe;
 
@@ -79,6 +82,11 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       refCount()
     );
 
+    this.recipeAvatar$ = merge(this.recipe$.pipe(
+      filter(recipe => recipe && !!recipe.avatar),
+      map(recipe => recipe.avatar),
+    ), this.recipePictureChange$);
+
     this.recipeTags$ = this.route.data.pipe(
       map(resolve => resolve.recipeTags)
     );
@@ -123,7 +131,8 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
   }
 
   snapshot(file: File) {
-    this.url = this.fileReader.createObjectURL(file);
+    this.recipePictureChange$.next(this.fileReader.createObjectURL(file));
+    this.file = file;
   }
 
   private save() {
@@ -181,21 +190,41 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     };
 
     this.recipeService.create(recipe, tagsMeta, ).pipe(
+      switchMap(result => this.file ? this.recipeService.uploadRecipePicture(result.data.createRecipe.id, this.file) : of(result)),
       tap(e => {
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
-        this.router.navigate(['../list'], { relativeTo: this.route });
+        this.redirect();
       })
     ).subscribe();
   }
 
   private update(id: string) {
-    const formRawValue = this.form.value;
+    const { tags, ...recipe } = this.form.value;
+    const { tags: originTags } = this.recipe;
 
-    console.log(formRawValue);
+    const create = R.map(applyRecipeCategory, R.filter(isNotExisted, tags)) as RecipeTag[];
+    const dupById = (a, b) => a.id === b.id;
+    const connect = R.map(pickTagInputProps, R.differenceWith(dupById, R.filter(isExisted, tags), originTags)) as RecipeTag[];
+    const disconnect = R.map(pickTagInputProps, R.differenceWith(dupById, originTags, tags)) as RecipeTag[];
+
+    const tagsMeta: TagsMetaInput = {
+      create,
+      connect,
+      disconnect
+    };
+
+    this.recipeService.update({ ...recipe, id }, tagsMeta, ).pipe(
+      switchMap(result => this.file ? this.recipeService.uploadRecipePicture(this.recipe.id, this.file) : of(result)),
+      tap(e => {
+        this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
+
+        this.redirect();
+      })
+    ).subscribe();
   }
 
   private redirect() {
-    this.router.navigate(['../../list'], { relativeTo: this.route });
+    this.router.navigate([this.recipe ? '../../list' : '../list'], { relativeTo: this.route });
   }
 }

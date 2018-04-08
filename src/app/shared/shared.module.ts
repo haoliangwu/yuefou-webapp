@@ -16,6 +16,7 @@ import { LoadMoreComponent } from './comps/load-more/load-more.component';
 import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/expanded-panel-stepper.component';
 import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
 import { TagService } from './services/tag.service';
+import { RecipeFilePrefixPipe } from './pipes/recipe-file-prefix.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TagService } from './services/tag.service';
     CameraTriggerCardComponent,
     SafeUrlPipe,
     SafeResourceUrlPipe,
-    UpdatePageToolbarComponent
+    UpdatePageToolbarComponent,
+    RecipeFilePrefixPipe
   ],
   imports: [
     CommonModule,
@@ -65,6 +67,7 @@ import { TagService } from './services/tag.service';
     // pipes
     SafeUrlPipe,
     SafeResourceUrlPipe,
+    RecipeFilePrefixPipe
   ]
 })
 export class SharedModule {

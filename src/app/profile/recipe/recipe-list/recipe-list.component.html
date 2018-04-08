@@ -1,7 +1,6 @@
 <mat-list>
   <mat-list-item *ngFor="let recipe of recipes" (click)="update(recipe)">
-    <!-- <img matListAvatar [src]="recipe.avatar"> -->
-    <img matListAvatar>
+    <img matListAvatar [src]="recipe.avatar | recipeFilePrefix | safeUrl">
     <div matLine fxLayout="row" fxLayoutAlign="start center" style="margin: 0 0 1em 0;">
       <header fxFlex>
         {{recipe.name}}
