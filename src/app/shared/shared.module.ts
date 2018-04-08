@@ -15,6 +15,7 @@ import { ApolloModule } from 'apollo-angular';
 import { LoadMoreComponent } from './comps/load-more/load-more.component';
 import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/expanded-panel-stepper.component';
 import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
+import { TagService } from './services/tag.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ export class SharedModule {
         LocationUtilService,
         RouterUtilService,
         RamdaUtilService,
-        FileReaderService
+        FileReaderService,
+        TagService
       ]
     };
   }

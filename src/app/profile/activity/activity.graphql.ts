@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
-import { PageInfoFragment } from '../../utils/pagination.graphql';
 import { TaskFragment } from '../task/task.graphql';
+import { PageInfoFragment } from '../../shared/graphql';
 
 // fragment
 export const ActivityFragment = gql`fragment ActivityFragment on Activity {
@@ -66,9 +66,9 @@ export const UpdateActivityMutation = gql`mutation updateActivity($activity: Upd
 
 export const DeleteActivityMutation = gql`mutation deleteActivity($id: ID!) {
   deleteActivity(id: $id) {
-    id
+    ...ActivityFragment
   }
-}`;
+} ${ActivityFragment}`;
 
 export const AttendActivityMutation = gql`mutation attendActivity($id: ID!) {
   attendActivity(id: $id) {
