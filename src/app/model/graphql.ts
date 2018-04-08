@@ -56,6 +56,44 @@ export interface UpdateActivityInput {
   status?: ProcessStatus | null,
 };
 
+export interface CreateRecipeInput {
+  name: string,
+  time: number,
+  desc?: string | null,
+};
+
+export interface TagsMetaInput {
+  create?: Array< CreateTagInput > | null,
+  connect?: Array< UpdateTagInput > | null,
+  disconnect?: Array< UpdateTagInput > | null,
+};
+
+export interface CreateTagInput {
+  name: string,
+  category?: TagCategory | null,
+  default?: boolean | null,
+};
+
+export enum TagCategory {
+  DEFAULT = "DEFAULT",
+  RECIPE = "RECIPE",
+}
+
+
+export interface UpdateTagInput {
+  id: string,
+  name?: string | null,
+  category?: TagCategory | null,
+  default?: boolean | null,
+};
+
+export interface UpdateRecipeInput {
+  id: string,
+  name?: string | null,
+  time?: number | null,
+  desc?: string | null,
+};
+
 export enum MutationType {
   CREATED = "CREATED",
   DELETED = "DELETED",
@@ -68,7 +106,7 @@ export interface activitiesQuery {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -84,7 +122,7 @@ export interface activitiesQuery {
     tasks:  Array< {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
       assignee:  {
         id: string,
         name: string,
@@ -118,7 +156,7 @@ export interface activitiesConnectionQuery {
         id: string,
         title: string,
         desc: string | null,
-        status: ProcessStatus,
+        status: ProcessStatus | null,
         type: ActivityType,
         location: string,
         startedAt: string,
@@ -134,7 +172,7 @@ export interface activitiesConnectionQuery {
         tasks:  Array< {
           id: string,
           name: string,
-          status: ProcessStatus,
+          status: ProcessStatus | null,
           assignee:  {
             id: string,
             name: string,
@@ -177,7 +215,7 @@ export interface activityQuery {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -193,7 +231,7 @@ export interface activityQuery {
     tasks:  Array< {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
       assignee:  {
         id: string,
         name: string,
@@ -224,7 +262,7 @@ export interface createActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -240,7 +278,7 @@ export interface createActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
       assignee:  {
         id: string,
         name: string,
@@ -271,7 +309,7 @@ export interface updateActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -287,7 +325,7 @@ export interface updateActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
       assignee:  {
         id: string,
         name: string,
@@ -315,19 +353,9 @@ export interface deleteActivityMutationVariables {
 export interface deleteActivityMutation {
   deleteActivity:  {
     id: string,
-  },
-};
-
-export interface attendActivityMutationVariables {
-  id: string,
-};
-
-export interface attendActivityMutation {
-  attendActivity:  {
-    id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -343,7 +371,53 @@ export interface attendActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
+      assignee:  {
+        id: string,
+        name: string,
+      } | null,
+      activity:  {
+        id: string,
+        title: string,
+        participants:  Array< {
+          id: string,
+          name: string,
+        } > | null,
+        creator:  {
+          id: string,
+          name: string,
+        },
+      } | null,
+    } > | null,
+  },
+};
+
+export interface attendActivityMutationVariables {
+  id: string,
+};
+
+export interface attendActivityMutation {
+  attendActivity:  {
+    id: string,
+    title: string,
+    desc: string | null,
+    status: ProcessStatus | null,
+    type: ActivityType,
+    location: string,
+    startedAt: string,
+    endedAt: string,
+    creator:  {
+      id: string,
+      name: string,
+    },
+    participants:  Array< {
+      id: string,
+      name: string,
+    } > | null,
+    tasks:  Array< {
+      id: string,
+      name: string,
+      status: ProcessStatus | null,
       assignee:  {
         id: string,
         name: string,
@@ -373,7 +447,7 @@ export interface quitActivityMutation {
     id: string,
     title: string,
     desc: string | null,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     type: ActivityType,
     location: string,
     startedAt: string,
@@ -389,7 +463,7 @@ export interface quitActivityMutation {
     tasks:  Array< {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
       assignee:  {
         id: string,
         name: string,
@@ -410,11 +484,167 @@ export interface quitActivityMutation {
   },
 };
 
+export interface recipesQuery {
+  recipes:  Array< {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
+  } >,
+};
+
+export interface recipesConnectionQueryVariables {
+  pagination: ForwardPaginationInput,
+};
+
+export interface recipesConnectionQuery {
+  recipesConnection:  {
+    // A list of edges.
+    edges:  Array< {
+      // The item at the end of the edge.
+      node:  {
+        id: string,
+        name: string,
+        time: number | null,
+        desc: string | null,
+        avatar: string | null,
+        tags:  Array< {
+          id: string,
+          name: string,
+          category: TagCategory,
+          default: boolean | null,
+        } > | null,
+      },
+    } | null >,
+    // Information to aid in pagination.
+    pageInfo:  {
+      // When paginating forwards, are there more items?
+      hasNextPage: boolean,
+      // When paginating backwards, are there more items?
+      hasPreviousPage: boolean,
+      // When paginating forwards, the cursor to continue.
+      endCursor: string | null,
+      // When paginating backwards, the cursor to continue.
+      startCursor: string | null,
+    },
+  },
+};
+
+export interface recipeQueryVariables {
+  id: string,
+};
+
+export interface recipeQuery {
+  recipe:  {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
+  } | null,
+};
+
+export interface createRecipeMutationVariables {
+  recipe: CreateRecipeInput,
+  tagsMeta?: TagsMetaInput | null,
+};
+
+export interface createRecipeMutation {
+  createRecipe:  {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
+  },
+};
+
+export interface updateRecipeMutationVariables {
+  recipe: UpdateRecipeInput,
+  tagsMeta?: TagsMetaInput | null,
+};
+
+export interface updateRecipeMutation {
+  updateRecipe:  {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
+  },
+};
+
+export interface deleteRecipeMutationVariables {
+  id: string,
+};
+
+export interface deleteRecipeMutation {
+  deleteRecipe:  {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
+  },
+};
+
+export interface uploadRecipePictureMutationVariables {
+  id: string,
+  file: string,
+};
+
+export interface uploadRecipePictureMutation {
+  uploadRecipePicture:  {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
+  },
+};
+
 export interface tasksQuery {
   tasks:  Array< {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -446,7 +676,7 @@ export interface tasksConnectionQuery {
       node:  {
         id: string,
         name: string,
-        status: ProcessStatus,
+        status: ProcessStatus | null,
         assignee:  {
           id: string,
           name: string,
@@ -487,7 +717,7 @@ export interface taskQuery {
   task:  {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -516,7 +746,7 @@ export interface createTaskMutation {
   createTask:  {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -545,7 +775,7 @@ export interface updateTaskMutation {
   updateTask:  {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -575,7 +805,7 @@ export interface updateTaskStatusMutation {
   updateTaskStatus:  {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -604,7 +834,7 @@ export interface deleteTaskMutation {
   deleteTask:  {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -634,7 +864,7 @@ export interface assignTaskMutation {
   assignTask:  {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -660,16 +890,77 @@ export interface updatedTaskSubscription {
     node:  {
       id: string,
       name: string,
-      status: ProcessStatus,
+      status: ProcessStatus | null,
     } | null,
   } | null,
+};
+
+export interface tagsQuery {
+  tags:  Array< {
+    id: string,
+    name: string,
+    category: TagCategory,
+    default: boolean | null,
+  } >,
+};
+
+export interface tagQueryVariables {
+  id: string,
+};
+
+export interface tagQuery {
+  tag:  {
+    id: string,
+    name: string,
+    category: TagCategory,
+    default: boolean | null,
+  } | null,
+};
+
+export interface createTagMutationVariables {
+  tag: CreateTagInput,
+};
+
+export interface createTagMutation {
+  createTag:  {
+    id: string,
+    name: string,
+    category: TagCategory,
+    default: boolean | null,
+  },
+};
+
+export interface updateTagMutationVariables {
+  tag: UpdateTagInput,
+};
+
+export interface updateTagMutation {
+  updateTag:  {
+    id: string,
+    name: string,
+    category: TagCategory,
+    default: boolean | null,
+  },
+};
+
+export interface deleteTagMutationVariables {
+  id: string,
+};
+
+export interface deleteTagMutation {
+  deleteTag:  {
+    id: string,
+    name: string,
+    category: TagCategory,
+    default: boolean | null,
+  },
 };
 
 export interface ActivityFragmentFragment {
   id: string,
   title: string,
   desc: string | null,
-  status: ProcessStatus,
+  status: ProcessStatus | null,
   type: ActivityType,
   location: string,
   startedAt: string,
@@ -685,7 +976,7 @@ export interface ActivityFragmentFragment {
   tasks:  Array< {
     id: string,
     name: string,
-    status: ProcessStatus,
+    status: ProcessStatus | null,
     assignee:  {
       id: string,
       name: string,
@@ -705,10 +996,24 @@ export interface ActivityFragmentFragment {
   } > | null,
 };
 
+export interface RecipeFragmentFragment {
+  id: string,
+  name: string,
+  time: number | null,
+  desc: string | null,
+  avatar: string | null,
+  tags:  Array< {
+    id: string,
+    name: string,
+    category: TagCategory,
+    default: boolean | null,
+  } > | null,
+};
+
 export interface TaskFragmentFragment {
   id: string,
   name: string,
-  status: ProcessStatus,
+  status: ProcessStatus | null,
   assignee:  {
     id: string,
     name: string,
@@ -736,4 +1041,11 @@ export interface PageInfoFragmentFragment {
   endCursor: string | null,
   // When paginating backwards, the cursor to continue.
   startCursor: string | null,
+};
+
+export interface TagFragmentFragment {
+  id: string,
+  name: string,
+  category: TagCategory,
+  default: boolean | null,
 };
