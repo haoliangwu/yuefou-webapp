@@ -2,19 +2,22 @@
   <mat-list-item *ngFor="let recipe of recipes">
     <div matLine fxLayout="row" fxLayoutAlign="start center">
       <span fxFlex>{{recipe.name}}</span>
-      <mat-icon color="warn" (click)="remove(recipe)">clear</mat-icon>
+      <mat-icon color="primary" (click)="view(recipe)">visibility</mat-icon>
+      <mat-icon color="warn" *ngIf="editMode" (click)="remove(recipe)">clear</mat-icon>
     </div>
   </mat-list-item>
 </mat-list>
-<mat-form-field>
-  <input type="text" [placeholder]="'RECIPE.BIND_RECIPE_PLACEHOLDER'| translate" matInput [formControl]="newRecipe" [matAutocomplete]="auto">
-  <mat-hint>
-    {{'RECIPE.BIND_RECIPE_HINT'| translate}}
-  </mat-hint>
-</mat-form-field>
+<ng-container *ngIf="editMode">
+  <mat-form-field>
+    <input type="text" [placeholder]="'RECIPE.BIND_RECIPE_PLACEHOLDER'| translate" matInput [formControl]="newRecipe" [matAutocomplete]="auto">
+    <mat-hint>
+      {{'RECIPE.BIND_RECIPE_HINT'| translate}}
+    </mat-hint>
+  </mat-form-field>
 
-<mat-autocomplete [displayWith]="autoDisplayFn" [autoActiveFirstOption]="true" #auto="matAutocomplete">
-  <mat-option *ngFor="let option of recipeOptions | async" [value]="option">
-    {{ option.name }}
-  </mat-option>
-</mat-autocomplete>
+  <mat-autocomplete [displayWith]="autoDisplayFn" [autoActiveFirstOption]="true" #auto="matAutocomplete">
+    <mat-option *ngFor="let option of recipeOptions | async" [value]="option">
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+</ng-container>

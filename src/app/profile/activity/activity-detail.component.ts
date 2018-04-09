@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TaskOperationService } from '../task/task-operation.service';
+import { Activity } from '../../model';
 
 @Component({
   selector: 'app-activity-detail',
@@ -7,7 +8,7 @@ import { TaskOperationService } from '../task/task-operation.service';
   styleUrls: ['./activity-detail.component.scss']
 })
 export class ActivityDetailComponent implements OnInit {
-  @Input() activity;
+  @Input() activity: Activity;
 
   constructor(
     public taskOperationService: TaskOperationService

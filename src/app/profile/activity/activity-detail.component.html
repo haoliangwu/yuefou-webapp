@@ -12,15 +12,14 @@
   </div>
   <h3 mat-subheader>{{'ACTIVITY.PARTICIPANT' | translate}}</h3>
   <div class="activity-detail-content">
-    <mat-chip-list>
+    <mat-chip-list *ngIf="activity.participants.length > 0; else noneBlock">
       <mat-chip *ngFor="let user of activity.participants">{{user.name}}</mat-chip>
-      <mat-chip *ngIf="activity.participants.length === 0">{{'COMMON.NONE' | translate}}</mat-chip>
     </mat-chip-list>
   </div>
   <ng-container *ngIf="activity.type === 'TASK'">
     <h3 mat-subheader>{{'ACTIVITY.TASK' | translate}}</h3>
     <div class="activity-detail-content task-list">
-      <mat-list *ngIf="activity.tasks.length > 0">
+      <mat-list *ngIf="activity.tasks.length > 0; else noneBlock">
         <mat-list-item *ngFor="let task of activity.tasks">
           <div matLine fxLayout="row" fxLayoutAlign="start center">
             <span class="activity-task-item" fxFlex>
@@ -45,17 +44,19 @@
           </div>
         </mat-list-item>
       </mat-list>
-      <mat-chip-list>
-        <mat-chip *ngIf="activity.tasks.length === 0">{{'COMMON.NONE' | translate}}</mat-chip>
-      </mat-chip-list>
     </div>
   </ng-container>
-  <ng-container *ngIf="activity.type === 'HOST'">
+  <ng-container *ngIf="activity.type === 'HOST'; else noneBlock">
     <h3 mat-subheader>{{'ACTIVITY.RECIPES' | translate}}</h3>
     <div class="activity-detail-content recipes-list">
-      <mat-chip-list>
-        <mat-chip *ngIf="activity.tasks.length === 0">{{'COMMON.NONE' | translate}}</mat-chip>
-      </mat-chip-list>
+      <app-recipes-picker [editMode]="false" [recipes]="activity.recipes"></app-recipes-picker>
     </div>
   </ng-container>
 </mat-list>
+
+<!-- template -->
+<ng-template #noneBlock>
+  <mat-chip-list>
+    <mat-chip>{{'COMMON.NONE' | translate}}</mat-chip>
+  </mat-chip-list>
+</ng-template>

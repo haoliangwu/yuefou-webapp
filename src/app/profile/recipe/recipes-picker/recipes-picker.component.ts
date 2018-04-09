@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Recipe, UpdateMeta } from '../../../model';
 import { MatSelectionList, MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteTrigger } from '@angular/material';
 import { FormControl, FormBuilder } from '@angular/forms';
@@ -16,7 +16,9 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
   templateUrl: './recipes-picker.component.html',
   styleUrls: ['./recipes-picker.component.scss']
 })
-export class RecipesPickerComponent implements OnInit, AfterViewInit {
+export class RecipesPickerComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() editMode = true;
+
   @Input() recipes: Recipe[];
   @Output() recipesChange = new EventEmitter<Recipe[]>();
 
@@ -67,10 +69,16 @@ export class RecipesPickerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.autoSub = this.autoComp.optionSelected.pipe(
-      map((e: MatAutocompleteSelectedEvent) => e.option.value),
-      tap(this.add.bind(this))
-    ).subscribe();
+    if (this.editMode) {
+      this.autoSub = this.autoComp.optionSelected.pipe(
+        map((e: MatAutocompleteSelectedEvent) => e.option.value),
+        tap(this.add.bind(this))
+      ).subscribe();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.autoSub) { this.autoSub.unsubscribe(); }
   }
 
   add(recipe: Recipe) {
@@ -108,6 +116,10 @@ export class RecipesPickerComponent implements OnInit, AfterViewInit {
     }
 
     this.recipesMetaChange.next(this.recipesMeta);
+  }
+
+  view(recipe: Recipe) {
+    // TODO 打开菜谱预览弹窗
   }
 
   autoDisplayFn(recipe?: Recipe): string | void {
