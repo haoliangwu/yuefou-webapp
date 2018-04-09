@@ -19,6 +19,7 @@ import { of } from 'rxjs/observable/of';
 import { ActivityResolver } from './activity-resolver.service';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { formatUpdateMeta } from '../../utils';
+import { BaseUpdatedComponent } from '../../utils/base-updated-component';
 
 const DEFAULT_ACTIVITY_FORM = {
   title: '',
@@ -35,7 +36,7 @@ const DEFAULT_ACTIVITY_FORM = {
   styleUrls: ['./activity-create.component.scss'],
   providers: [ActivityResolver]
 })
-export class ActivityCreateComponent implements OnInit, AfterViewInit {
+export class ActivityCreateComponent extends BaseUpdatedComponent implements OnInit, AfterViewInit {
   activity$: Observable<Activity>;
   isDetail$: Observable<boolean>;
   isTaskType$: Observable<boolean>;
@@ -43,7 +44,6 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   titleText$: Observable<string>;
   minStart$: Observable<Date>;
   initType$: Observable<ActivityType>;
-  update$: Observable<boolean>;
   reset$ = new Subject();
   taskUpdate$ = new Subject();
   recipeUpdate$ = new Subject();
@@ -82,7 +82,9 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
     private toastService: ToastrService,
     private dialogUtil: DialogUtilService,
     private translate: TranslateService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.form = this.fb.group(DEFAULT_ACTIVITY_FORM);
@@ -153,10 +155,10 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
       mapTo(false)
     );
 
-    this.update$ = merge(updateOn$, updateOff$)
+    this.updated$ = merge(updateOn$, updateOff$)
       .pipe(
         debounceTime(100),
-        publish(),
+        publishBehavior(false),
         refCount()
       );
   }

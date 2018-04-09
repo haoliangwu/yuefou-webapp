@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { MaterialModule, DialogModule } from './modules';
-import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService } from './services';
+import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard } from './services';
 import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent, UpdatePageToolbarComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
@@ -76,11 +76,15 @@ export class SharedModule {
       ngModule: SharedModule,
       // services
       providers: [
+        // utils
         FormUtilService,
         LocationUtilService,
         RouterUtilService,
         FileReaderService,
-        TagService
+        // api
+        TagService,
+        // guard
+        UpdatedStatusGuard
       ]
     };
   }

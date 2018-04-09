@@ -10,6 +10,7 @@ import { Route } from '@angular/router';
 import { ActivityPermissionPipe } from './pipes/activity-permission.pipe';
 import { TaskModule } from '../task/task.module';
 import { RecipeModule } from '../recipe/recipe.module';
+import { UpdatedStatusGuard } from '../../shared/services';
 
 export const ActivityRoute: Route = {
   path: 'activity',
@@ -20,14 +21,16 @@ export const ActivityRoute: Route = {
     },
     {
       path: 'create',
-      component: ActivityCreateComponent
+      component: ActivityCreateComponent,
+      canDeactivate: [UpdatedStatusGuard]
     },
     {
       path: 'update/:id',
       component: ActivityCreateComponent,
       resolve: {
         activity: ActivityResolver
-      }
+      },
+      canDeactivate: [UpdatedStatusGuard]
     },
     {
       path: '',

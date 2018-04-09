@@ -1,5 +1,5 @@
 <div fxLayout="column" class="activity-create-panel" full>
-  <app-update-page-toolbar [data]="activity$ | async" [titleText]="titleText$ | async | translate" [updated]="update$ | async" [isDetail]="isDetail$ | async" (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
+  <app-update-page-toolbar [data]="activity$ | async" [titleText]="titleText$ | async | translate" [updated]="updated$ | async" [isDetail]="isDetail$ | async" (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
   <mat-accordion>
     <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0">
       <mat-expansion-panel-header [expandedHeight]="expandedHeight">
