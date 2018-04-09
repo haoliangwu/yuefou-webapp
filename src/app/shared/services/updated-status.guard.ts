@@ -18,7 +18,8 @@ export class UpdatedStatusGuard implements CanDeactivate<BaseUpdatedComponent> {
         if (updated) {
           const dialogRef = this.dialogUtil.confirm({
             data: {
-              message: '当前页面未保存，确定要离开吗？',
+              title: '确定要离开吗？',
+              message: '当前表单信息未保存。',
             }
           });
 

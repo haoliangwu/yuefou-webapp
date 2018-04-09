@@ -41,7 +41,7 @@ export class NavigatorComponent implements OnInit {
   quit() {
     const dialogRef = this.dialogUtil.confirm({
       data: {
-        message: '确定要退出吗？'
+        title: '确定要退出吗？'
       }
     });
 

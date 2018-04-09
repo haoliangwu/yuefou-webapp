@@ -169,7 +169,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
   private delete(recipe: Recipe) {
     const dialogRef = this.dialogUtil.confirm({
       data: {
-        message: '确定要删除该菜谱？'
+        title: '确定要删除该菜谱？'
       }
     });
 

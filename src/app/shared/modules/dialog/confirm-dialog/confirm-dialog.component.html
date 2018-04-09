@@ -1,4 +1,10 @@
-<h2 mat-dialog-title>{{(message ? message: 'DIALOG.CONFIRM.DEFAULT_MESSAGE') | translate}}</h2>
+<h3 mat-dialog-title *ngIf="title" class="confirm-title">
+  {{title}}
+</h3>
+<div mat-dialog-content *ngIf="message" class="confirm-message">
+  {{(message ? message: 'DIALOG.CONFIRM.DEFAULT_MESSAGE') | translate}}
+</div>
+
 <mat-dialog-actions fxLayout="row" fxLayoutALign="center center">
   <span fxFlex></span>
   <button mat-raised-button mat-dialog-close>{{(noText ? noText : 'DIALOG.CONFIRM.DEFAULT_NO_TEXT') | translate}}</button>

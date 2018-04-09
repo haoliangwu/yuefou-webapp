@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
   quit(activity: Activity) {
     this.dialogUtil.confirm({
       data: {
-        message: `确定要退出活动【${activity.title}】吗？`
+        title: `确定要退出活动【${activity.title}】吗？`
       }
     }).afterClosed().pipe(
       switchMap(() => this.activityService.quit(activity.id)),

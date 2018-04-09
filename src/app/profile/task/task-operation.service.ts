@@ -78,7 +78,7 @@ export class TaskOperationService {
   private updateStatus(task: Task, status: ProcessStatus) {
     this.dialogUtil.confirm({
       data: {
-        message: this.translate.instant(`DIALOG.TASK_OPERATION.${status}`)
+        title: this.translate.instant(`DIALOG.TASK_OPERATION.${status}`)
       }
     }).afterClosed().pipe(
       filter(e => !!e),

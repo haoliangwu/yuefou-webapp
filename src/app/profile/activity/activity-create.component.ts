@@ -255,7 +255,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
   private delete(activity: Activity) {
     const dialogRef = this.dialogUtil.confirm({
       data: {
-        message: '确定要删除该项活动？'
+        title: '确定要删除该项活动？'
       }
     });
 
