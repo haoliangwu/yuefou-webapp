@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RecipeService } from '../services/recipe.service';
 import { isNotExisted, isExisted } from '../../../utils';
 import { FetchResult } from 'apollo-link';
+import { BaseUpdatedComponent } from '../../../utils/base-updated-component';
 
 const applyRecipeCategory = R.merge(R.__, { category: TagCategory.RECIPE });
 const pickTagInputProps = R.pick(['id']);
@@ -25,12 +26,11 @@ const pickTagInputProps = R.pick(['id']);
   templateUrl: './create-recipe.component.html',
   styleUrls: ['./create-recipe.component.scss'],
 })
-export class CreateRecipeComponent implements OnInit, OnDestroy {
+export class CreateRecipeComponent extends BaseUpdatedComponent implements OnInit, OnDestroy {
   recipe$: Observable<Recipe>;
   recipeAvatar$: Observable<string | void>;
   recipeTags$: Observable<RecipeTag[]>;
   isDetail$: Observable<boolean>;
-  updated$: Observable<boolean>;
   titleText$: Observable<string>;
   reset$ = new Subject();
   taskUpdate$ = new Subject();
@@ -58,7 +58,9 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
     private toastService: ToastrService,
     private fileReader: FileReaderService,
     private recipeService: RecipeService
-  ) { }
+  ) {
+    super();
+   }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -104,10 +106,10 @@ export class CreateRecipeComponent implements OnInit, OnDestroy {
       mapTo(false)
     );
 
-    this.updated$ = merge(updateOn$, updateOff$)
+    this.updated$ = merge(updateOn$, updateOff$, this.updated$)
       .pipe(
         debounceTime(100),
-        publish(),
+        publishBehavior(false),
         refCount()
       );
   }

@@ -155,11 +155,11 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
       mapTo(false)
     );
 
-    this.updated$ = merge(updateOn$, updateOff$)
+    this.updated$ = merge(updateOn$, updateOff$, this.updated$)
       .pipe(
         debounceTime(100),
         publishBehavior(false),
-        refCount()
+        refCount(),
       );
   }
 

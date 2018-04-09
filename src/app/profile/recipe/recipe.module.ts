@@ -10,6 +10,7 @@ import { CreateRecipeComponent } from './recipe-instance/create-recipe.component
 import { RecipeTagFieldComponent } from './recipe-tag-field/recipe-tag-field.component';
 import { RecipeResolver, RecipeTagsResolver } from './services/recipe-resolver.service';
 import { RecipesPickerComponent } from './recipes-picker/recipes-picker.component';
+import { UpdatedStatusGuard } from '../../shared/services';
 
 export const RecipeRoute: Route = {
   path: 'recipe',
@@ -32,7 +33,8 @@ export const RecipeRoute: Route = {
       component: CreateRecipeComponent,
       resolve: {
         recipeTags: RecipeTagsResolver
-      }
+      },
+      canDeactivate: [UpdatedStatusGuard]
     },
     {
       path: 'update/:id',
@@ -40,7 +42,8 @@ export const RecipeRoute: Route = {
       resolve: {
         recipe: RecipeResolver,
         recipeTags: RecipeTagsResolver
-      }
+      },
+      canDeactivate: [UpdatedStatusGuard]
     }
   ]
 };
