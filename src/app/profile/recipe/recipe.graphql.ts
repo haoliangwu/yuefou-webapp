@@ -54,7 +54,7 @@ export const UpdateRecipeMutation = gql`mutation updateRecipe($recipe: UpdateRec
 
 export const DeleteRecipeMutation = gql`mutation deleteRecipe($id: ID!) {
   deleteRecipe(id: $id) {
-    ...RecipeFragment
+    id
   }
 } ${RecipeFragment}`;
 

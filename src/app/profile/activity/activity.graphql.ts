@@ -70,9 +70,9 @@ export const UpdateActivityMutation = gql`mutation updateActivity($activity: Upd
 
 export const DeleteActivityMutation = gql`mutation deleteActivity($id: ID!) {
   deleteActivity(id: $id) {
-    ...ActivityFragment
+    id
   }
-} ${ActivityFragment}`;
+}`;
 
 export const AttendActivityMutation = gql`mutation attendActivity($id: ID!) {
   attendActivity(id: $id) {

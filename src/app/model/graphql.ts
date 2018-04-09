@@ -145,6 +145,19 @@ export interface activitiesQuery {
         },
       } | null,
     } > | null,
+    recipes:  Array< {
+      id: string,
+      name: string,
+      time: number | null,
+      desc: string | null,
+      avatar: string | null,
+      tags:  Array< {
+        id: string,
+        name: string,
+        category: TagCategory,
+        default: boolean | null,
+      } > | null,
+    } > | null,
   } >,
 };
 
@@ -194,6 +207,19 @@ export interface activitiesConnectionQuery {
               name: string,
             },
           } | null,
+        } > | null,
+        recipes:  Array< {
+          id: string,
+          name: string,
+          time: number | null,
+          desc: string | null,
+          avatar: string | null,
+          tags:  Array< {
+            id: string,
+            name: string,
+            category: TagCategory,
+            default: boolean | null,
+          } > | null,
         } > | null,
       },
     } | null >,
@@ -254,6 +280,19 @@ export interface activityQuery {
         },
       } | null,
     } > | null,
+    recipes:  Array< {
+      id: string,
+      name: string,
+      time: number | null,
+      desc: string | null,
+      avatar: string | null,
+      tags:  Array< {
+        id: string,
+        name: string,
+        category: TagCategory,
+        default: boolean | null,
+      } > | null,
+    } > | null,
   } | null,
 };
 
@@ -301,6 +340,19 @@ export interface createActivityMutation {
           name: string,
         },
       } | null,
+    } > | null,
+    recipes:  Array< {
+      id: string,
+      name: string,
+      time: number | null,
+      desc: string | null,
+      avatar: string | null,
+      tags:  Array< {
+        id: string,
+        name: string,
+        category: TagCategory,
+        default: boolean | null,
+      } > | null,
     } > | null,
   },
 };
@@ -350,6 +402,19 @@ export interface updateActivityMutation {
         },
       } | null,
     } > | null,
+    recipes:  Array< {
+      id: string,
+      name: string,
+      time: number | null,
+      desc: string | null,
+      avatar: string | null,
+      tags:  Array< {
+        id: string,
+        name: string,
+        category: TagCategory,
+        default: boolean | null,
+      } > | null,
+    } > | null,
   },
 };
 
@@ -360,42 +425,6 @@ export interface deleteActivityMutationVariables {
 export interface deleteActivityMutation {
   deleteActivity:  {
     id: string,
-    title: string,
-    desc: string | null,
-    status: ProcessStatus | null,
-    type: ActivityType,
-    location: string,
-    startedAt: string,
-    endedAt: string,
-    creator:  {
-      id: string,
-      name: string,
-    },
-    participants:  Array< {
-      id: string,
-      name: string,
-    } > | null,
-    tasks:  Array< {
-      id: string,
-      name: string,
-      status: ProcessStatus | null,
-      assignee:  {
-        id: string,
-        name: string,
-      } | null,
-      activity:  {
-        id: string,
-        title: string,
-        participants:  Array< {
-          id: string,
-          name: string,
-        } > | null,
-        creator:  {
-          id: string,
-          name: string,
-        },
-      } | null,
-    } > | null,
   },
 };
 
@@ -442,6 +471,19 @@ export interface attendActivityMutation {
         },
       } | null,
     } > | null,
+    recipes:  Array< {
+      id: string,
+      name: string,
+      time: number | null,
+      desc: string | null,
+      avatar: string | null,
+      tags:  Array< {
+        id: string,
+        name: string,
+        category: TagCategory,
+        default: boolean | null,
+      } > | null,
+    } > | null,
   },
 };
 
@@ -487,6 +529,19 @@ export interface quitActivityMutation {
           name: string,
         },
       } | null,
+    } > | null,
+    recipes:  Array< {
+      id: string,
+      name: string,
+      time: number | null,
+      desc: string | null,
+      avatar: string | null,
+      tags:  Array< {
+        id: string,
+        name: string,
+        category: TagCategory,
+        default: boolean | null,
+      } > | null,
     } > | null,
   },
 };
@@ -613,16 +668,6 @@ export interface deleteRecipeMutationVariables {
 export interface deleteRecipeMutation {
   deleteRecipe:  {
     id: string,
-    name: string,
-    time: number | null,
-    desc: string | null,
-    avatar: string | null,
-    tags:  Array< {
-      id: string,
-      name: string,
-      category: TagCategory,
-      default: boolean | null,
-    } > | null,
   },
 };
 
@@ -961,9 +1006,6 @@ export interface deleteTagMutationVariables {
 export interface deleteTagMutation {
   deleteTag:  {
     id: string,
-    name: string,
-    category: TagCategory,
-    default: boolean | null,
   },
 };
 
@@ -1004,6 +1046,19 @@ export interface ActivityFragmentFragment {
         name: string,
       },
     } | null,
+  } > | null,
+  recipes:  Array< {
+    id: string,
+    name: string,
+    time: number | null,
+    desc: string | null,
+    avatar: string | null,
+    tags:  Array< {
+      id: string,
+      name: string,
+      category: TagCategory,
+      default: boolean | null,
+    } > | null,
   } > | null,
 };
 

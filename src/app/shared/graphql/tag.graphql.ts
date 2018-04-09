@@ -36,6 +36,6 @@ export const UpdateTagMutation = gql`mutation updateTag($tag: UpdateTagInput!) {
 
 export const DeleteTagMutation = gql`mutation deleteTag($id: ID!) {
   deleteTag(id: $id) {
-    ...TagFragment
+    id
   }
 } ${TagFragment}`;
