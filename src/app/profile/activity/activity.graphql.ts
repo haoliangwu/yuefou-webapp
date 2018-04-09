@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import { TaskFragment } from '../task/task.graphql';
 import { PageInfoFragment } from '../../shared/graphql';
+import { RecipeFragment } from '../recipe/recipe.graphql';
 
 // fragment
 export const ActivityFragment = gql`fragment ActivityFragment on Activity {
@@ -23,7 +24,10 @@ export const ActivityFragment = gql`fragment ActivityFragment on Activity {
   tasks {
     ...TaskFragment
   }
-} ${TaskFragment}`;
+  recipes {
+    ...RecipeFragment
+  }
+} ${TaskFragment} ${RecipeFragment}`;
 
 // query
 export const ActivitiesQuery = gql`query activities {
@@ -52,14 +56,14 @@ export const ActivityQuery = gql`query activity($id: ID!) {
 } ${ActivityFragment}`;
 
 // mutation
-export const CreateActivityMutation = gql`mutation createActivity($activity: CreateActivityInput!, $tasksMeta: TasksMetaInput) {
-  createActivity(activity: $activity, tasksMeta: $tasksMeta) {
+export const CreateActivityMutation = gql`mutation createActivity($activity: CreateActivityInput!, $tasksMeta: TasksMetaInput, $recipesMeta: RecipesMetaInput) {
+  createActivity(activity: $activity, tasksMeta: $tasksMeta, recipesMeta: $recipesMeta) {
     ...ActivityFragment
   }
 } ${ActivityFragment}`;
 
-export const UpdateActivityMutation = gql`mutation updateActivity($activity: UpdateActivityInput!, $tasksMeta: TasksMetaInput) {
-  updateActivity(activity: $activity, tasksMeta: $tasksMeta) {
+export const UpdateActivityMutation = gql`mutation updateActivity($activity: UpdateActivityInput!, $tasksMeta: TasksMetaInput, $recipesMeta: RecipesMetaInput) {
+  updateActivity(activity: $activity, tasksMeta: $tasksMeta, recipesMeta: $recipesMeta) {
     ...ActivityFragment
   }
 } ${ActivityFragment}`;

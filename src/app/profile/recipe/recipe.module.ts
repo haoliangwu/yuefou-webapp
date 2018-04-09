@@ -9,6 +9,7 @@ import { RecipeInstanceComponent } from './recipe-instance/recipe-instance.compo
 import { CreateRecipeComponent } from './recipe-instance/create-recipe.component';
 import { RecipeTagFieldComponent } from './recipe-tag-field/recipe-tag-field.component';
 import { RecipeResolver, RecipeTagsResolver } from './services/recipe-resolver.service';
+import { RecipesPickerComponent } from './recipes-picker/recipes-picker.component';
 
 export const RecipeRoute: Route = {
   path: 'recipe',
@@ -54,7 +55,8 @@ export const RecipeRoute: Route = {
     RecipeListComponent,
     RecipeInstanceComponent,
     CreateRecipeComponent,
-    RecipeTagFieldComponent
+    RecipeTagFieldComponent,
+    RecipesPickerComponent,
   ],
   providers: [
     RecipeService,
@@ -62,6 +64,7 @@ export const RecipeRoute: Route = {
     RecipeTagsResolver
   ],
   exports: [
+    RecipesPickerComponent
   ]
 })
 export class RecipeModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ComponentRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl, FormArray } from '@angular/forms';
-import { ActivityType, Activity, Task, UpdateOperationPayload, UpdateOperation, UpdateMeta } from '../../model';
+import { ActivityType, Activity, Task, UpdateOperationPayload, UpdateOperation, UpdateMeta, Recipe } from '../../model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as R from 'ramda';
@@ -17,6 +17,8 @@ import { Subject } from 'rxjs/Subject';
 import { TasksManageListComponent } from '../task/tasks-manage-list';
 import { of } from 'rxjs/observable/of';
 import { ActivityResolver } from './activity-resolver.service';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { formatUpdateMeta } from '../../utils';
 
 const DEFAULT_ACTIVITY_FORM = {
   title: '',
@@ -44,6 +46,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   update$: Observable<boolean>;
   reset$ = new Subject();
   taskUpdate$ = new Subject();
+  recipeUpdate$ = new Subject();
 
   expandedHeight = '48px';
   step = 0;
@@ -52,11 +55,23 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   activity: Activity;
   tasks: Task[];
-  updatedTasksMeta: UpdateMeta<Task> = {
+  private updatedTasksMeta: UpdateMeta<Task> = {
     create: [],
     update: [],
     delete: []
   };
+
+  recipes: Recipe[];
+  private _recipesMeta: UpdateMeta<Recipe>;
+
+  get recipesMeta() {
+    return this._recipesMeta;
+  }
+
+  set recipesMeta(val: UpdateMeta<Recipe>) {
+    this._recipesMeta = val;
+    this.recipeUpdate$.next();
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -87,13 +102,20 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
           this.reset$.next();
 
           this.tasks = this.activity.tasks;
+          this.recipes = this.activity.recipes;
         } else {
           this.tasks = [];
+          this.recipes = [];
         }
       }),
       map(resolve => resolve.activity),
       publishBehavior(null),
       refCount()
+    );
+
+    const resolveRecipes$ = this.activity$.pipe(
+      filter(activity => activity && activity.type === ActivityType.HOST),
+      map(activity => activity.recipes)
     );
 
     this.titleText$ = this.activity$.pipe(map(activity => activity ? 'ACTIVITY.UPDATE' : 'ACTIVITY.CREATE'));
@@ -124,7 +146,7 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const updateOn$ = merge(this.form.valueChanges, this.taskUpdate$).pipe(
+    const updateOn$ = merge(this.form.valueChanges, this.taskUpdate$, this.recipeUpdate$).pipe(
       mapTo(true)
     );
     const updateOff$ = this.reset$.pipe(
@@ -206,11 +228,24 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
       this.form.reset(this.activity);
       // reset tasks
       this.tasks = this.activity.tasks;
+      this.recipes = this.activity.recipes;
     } else {
       // reset to default
       this.formUtil.resetFormGroup(this.form);
       this.tasks = [];
+      this.recipes = [];
     }
+
+    this.updatedTasksMeta = {
+      create: [],
+      update: [],
+      delete: []
+    };
+
+    this.recipesMeta = {
+      connect: [],
+      disconnect: []
+    };
 
     this.reset$.next();
   }
@@ -239,7 +274,9 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
       create: R.map<Partial<Task>, { name: string }>(R.pick(['name']), this.tasks)
     };
 
-    this.activityService.create(nextActivity, tasksMeta).subscribe(activity => {
+    const recipesMeta = formatUpdateMeta(this.recipesMeta);
+
+    this.activityService.create(nextActivity, tasksMeta, recipesMeta).subscribe(activity => {
       this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
       this.redirect();
@@ -255,7 +292,9 @@ export class ActivityCreateComponent implements OnInit, AfterViewInit {
       delete: this.updatedTasksMeta.delete
     };
 
-    this.activityService.update(id, nextActivity, tasksMeta)
+    const recipesMeta = formatUpdateMeta(this.recipesMeta);
+
+    this.activityService.update(id, nextActivity, tasksMeta, recipesMeta)
       .subscribe(activity => {
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 

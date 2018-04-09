@@ -46,6 +46,18 @@ export interface UpdateTaskInput {
   name?: string | null,
 };
 
+export interface RecipesMetaInput {
+  connect?: Array< UpdateRecipeInput > | null,
+  disconnect?: Array< UpdateRecipeInput > | null,
+};
+
+export interface UpdateRecipeInput {
+  id: string,
+  name?: string | null,
+  time?: number | null,
+  desc?: string | null,
+};
+
 export interface UpdateActivityInput {
   id: string,
   title?: string | null,
@@ -85,13 +97,6 @@ export interface UpdateTagInput {
   name?: string | null,
   category?: TagCategory | null,
   default?: boolean | null,
-};
-
-export interface UpdateRecipeInput {
-  id: string,
-  name?: string | null,
-  time?: number | null,
-  desc?: string | null,
 };
 
 export enum MutationType {
@@ -255,6 +260,7 @@ export interface activityQuery {
 export interface createActivityMutationVariables {
   activity: CreateActivityInput,
   tasksMeta?: TasksMetaInput | null,
+  recipesMeta?: RecipesMetaInput | null,
 };
 
 export interface createActivityMutation {
@@ -302,6 +308,7 @@ export interface createActivityMutation {
 export interface updateActivityMutationVariables {
   activity: UpdateActivityInput,
   tasksMeta?: TasksMetaInput | null,
+  recipesMeta?: RecipesMetaInput | null,
 };
 
 export interface updateActivityMutation {

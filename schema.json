@@ -3878,6 +3878,36 @@
                 "name": "ActivityTaskWhereInput",
                 "ofType": null
               }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "recipes_every",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "RecipeWhereInput",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "recipes_some",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "RecipeWhereInput",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "recipes_none",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "RecipeWhereInput",
+                "ofType": null
+              }
             }
           ],
           "interfaces": null,
@@ -5820,6 +5850,36 @@
                 "name": "UserWhereInput",
                 "ofType": null
               }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "activities_every",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "ActivityWhereInput",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "activities_some",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "ActivityWhereInput",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "activities_none",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "ActivityWhereInput",
+                "ofType": null
+              }
             }
           ],
           "interfaces": null,
@@ -6748,6 +6808,97 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "where",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ActivityWhereInput",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "orderBy",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "ActivityOrderByInput",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "skip",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "after",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "before",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "first",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "last",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "activities",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Activity",
+                    "ofType": null
+                  }
+                }
+              }
             }
           ],
           "inputFields": null,
@@ -7169,6 +7320,137 @@
         },
         {
           "description": "",
+          "enumValues": [
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "id_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "id_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "createdAt_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "updatedAt_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "updatedAt_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "title_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "title_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "desc_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "desc_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "type_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "type_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "status_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "status_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "startedAt_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "startedAt_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "endedAt_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "endedAt_DESC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "location_ASC"
+            },
+            {
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "location_DESC"
+            }
+          ],
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "ENUM",
+          "name": "ActivityOrderByInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "",
           "enumValues": null,
           "fields": [
             {
@@ -7527,6 +7809,97 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "ActivityTask",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "where",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "RecipeWhereInput",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "orderBy",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "RecipeOrderByInput",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "skip",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "after",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "before",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "first",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "last",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "recipes",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Recipe",
                     "ofType": null
                   }
                 }
@@ -8697,6 +9070,16 @@
                     "name": "TasksMetaInput",
                     "ofType": null
                   }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "recipesMeta",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "RecipesMetaInput",
+                    "ofType": null
+                  }
                 }
               ],
               "deprecationReason": null,
@@ -8736,6 +9119,16 @@
                   "type": {
                     "kind": "INPUT_OBJECT",
                     "name": "TasksMetaInput",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": "",
+                  "name": "recipesMeta",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "RecipesMetaInput",
                     "ofType": null
                   }
                 }
@@ -9725,6 +10118,108 @@
             {
               "defaultValue": null,
               "description": "",
+              "name": "connect",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateRecipeInput",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "disconnect",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateRecipeInput",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "RecipesMetaInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "name",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "time",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "defaultValue": null,
+              "description": "",
+              "name": "desc",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "UpdateRecipeInput",
+          "possibleTypes": null
+        },
+        {
+          "description": "",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "",
               "name": "id",
               "type": {
                 "kind": "NON_NULL",
@@ -9914,61 +10409,6 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "TagsMetaInput",
-          "possibleTypes": null
-        },
-        {
-          "description": "",
-          "enumValues": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "id",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "time",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            {
-              "defaultValue": null,
-              "description": "",
-              "name": "desc",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            }
-          ],
-          "interfaces": null,
-          "kind": "INPUT_OBJECT",
-          "name": "UpdateRecipeInput",
           "possibleTypes": null
         },
         {

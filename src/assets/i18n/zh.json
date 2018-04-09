@@ -65,6 +65,8 @@
   "RECIPE": {
     "CREATE": "创建菜谱",
     "UPDATE": "编辑菜谱",
+    "BIND_RECIPE_PLACEHOLDER": "输入想要绑定的菜谱名",
+    "BIND_RECIPE_HINT": "输入名字、口味、烹饪方式等关键词",
     "FORM": {
       "TITLE": "标题",
       "STYLE": "菜式",
@@ -91,7 +93,11 @@
     "LOAD_MORE": "加载更多",
     "NEXT": "下一步",
     "PREVIOUS": "上一步",
-    "TAGS": "标签"
+    "TAGS": "标签",
+    "OPERATION": {
+      "REMOVE": "移除",
+      "BATCH_REMOVE": "批量移除"
+    }
   },
   "TOAST": {
     "SUCCESS": {

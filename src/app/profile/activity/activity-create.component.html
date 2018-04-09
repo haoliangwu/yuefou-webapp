@@ -89,6 +89,7 @@
           <span>{{'ACTIVITY.RECIPE_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <app-recipes-picker [isDetail]="isDetail$ | async" [(recipes)]="recipes" [(recipesMeta)]="recipesMeta"></app-recipes-picker>
       <mat-action-row>
         <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
       </mat-action-row>

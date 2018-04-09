@@ -35,7 +35,8 @@ export interface Activity {
     name: string
   };
   participants: User[];
-  tasks: any[];
+  tasks: Task[];
+  recipes: Recipe[];
 }
 
 export interface Task {
@@ -87,6 +88,8 @@ export interface DataId {
 export type DataIdFromObjectResolver = (o: DataId) => any;
 
 export interface UpdateMeta<T> {
+  connect?: Array<T>;
+  disconnect?: Array<T>;
   create?: Array<T | Partial<T>>;
   update?: Array<T>;
   delete?: Array<ID>;
