@@ -17,6 +17,7 @@ import { ExpandedPanelStepperComponent } from './comps/expanded-panel-stepper/ex
 import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
 import { TagService } from './services/tag.service';
 import { RecipeFilePrefixPipe } from './pipes/recipe-file-prefix.pipe';
+import { TimeReadablePipe } from './pipes/time-readable.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RecipeFilePrefixPipe } from './pipes/recipe-file-prefix.pipe';
     SafeUrlPipe,
     SafeResourceUrlPipe,
     UpdatePageToolbarComponent,
-    RecipeFilePrefixPipe
+    RecipeFilePrefixPipe,
+    TimeReadablePipe
   ],
   imports: [
     CommonModule,
@@ -67,7 +69,8 @@ import { RecipeFilePrefixPipe } from './pipes/recipe-file-prefix.pipe';
     // pipes
     SafeUrlPipe,
     SafeResourceUrlPipe,
-    RecipeFilePrefixPipe
+    RecipeFilePrefixPipe,
+    TimeReadablePipe
   ]
 })
 export class SharedModule {

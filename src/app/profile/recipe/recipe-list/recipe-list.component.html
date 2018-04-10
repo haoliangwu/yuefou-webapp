@@ -5,13 +5,13 @@
       <header fxFlex>
         {{recipe.name}}
       </header>
-      <span>
-        {{recipe.time}}
+      <span class="minor-text">
+        {{recipe.time | timeReadable}}
       </span>
     </div>
     <div matLine>
       <p class="recipe-desc">
-        {{recipe.desc}}
+        {{recipe.desc || 'COMMON.DEFAULT_DESC' | translate}}
       </p>
     </div>
     <div matLine fxLayout="row" fxLayoutAlign="start center">
@@ -21,6 +21,6 @@
         </mat-chip>
       </mat-chip-list>
     </div>
-    <div matLine class="bottom-border"></div>
+    <div matLine *ngIf="recipe.tags.length > 0" class="bottom-border"></div>
   </mat-list-item>
 </mat-list>
