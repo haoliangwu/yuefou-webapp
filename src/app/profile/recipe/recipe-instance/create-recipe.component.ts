@@ -58,7 +58,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent<Recipe> implemen
     private recipeService: RecipeService
   ) {
     super(formUtil);
-   }
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -177,7 +177,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent<Recipe> implemen
     this.recipeService.create(recipe, tagsMeta, ).pipe(
       switchMap(result => this.file ? this.recipeService.uploadRecipePicture(result.data.createRecipe.id, this.file) : of(result)),
       tap(e => {
-        this.reset$.next();
+        this.finished$.next(true);
 
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
@@ -204,6 +204,8 @@ export class CreateRecipeComponent extends BaseUpdatedComponent<Recipe> implemen
     this.recipeService.update({ ...recipe, id: data.id }, tagsMeta, ).pipe(
       switchMap(result => this.file ? this.recipeService.uploadRecipePicture(this.data.id, this.file) : of(result)),
       tap(e => {
+        this.finished$.next(true);
+
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 
         this.redirect();

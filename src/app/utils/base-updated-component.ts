@@ -7,6 +7,7 @@ import { FormUtilService } from '../shared/services';
 export abstract class BaseUpdatedComponent<Data = any> {
   // event
   updated$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+  finished$ = new BehaviorSubject<boolean>(false);
   reset$ = new Subject<void>();
   formUpdated$ = new Subject<void>();
 

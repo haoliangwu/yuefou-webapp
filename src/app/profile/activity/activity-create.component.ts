@@ -252,6 +252,8 @@ export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> impl
     const recipesMeta = formatUpdateMeta(this.recipesMeta);
 
     this.activityService.create(nextActivity, tasksMeta, recipesMeta).subscribe(activity => {
+      this.finished$.next(true);
+
       this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
       this.redirect();
@@ -271,7 +273,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> impl
 
     this.activityService.update(data.id, nextActivity, tasksMeta, recipesMeta)
       .subscribe(() => {
-        this.reset$.next();
+        this.finished$.next(true);
 
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 
