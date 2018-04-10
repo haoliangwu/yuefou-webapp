@@ -1,5 +1,5 @@
 <div fxLayout="column" class="activity-create-panel" full>
-  <app-update-page-toolbar [data]="activity$ | async" [titleText]="titleText$ | async | translate" [updated]="updated$ | async" [isDetail]="isDetail$ | async" (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
+  <app-update-page-toolbar [data]="activity$ | async" [titleText]="titleText | translate" [updated]="updated$ | async" [isDetail]="isDetail" (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
   <mat-accordion>
     <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0">
       <mat-expansion-panel-header [expandedHeight]="expandedHeight">
@@ -27,7 +27,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <input matInput [min]="minStart$ | async" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
+          <input matInput [min]="minStartDate" [max]="form.get('endedAt').value" [matDatepicker]="startPicker" placeholder="{{'ACTIVITY.FORM.START' | translate}}"
             formControlName="startedAt" required>
           <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
           <mat-datepicker #startPicker></mat-datepicker>
@@ -78,7 +78,7 @@
           <span>{{'ACTIVITY.TASK_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-tasks-manage-list [isDetail]="isDetail$ | async" [(tasks)]="tasks" (updateTasksRequest)="updateTasksRequest($event)"></app-tasks-manage-list>
+      <app-tasks-manage-list [isDetail]="isDetail" [(tasks)]="tasks" (updateTasksRequest)="updateTasksRequest($event)"></app-tasks-manage-list>
       <mat-action-row>
         <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
       </mat-action-row>
@@ -89,7 +89,7 @@
           <span>{{'ACTIVITY.RECIPE_INFO' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-recipes-picker [isDetail]="isDetail$ | async" [(recipes)]="recipes" [(recipesMeta)]="recipesMeta"></app-recipes-picker>
+      <app-recipes-picker [isDetail]="isDetail" [(recipes)]="recipes" [(recipesMeta)]="recipesMeta"></app-recipes-picker>
       <mat-action-row>
         <app-expanded-panel-stepper [isTail]="true" [(step)]="step"></app-expanded-panel-stepper>
       </mat-action-row>

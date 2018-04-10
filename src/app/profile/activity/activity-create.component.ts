@@ -37,23 +37,28 @@ const DEFAULT_ACTIVITY_FORM = {
   providers: [ActivityResolver]
 })
 export class ActivityCreateComponent extends BaseUpdatedComponent implements OnInit, AfterViewInit {
-  activity$: Observable<Activity>;
-  isDetail$: Observable<boolean>;
-  isTaskType$: Observable<boolean>;
-  isHostType$: Observable<boolean>;
-  titleText$: Observable<string>;
-  minStart$: Observable<Date>;
-  initType$: Observable<ActivityType>;
+  // events
   reset$ = new Subject();
-  taskUpdate$ = new Subject();
-  recipeUpdate$ = new Subject();
+  formUpdated$ = new Subject<void>();
 
+  // comp state
   expandedHeight = '48px';
   step = 0;
 
-  titleText: string;
-  form: FormGroup;
+  // vm
   activity: Activity;
+  activity$: Observable<Activity>;
+
+  // state
+  titleText: string;
+  isDetail = false;
+  isTaskType$: Observable<boolean>;
+  isHostType$: Observable<boolean>;
+  minStartDate: Date;
+
+  // form
+  form: FormGroup;
+
   tasks: Task[];
   private updatedTasksMeta: UpdateMeta<Task> = {
     create: [],
@@ -70,7 +75,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
 
   set recipesMeta(val: UpdateMeta<Recipe>) {
     this._recipesMeta = val;
-    this.recipeUpdate$.next();
+    this.formUpdated$.next();
   }
 
   constructor(
@@ -90,22 +95,30 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     this.form = this.fb.group(DEFAULT_ACTIVITY_FORM);
 
     this.activity$ = this.route.data.pipe(
-      tap((resolve) => {
-        this.activity = resolve.activity;
+      tap(({ activity }) => {
+        this.activity = activity as Activity;
+        this.isDetail = !!this.activity;
 
         const typeControl = this.form.get('type');
 
         if (this.activity) {
-          this.form.patchValue(resolve.activity);
+          this.form.patchValue(this.activity);
 
           // 无法更改活动的类型
           typeControl.disable();
 
           this.reset$.next();
 
+          this.titleText = 'ACTIVITY.UPDATE';
+
+          this.minStartDate = new Date(this.activity.startedAt);
           this.tasks = this.activity.tasks;
           this.recipes = this.activity.recipes;
         } else {
+
+          this.titleText = 'ACTIVITY.CREATE';
+
+          this.minStartDate = new Date();
           this.tasks = [];
           this.recipes = [];
         }
@@ -115,53 +128,36 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
       refCount()
     );
 
-    const resolveRecipes$ = this.activity$.pipe(
-      filter(activity => activity && activity.type === ActivityType.HOST),
-      map(activity => activity.recipes)
-    );
-
-    this.titleText$ = this.activity$.pipe(map(activity => activity ? 'ACTIVITY.UPDATE' : 'ACTIVITY.CREATE'));
-
-    this.isDetail$ = this.activity$.pipe(map(activity => !!activity));
-
-    this.minStart$ = this.activity$.pipe(
-      map(activity => activity ? new Date(activity.startedAt) : new Date())
-    );
-
-    this.initType$ = this.activity$.pipe(
+    const initType$ = this.activity$.pipe(
       map(activity => activity ? activity.type : ActivityType.HOST)
     );
 
-    this.isTaskType$ = merge(this.form.get('type').valueChanges, this.initType$).pipe(
+    this.isTaskType$ = merge(this.form.get('type').valueChanges, initType$).pipe(
       map(type => {
         return R.equals(type, ActivityType.TASK);
       }),
       startWith(true)
     );
 
-    this.isHostType$ = merge(this.form.get('type').valueChanges, this.initType$).pipe(
+    this.isHostType$ = merge(this.form.get('type').valueChanges, initType$).pipe(
       map(type => {
         return R.equals(type, ActivityType.HOST);
       }),
       startWith(true)
     );
-  }
 
-  ngAfterViewInit() {
-    const updateOn$ = merge(this.form.valueChanges, this.taskUpdate$, this.recipeUpdate$).pipe(
-      mapTo(true)
-    );
-    const updateOff$ = this.reset$.pipe(
-      mapTo(false)
-    );
+    const updateOn$ = merge(this.form.valueChanges, this.formUpdated$).pipe(mapTo(true));
+    const updateOff$ = this.reset$.pipe(mapTo(false));
 
     this.updated$ = merge(updateOn$, updateOff$, this.updated$)
       .pipe(
         debounceTime(100),
         publishBehavior(false),
         refCount(),
-      );
+    );
   }
+
+  ngAfterViewInit() { }
 
   actionReqset(action: UpdateOperationPayload) {
     switch (action.operation) {
@@ -207,7 +203,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
 
     }
 
-    this.taskUpdate$.next();
+    this.formUpdated$.next();
   }
 
   private save() {
@@ -234,6 +230,8 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     } else {
       // reset to default
       this.formUtil.resetFormGroup(this.form);
+      this.form.patchValue({type: DEFAULT_ACTIVITY_FORM.type});
+
       this.tasks = [];
       this.recipes = [];
     }

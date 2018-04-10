@@ -27,17 +27,23 @@ const pickTagInputProps = R.pick(['id']);
   styleUrls: ['./create-recipe.component.scss'],
 })
 export class CreateRecipeComponent extends BaseUpdatedComponent implements OnInit, OnDestroy {
+  // events
+  reset$ = new Subject<void>();
+  recipePictureChanged$ = new Subject<string>();
+
+  // vm
   recipe$: Observable<Recipe>;
+  recipe: Recipe;
   recipeAvatar$: Observable<string | void>;
   recipeTags$: Observable<RecipeTag[]>;
-  isDetail$: Observable<boolean>;
-  titleText$: Observable<string>;
-  reset$ = new Subject<void>();
-  recipePictureChange$ = new Subject<string>();
-
   file: File;
+
+  // state
+  titleText: string;
+  isDetail = false;
+
+  // form
   form: FormGroup;
-  recipe: Recipe;
 
   removable = true;
   selectable = true;
@@ -72,33 +78,32 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     this.recipe$ = this.route.data.pipe(
       map(resolve => resolve.recipe),
       tap(recipe => {
-        this.recipe = recipe;
+        this.recipe = recipe as Recipe;
+        this.isDetail = !!this.recipe;
 
         if (this.recipe) {
           this.form.patchValue(this.recipe);
           this.form.setControl('tags', this.fb.array(this.tagsFGs));
+
+          this.titleText = 'RECIPE.UPDATE';
+        } else {
+          this.titleText = 'RECIPE.CREATE';
         }
       }),
       publishBehavior(null),
       refCount()
     );
 
-    this.recipeAvatar$ = merge(this.recipe$.pipe(
-      filter(recipe => recipe && !!recipe.avatar),
-      map(recipe => recipe.avatar),
-    ), this.recipePictureChange$, this.reset$);
-
     this.recipeTags$ = this.route.data.pipe(
       map(resolve => resolve.recipeTags)
     );
 
-    this.titleText$ = this.recipe$.pipe(
-      map(recipe => !!recipe ? 'RECIPE.UPDATE' : 'RECIPE.CREATE')
-    );
+    this.recipeAvatar$ = merge(this.recipe$.pipe(
+      filter(recipe => recipe && !!recipe.avatar),
+      map(recipe => recipe.avatar),
+    ), this.recipePictureChanged$, this.reset$);
 
-    this.isDetail$ = this.recipe$.pipe(map(activity => !!activity));
-
-    const updateOn$ = merge(this.form.valueChanges, this.recipePictureChange$).pipe(
+    const updateOn$ = merge(this.form.valueChanges, this.recipePictureChanged$).pipe(
       mapTo(true)
     );
     const updateOff$ = this.reset$.pipe(
@@ -131,8 +136,8 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     }
   }
 
-  snapshot(file: File) {
-    this.recipePictureChange$.next(this.fileReader.createObjectURL(file));
+  uploadRecipePicture(file: File) {
+    this.recipePictureChanged$.next(this.fileReader.createObjectURL(file));
     this.file = file;
   }
 
