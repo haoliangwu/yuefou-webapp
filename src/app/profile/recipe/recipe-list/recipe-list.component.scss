@@ -1,15 +1,16 @@
-.mat-list-item {
-    padding: .5em 0;
-    img.mat-list-avatar {
-        width: 60px;
-        height: 60px;
-    }
+mat-card {
+    margin: .25em 0;
 }
 
-.bottom-border {
-    height: .5em;
+img {
+    height: 300px;
+    max-width: initial;
 }
 
 .recipe-desc {
-  margin: 0 0 1em 0;
+  padding: .5em;
+}
+
+h3 {
+  margin: 0;
 }

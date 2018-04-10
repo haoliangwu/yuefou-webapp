@@ -9,6 +9,7 @@
       {{activity.desc ? activity.desc : 'COMMON.DEFAULT_DESC' | translate}}
     </p>
   </mat-card-content>
+  <mat-divider></mat-divider>
   <mat-card-actions>
     <span fxFlex></span>
     <button mat-icon-button color="primary" (click)="quit(activity)" *ngIf="activity | activityPermission:'quit'">

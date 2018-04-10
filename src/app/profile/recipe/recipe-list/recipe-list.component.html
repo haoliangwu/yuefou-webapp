@@ -1,26 +1,51 @@
-<mat-list>
-  <mat-list-item *ngFor="let recipe of recipes" (click)="update(recipe)">
-    <img matListAvatar [src]="recipe.avatar | recipeFilePrefix | safeUrl">
-    <div matLine fxLayout="row" fxLayoutAlign="start center" style="margin: 0 0 1em 0;">
-      <header fxFlex>
-        {{recipe.name}}
-      </header>
-      <span class="minor-text">
-        {{recipe.time | timeReadable}}
-      </span>
-    </div>
-    <div matLine>
-      <p class="recipe-desc">
-        {{recipe.desc || 'COMMON.DEFAULT_DESC' | translate}}
-      </p>
-    </div>
-    <div matLine fxLayout="row" fxLayoutAlign="start center">
+<!-- <mat-card *ngFor="let recipe of recipes" (click)="update(recipe)">
+  <mat-card-header>
+    <mat-card-title>{{recipe.name}}</mat-card-title>
+    <mat-card-subtitle>{{recipe.time | timeReadable}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+  </mat-card-content> -->
+<!-- <img matListAvatar > -->
+
+<!-- <div matLine fxLayout="row" fxLayoutAlign="start center">
+
+  </div>
+  <div matLine *ngIf="recipe.tags.length > 0" class="bottom-border"></div> -->
+<!-- </mat-card> -->
+
+
+<mat-card *ngFor="let recipe of recipes">
+  <mat-card-header>
+    <mat-card-title>
+      <h3 class="major-text">{{recipe.name}}</h3>
+    </mat-card-title>
+    <mat-card-subtitle>{{recipe.time | timeReadable}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image *ngIf="recipe.avatar" [src]="recipe.avatar | recipeFilePrefix | safeUrl">
+  <mat-card-content>
+    <p class="recipe-desc">
+      {{recipe.desc || 'COMMON.DEFAULT_DESC' | translate}}
+    </p>
+    <section class="tag-wrapper">
       <mat-chip-list fxFlex>
         <mat-chip *ngFor="let tag of recipe.tags">
           {{tag.name}}
         </mat-chip>
       </mat-chip-list>
-    </div>
-    <div matLine *ngIf="recipe.tags.length > 0" class="bottom-border"></div>
-  </mat-list-item>
-</mat-list>
+    </section>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <span fxFlex></span>
+    <button mat-icon-button color="primary" (click)="update(recipe)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="delete(recipe)">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button mat-icon-button color="accent" ngxClipboard [cbContent]="recipe.id" (cbOnSuccess)="share()">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
