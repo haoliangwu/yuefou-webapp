@@ -157,6 +157,11 @@ export interface activitiesQuery {
         category: TagCategory,
         default: boolean | null,
       } > | null,
+      creator:  {
+        id: string,
+        name: string,
+        avatar: string | null,
+      },
     } > | null,
   } >,
 };
@@ -220,6 +225,11 @@ export interface activitiesConnectionQuery {
             category: TagCategory,
             default: boolean | null,
           } > | null,
+          creator:  {
+            id: string,
+            name: string,
+            avatar: string | null,
+          },
         } > | null,
       },
     } | null >,
@@ -292,6 +302,11 @@ export interface activityQuery {
         category: TagCategory,
         default: boolean | null,
       } > | null,
+      creator:  {
+        id: string,
+        name: string,
+        avatar: string | null,
+      },
     } > | null,
   } | null,
 };
@@ -353,6 +368,11 @@ export interface createActivityMutation {
         category: TagCategory,
         default: boolean | null,
       } > | null,
+      creator:  {
+        id: string,
+        name: string,
+        avatar: string | null,
+      },
     } > | null,
   },
 };
@@ -414,6 +434,11 @@ export interface updateActivityMutation {
         category: TagCategory,
         default: boolean | null,
       } > | null,
+      creator:  {
+        id: string,
+        name: string,
+        avatar: string | null,
+      },
     } > | null,
   },
 };
@@ -483,6 +508,11 @@ export interface attendActivityMutation {
         category: TagCategory,
         default: boolean | null,
       } > | null,
+      creator:  {
+        id: string,
+        name: string,
+        avatar: string | null,
+      },
     } > | null,
   },
 };
@@ -542,6 +572,11 @@ export interface quitActivityMutation {
         category: TagCategory,
         default: boolean | null,
       } > | null,
+      creator:  {
+        id: string,
+        name: string,
+        avatar: string | null,
+      },
     } > | null,
   },
 };
@@ -559,6 +594,11 @@ export interface recipesQuery {
       category: TagCategory,
       default: boolean | null,
     } > | null,
+    creator:  {
+      id: string,
+      name: string,
+      avatar: string | null,
+    },
   } >,
 };
 
@@ -583,6 +623,11 @@ export interface recipesConnectionQuery {
           category: TagCategory,
           default: boolean | null,
         } > | null,
+        creator:  {
+          id: string,
+          name: string,
+          avatar: string | null,
+        },
       },
     } | null >,
     // Information to aid in pagination.
@@ -616,6 +661,11 @@ export interface recipeQuery {
       category: TagCategory,
       default: boolean | null,
     } > | null,
+    creator:  {
+      id: string,
+      name: string,
+      avatar: string | null,
+    },
   } | null,
 };
 
@@ -637,6 +687,11 @@ export interface createRecipeMutation {
       category: TagCategory,
       default: boolean | null,
     } > | null,
+    creator:  {
+      id: string,
+      name: string,
+      avatar: string | null,
+    },
   },
 };
 
@@ -658,6 +713,11 @@ export interface updateRecipeMutation {
       category: TagCategory,
       default: boolean | null,
     } > | null,
+    creator:  {
+      id: string,
+      name: string,
+      avatar: string | null,
+    },
   },
 };
 
@@ -689,6 +749,11 @@ export interface uploadRecipePictureMutation {
       category: TagCategory,
       default: boolean | null,
     } > | null,
+    creator:  {
+      id: string,
+      name: string,
+      avatar: string | null,
+    },
   },
 };
 
@@ -1059,6 +1124,11 @@ export interface ActivityFragmentFragment {
       category: TagCategory,
       default: boolean | null,
     } > | null,
+    creator:  {
+      id: string,
+      name: string,
+      avatar: string | null,
+    },
   } > | null,
 };
 
@@ -1074,6 +1144,11 @@ export interface RecipeFragmentFragment {
     category: TagCategory,
     default: boolean | null,
   } > | null,
+  creator:  {
+    id: string,
+    name: string,
+    avatar: string | null,
+  },
 };
 
 export interface TaskFragmentFragment {
@@ -1114,4 +1189,10 @@ export interface TagFragmentFragment {
   name: string,
   category: TagCategory,
   default: boolean | null,
+};
+
+export interface UserFragmentFragment {
+  id: string,
+  name: string,
+  avatar: string | null,
 };

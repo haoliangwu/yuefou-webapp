@@ -6,10 +6,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard';
+import { AvatarModule } from 'ngx-avatar';
 
 import { MaterialModule, DialogModule } from './modules';
-import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard } from './services';
-import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent, UpdatePageToolbarComponent } from './comps';
+import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard, UserService } from './services';
+import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent, UpdatePageToolbarComponent, ToolbarComponent, NavigatorComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
 import { LoadMoreComponent } from './comps/load-more/load-more.component';
@@ -18,6 +19,8 @@ import { SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe-url.pipe';
 import { TagService } from './services/tag.service';
 import { RecipeFilePrefixPipe } from './pipes/recipe-file-prefix.pipe';
 import { TimeReadablePipe } from './pipes/time-readable.pipe';
+import { UserInfoComponent } from './comps/user-info/user-info.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -33,14 +36,18 @@ import { TimeReadablePipe } from './pipes/time-readable.pipe';
     SafeResourceUrlPipe,
     UpdatePageToolbarComponent,
     RecipeFilePrefixPipe,
-    TimeReadablePipe
+    TimeReadablePipe,
+    ToolbarComponent,
+    NavigatorComponent,
+    UserInfoComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    TranslateModule
+    TranslateModule,
+    AvatarModule
   ],
   exports: [
     // base
@@ -55,6 +62,7 @@ import { TimeReadablePipe } from './pipes/time-readable.pipe';
     DialogModule,
     TranslateModule,
     ClipboardModule,
+    AvatarModule,
     // directives
     EnterKeyDirective,
     FullDirective,
@@ -66,6 +74,9 @@ import { TimeReadablePipe } from './pipes/time-readable.pipe';
     CustomMatSliderComponent,
     CameraTriggerCardComponent,
     UpdatePageToolbarComponent,
+    ToolbarComponent,
+    NavigatorComponent,
+    UserInfoComponent,
     // pipes
     SafeUrlPipe,
     SafeResourceUrlPipe,
@@ -86,6 +97,7 @@ export class SharedModule {
         FileReaderService,
         // api
         TagService,
+        UserService,
         // guard
         UpdatedStatusGuard
       ]

@@ -1,3 +1,33 @@
-<p>
-  recipe-instance works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{recipe.name}}</mat-card-title>
+    <mat-card-subtitle>by {{recipe.creator.name}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="recipe.avatar | recipeFilePrefix | safeUrl">
+  <mat-card-content>
+      <p class="recipe-desc">
+        {{recipe.desc || 'COMMON.DEFAULT_DESC' | translate}}
+      </p>
+      <section class="tag-wrapper">
+        <mat-chip-list fxFlex>
+          <mat-chip *ngFor="let tag of recipe.tags">
+            {{tag.name}}
+          </mat-chip>
+        </mat-chip-list>
+      </section>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+      <span fxFlex></span>
+      <button mat-icon-button color="primary" (click)="voteup(recipe)">
+        <mat-icon>thumb_up</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="votedown(recipe)">
+        <mat-icon>thumb_down</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" ngxClipboard [cbContent]="recipe.id" (cbOnSuccess)="share()">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-card-actions>
+</mat-card>

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { PageInfoFragment, TagFragment } from '../../shared/graphql';
+import { PageInfoFragment, TagFragment, UserFragment } from '../../shared/graphql';
 
 // fragment
 export const RecipeFragment = gql`fragment RecipeFragment on Recipe {
@@ -11,7 +11,10 @@ export const RecipeFragment = gql`fragment RecipeFragment on Recipe {
   tags {
     ...TagFragment
   }
-} ${TagFragment}`;
+  creator {
+    ...UserFragment
+  }
+} ${TagFragment} ${UserFragment}`;
 
 // query
 export const RecipesQuery = gql`query recipes {
@@ -56,7 +59,7 @@ export const DeleteRecipeMutation = gql`mutation deleteRecipe($id: ID!) {
   deleteRecipe(id: $id) {
     id
   }
-} ${RecipeFragment}`;
+}`;
 
 export const UploadRecipePictureMutation = gql`mutation uploadRecipePicture($id: ID!, $file: Upload!) {
   uploadRecipePicture(id: $id, file: $file) {

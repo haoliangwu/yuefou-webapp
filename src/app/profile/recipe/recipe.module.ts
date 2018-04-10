@@ -25,10 +25,6 @@ export const RecipeRoute: Route = {
       component: RecipeComponent,
     },
     {
-      path: 'view',
-      component: RecipeInstanceComponent
-    },
-    {
       path: 'create',
       component: CreateRecipeComponent,
       resolve: {
@@ -44,7 +40,14 @@ export const RecipeRoute: Route = {
         recipeTags: RecipeTagsResolver
       },
       canDeactivate: [UpdatedStatusGuard]
-    }
+    },
+    {
+      path: 'view/:id',
+      component: RecipeInstanceComponent,
+      resolve: {
+        recipe: RecipeResolver
+      }
+    },
   ]
 };
 
@@ -67,7 +70,8 @@ export const RecipeRoute: Route = {
     RecipeTagsResolver
   ],
   exports: [
-    RecipesPickerComponent
+    RecipesPickerComponent,
+    RecipeInstanceComponent
   ]
 })
 export class RecipeModule { }

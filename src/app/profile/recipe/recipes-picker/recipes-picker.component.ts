@@ -10,6 +10,7 @@ import { map, tap, startWith, filter, distinctUntilChanged, debounce, debounceTi
 import { Subscription } from 'rxjs/Subscription';
 import { uniqById, appendItemAndUniqById, findIndexById, removeItemById } from '../../../utils';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes-picker',
@@ -41,7 +42,8 @@ export class RecipesPickerComponent implements OnInit, AfterViewInit, OnDestroy 
 
   constructor(
     private fb: FormBuilder,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -120,6 +122,7 @@ export class RecipesPickerComponent implements OnInit, AfterViewInit, OnDestroy 
 
   view(recipe: Recipe) {
     // TODO 打开菜谱预览弹窗
+    this.router.navigate(['/profile/recipe/view/:id', { id: recipe.id }]);
   }
 
   autoDisplayFn(recipe?: Recipe): string | void {

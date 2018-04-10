@@ -2,7 +2,7 @@
   <app-user-info (click)="close()"></app-user-info>
   <mat-divider></mat-divider>
   <mat-nav-list (click)="close()">
-    <mat-list-item [routerLink]="item.link" routerLinkActive="active" *ngFor="let item of items">
+    <mat-list-item (click)="redirect(item.link)" routerLinkActive="active" *ngFor="let item of items">
       <mat-icon color="primary" matListIcon>{{item.icon}}</mat-icon>
       <span matLine>
         <a>{{ item.text }}</a>

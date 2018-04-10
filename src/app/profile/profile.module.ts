@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AvatarModule } from 'ngx-avatar';
-
 import { ProfileRoutingModule } from './profile-routing.module';
 
 import { SharedModule } from '../shared/shared.module';
@@ -12,11 +10,7 @@ import { TaskModule } from './task/task.module';
 import { ProfileComponent } from './profile.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NavigatorComponent } from './layout/navigator.component';
-import { UserInfoComponent } from './user-info/user-info.component';
-import { ToolbarComponent } from './layout/toolbar.component';
 import { RecipeComponent } from './recipe/recipe.component';
-import { UserService } from './user-info/user.service';
 import { RecipeModule } from './recipe/recipe.module';
 
 @NgModule({
@@ -26,18 +20,13 @@ import { RecipeModule } from './recipe/recipe.module';
     ActivityModule,
     TaskModule,
     RecipeModule,
-    ProfileRoutingModule,
-    AvatarModule,
+    ProfileRoutingModule
   ],
   declarations: [
     ProfileComponent,
-    DashboardComponent,
-    NavigatorComponent,
-    UserInfoComponent,
-    ToolbarComponent,
+    DashboardComponent
   ],
   providers: [
-    UserService
   ]
 })
 export class ProfileModule { }

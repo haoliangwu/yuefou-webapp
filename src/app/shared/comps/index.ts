@@ -3,3 +3,4 @@ export * from './fixed-toggle/fixed-toggle.component';
 export * from './custom-mat-fields/mat-slider.component';
 export * from './camera-trigger-card/camera-trigger-card.component';
 export * from './secondary-toolbars/update-page-toolbar.component';
+export * from './layout';

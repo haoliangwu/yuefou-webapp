@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileComponent } from '../profile.component';
+import { ProfileComponent } from '../../../profile/profile.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -9,7 +9,7 @@ import { ProfileComponent } from '../profile.component';
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    private profileComp: ProfileComponent
+    private profileComp: ProfileComponent,
   ) { }
 
   ngOnInit() {

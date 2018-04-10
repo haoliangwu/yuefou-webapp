@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { APP_HOST, LOCALSTORAGE } from '../../constants';
-import { User } from '../../model';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { take, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { merge } from 'rxjs/observable/merge';
-import { LocationUtilService } from '../../shared/services/location-util.service';
 import * as R from 'ramda';
 import { filter } from 'rxjs/operators';
+import { User } from '../../../model';
+import { LOCALSTORAGE, APP_HOST } from '../../../constants';
+import { LocationUtilService } from '../../services';
 
 
 @Component({

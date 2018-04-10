@@ -55,6 +55,7 @@ export interface Recipe {
   desc?: string;
   avatar?: string;
   tags?: RecipeTag[];
+  creator: Partial<User>;
 }
 
 export interface Tag {

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileComponent } from '../profile.component';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ToastrService } from 'ngx-toastr';
-import { LOCALSTORAGE, TOAST } from '../../constants';
-import { DialogUtilService } from '../../shared/modules/dialog/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Apollo } from 'apollo-angular';
+import { ProfileComponent } from '../../../profile/profile.component';
+import { DialogUtilService } from '../../modules/dialog/dialog.service';
+import { LOCALSTORAGE } from '../../../constants';
 
 @Component({
   selector: 'app-navigator',
@@ -61,5 +61,9 @@ export class NavigatorComponent implements OnInit {
           this.toastService.success(this.translate.instant('TOAST.SUCCESS.LOGOUT'));
         });
       });
+  }
+
+  redirect(url: string) {
+    this.router.navigate([url]);
   }
 }

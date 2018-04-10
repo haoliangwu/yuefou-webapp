@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { slideLeftTransition } from '../animations/router-transition';
-import { UserService } from './user-info/user.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { LOCALSTORAGE } from '../constants';
-import { RouterUtilService } from '../shared/services';
+import { RouterUtilService, UserService } from '../shared/services';
 
 @Component({
   selector: 'app-profile',

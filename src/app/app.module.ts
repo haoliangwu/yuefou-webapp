@@ -32,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppConfigProvider, DataIdFromObjectProvider, DataIdFromObjectToken } from './app.config';
 import { OperationDefinitionNode } from 'graphql';
 import { DataIdFromObjectResolver } from './model';
+import { PublicModule } from './public/public.module';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -79,8 +80,9 @@ const appRoutes: Routes = [
     // in case sharing same service instances with lazy-load feature modules
     SharedModule.forRoot(),
     // feature modules
-    ProfileModule,
     AuthModule,
+    ProfileModule,
+    PublicModule,
     // app root route
     // should be last one
     RouterModule.forRoot(
