@@ -149,7 +149,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent<Recipe> implemen
     this.reset$.next();
   }
 
-  protected delete(recipe: Recipe) {
+  protected delete(data: Recipe) {
     const dialogRef = this.dialogUtil.confirm({
       data: {
         title: '确定要删除该菜谱？'
@@ -158,7 +158,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent<Recipe> implemen
 
     dialogRef.afterClosed().pipe(
       filter(e => !!e),
-      switchMap(() => this.recipeService.delete(recipe.id)),
+      switchMap(() => this.recipeService.delete(data.id)),
       tap(() => {
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
         this.redirect();

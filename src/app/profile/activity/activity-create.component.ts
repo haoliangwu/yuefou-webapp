@@ -225,7 +225,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> impl
     this.reset$.next();
   }
 
-  protected delete(activity: Activity) {
+  protected delete(data: Activity) {
     const dialogRef = this.dialogUtil.confirm({
       data: {
         title: '确定要删除该项活动？'
@@ -234,7 +234,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> impl
 
     dialogRef.afterClosed().pipe(
       filter(e => !!e),
-      switchMap(() => this.activityService.delete(activity.id)),
+      switchMap(() => this.activityService.delete(data.id)),
       tap(() => {
         this.redirect();
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.BASE'));
@@ -258,7 +258,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> impl
     });
   }
 
-  protected update(activity: Activity) {
+  protected update(data: Activity) {
     const nextActivity = this.form.value;
 
     const tasksMeta = {
@@ -269,7 +269,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> impl
 
     const recipesMeta = formatUpdateMeta(this.recipesMeta);
 
-    this.activityService.update(activity.id, nextActivity, tasksMeta, recipesMeta)
+    this.activityService.update(data.id, nextActivity, tasksMeta, recipesMeta)
       .subscribe(() => {
         this.reset$.next();
 
