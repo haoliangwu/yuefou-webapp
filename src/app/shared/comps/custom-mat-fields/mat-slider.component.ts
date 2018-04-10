@@ -16,13 +16,16 @@ import { Subscription } from 'apollo-client/util/Observable';
 export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormFieldControl<number>, ControlValueAccessor {
   static count = 0;
 
+  @Input() max: 100;
+  @Input() step: 1;
+
   sub: Subscription;
 
   control: FormControl = this.fb.control('');
 
   @Input()
   get value(): number {
-    return this.control.value || 0;
+    return this.control.value * this.step || 0;
   }
   set value(val: number) {
     this.propagateChange(val);
@@ -93,7 +96,7 @@ export class CustomMatSliderComponent implements OnInit, OnDestroy, MatFormField
   onContainerClick(event: MouseEvent): void { }
 
   change(event: MatSliderChange) {
-    this.control.setValue(event.value);
+    this.control.setValue(event.value / this.step);
   }
 
   writeValue(value: number) {

@@ -1,4 +1,4 @@
 <div fxLayout="row" fxLayoutAlign="start center">
-  <input class="major-text" fxFlex="5em" matInput placeholder="Favorite food" value="{{value}}分钟" readonly>
-  <mat-slider fxFlex min="0" max="60" step="1" [value]="value" tickInterval="5" (change)="change($event)" [disabled]="disabled || !focused"></mat-slider>
+  <input class="major-text" fxFlex="5em" matInput placeholder="Favorite food" value="{{control.value}}分钟" readonly>
+  <mat-slider fxFlex min="0" [max]="max" [step]="step" [value]="value" tickInterval="10" (change)="change($event)" [disabled]="disabled || !focused"></mat-slider>
 </div>

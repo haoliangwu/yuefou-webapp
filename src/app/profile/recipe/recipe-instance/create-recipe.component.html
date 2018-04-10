@@ -20,7 +20,7 @@
       </mat-form-field>
       <app-recipe-tag-field formArrayName="tags" [options]="recipeTags$ | async"></app-recipe-tag-field>
       <mat-form-field full>
-        <app-mat-slider formControlName="time" placeholder="{{'RECIPE.FORM.TIME' | translate}}"></app-mat-slider>
+        <app-mat-slider [max]="60" [step]="0.5" formControlName="time" placeholder="{{'RECIPE.FORM.TIME' | translate}}"></app-mat-slider>
         <mat-hint>{{'RECIPE.HINT.TIME' | translate}}</mat-hint>
       </mat-form-field>
       <mat-form-field full>
