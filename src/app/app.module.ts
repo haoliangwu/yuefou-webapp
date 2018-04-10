@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import { NgModule, Inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Router } from '@angular/router';
 import { HttpHeaders, HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { ApolloModule, Apollo } from 'apollo-angular';
@@ -33,6 +33,7 @@ import { AppConfigProvider, DataIdFromObjectProvider, DataIdFromObjectToken } fr
 import { OperationDefinitionNode } from 'graphql';
 import { DataIdFromObjectResolver } from './model';
 import { PublicModule } from './public/public.module';
+import { RouterUtilService } from './shared/services';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -106,7 +107,9 @@ export class AppModule {
     httpLinkService: HttpLink,
     private toastrService: ToastrService,
     private translate: TranslateService,
-    @Inject(DataIdFromObjectToken) private dataIdFromObject: DataIdFromObjectResolver
+    @Inject(DataIdFromObjectToken) private dataIdFromObject: DataIdFromObjectResolver,
+    private router: Router,
+    private routerUtil: RouterUtilService
   ) {
     const authLink = new ApolloLink((operation, forward) => {
       if (operation.operationName === 'IntrospectionQuery') {
@@ -125,17 +128,22 @@ export class AppModule {
       return forward(operation);
     });
 
-    const errorLink = onError(({ graphQLErrors, networkError }) => {
+    const errorLink = onError(({ graphQLErrors, networkError, response }) => {
       if (graphQLErrors) {
         graphQLErrors.map(({ message, source, path }) => {
           console.error(
-            `[GraphQL error]: Message: ${message}, Source: ${source}, Path: ${path}`,
+            `[GraphQL error]: Message: ${message}, Path: ${path}`,
           );
 
           // TODO server 端需要返回按错误代码标识的错误信息
           this.toastrService.error(this.translate.instant(`SERVER.ERROR.${message}`));
-        },
-        );
+
+          if (message === 'invalid token') {
+            this.routerUtil.clearToken();
+
+            this.router.navigate(['/login']);
+          }
+        });
       }
 
       if (networkError) {

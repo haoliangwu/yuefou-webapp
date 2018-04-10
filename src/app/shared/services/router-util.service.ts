@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { tap, filter, publish, refCount, publishBehavior, mapTo, delay } from 'rxjs/operators';
 import * as R from 'ramda';
 import { merge } from 'rxjs/observable/merge';
+import { LOCALSTORAGE } from '../../constants';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Injectable()
 export class RouterUtilService {
@@ -24,8 +26,15 @@ export class RouterUtilService {
   }
 
   constructor(
-    private router: Router
+    private router: Router,
+    private storage: LocalStorageService,
   ) { }
+
+  clearToken() {
+    this.storage.clear(LOCALSTORAGE.API_TOKEN);
+    this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
+    this.storage.clear(LOCALSTORAGE.USER);
+  }
 
   generateRecipeShareUrl(id) {
     return this.origin + this.router.serializeUrl(this.router.createUrlTree(['/share/recipe/:id', { id }]));

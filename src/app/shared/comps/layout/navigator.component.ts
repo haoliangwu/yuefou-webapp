@@ -7,6 +7,7 @@ import { Apollo } from 'apollo-angular';
 import { ProfileComponent } from '../../../profile/profile.component';
 import { DialogUtilService } from '../../modules/dialog/dialog.service';
 import { LOCALSTORAGE } from '../../../constants';
+import { RouterUtilService } from '../../services';
 
 @Component({
   selector: 'app-navigator',
@@ -23,8 +24,8 @@ export class NavigatorComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private routerUtil: RouterUtilService,
     private route: ActivatedRoute,
-    private storage: LocalStorageService,
     private toastService: ToastrService,
     private profileComp: ProfileComponent,
     private dialogUtil: DialogUtilService,
@@ -55,9 +56,7 @@ export class NavigatorComponent implements OnInit {
         client.cache.reset();
 
         this.router.navigate(['/login']).then(() => {
-          this.storage.clear(LOCALSTORAGE.API_TOKEN);
-          this.storage.clear(LOCALSTORAGE.REMEMBER_ME);
-          this.storage.clear(LOCALSTORAGE.USER);
+          this.routerUtil.clearToken();
 
           this.toastService.success(this.translate.instant('TOAST.SUCCESS.LOGOUT'));
         });
