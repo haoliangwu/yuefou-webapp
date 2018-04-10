@@ -298,6 +298,8 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
 
     this.activityService.update(id, nextActivity, tasksMeta, recipesMeta)
       .subscribe(activity => {
+        this.reset$.next();
+
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 
         this.redirect();

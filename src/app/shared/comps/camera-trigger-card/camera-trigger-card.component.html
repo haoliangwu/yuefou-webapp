@@ -1,7 +1,7 @@
 <div class="camera-panel-wrapper" full>
   <img *ngIf="url" [src]="url | safeUrl" full>
-  <div class="camera-indicator" (click)="fileInput.click()">
+  <label class="camera-indicator" for="fileUploadInput">
     <mat-icon>photo_camera</mat-icon>
-    <input type="file" accept="image/*" #fileInput (change)="selectFile(fileInput.files)">
-  </div>
+    <input id="fileUploadInput" type="file" accept="image/*" #fileInput (change)="selectFile(fileInput.files)">
+  </label>
 </div>

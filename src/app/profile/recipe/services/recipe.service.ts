@@ -2,12 +2,14 @@ import { Injectable, Inject } from '@angular/core';
 import { Recipe, RecipeTag, RecipeTagType, AppConfig, recipeQuery, recipeQueryVariables, recipesQuery, recipesConnectionQuery, recipesConnectionQueryVariables, ForwardPaginationInput, CreateRecipeInput, createRecipeMutation, createRecipeMutationVariables, UpdateRecipeInput, updateRecipeMutation, updateRecipeMutationVariables, deleteRecipeMutation, deleteRecipeMutationVariables, uploadRecipePictureMutation, uploadRecipePictureMutationVariables, TagCategory, TagsMetaInput } from '../../../model';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { AppConfigToken } from '../../../app.config';
 import { RecipesQuery, RecipesConnection, RecipeQuery, CreateRecipeMutation, DeleteRecipeMutation, UpdateRecipeMutation, UploadRecipePictureMutation } from '../recipe.graphql';
 import { TagService } from '../../../shared/services/tag.service';
 import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions';
+import ImageCompressor from 'image-compressor.js';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 
 @Injectable()
 export class RecipeService {
@@ -127,13 +129,23 @@ export class RecipeService {
   }
 
   uploadRecipePicture(id: string, file: File) {
-    return this.apollo.use('upload').mutate<uploadRecipePictureMutation>({
-      mutation: UploadRecipePictureMutation,
-      variables: {
-        id,
-        file
-      }
-    });
+    const compressionFile = new ImageCompressor();
+
+    const compression$ = fromPromise(compressionFile.compress(file, {
+      quality: 0.6,
+    }));
+
+    return compression$.pipe(
+      switchMap(blob => {
+        return this.apollo.use('upload').mutate<uploadRecipePictureMutation>({
+          mutation: UploadRecipePictureMutation,
+          variables: {
+            id,
+            file: blob
+          }
+        });
+      })
+    );
   }
 
   recipeTags() {

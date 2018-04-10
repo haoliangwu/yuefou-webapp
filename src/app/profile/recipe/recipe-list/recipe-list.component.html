@@ -9,10 +9,12 @@
         {{recipe.time}}
       </span>
     </div>
-    <div matLine fxLayout="row" fxLayoutAlign="start center">
-      <section fxFlex>
+    <div matLine>
+      <p class="recipe-desc">
         {{recipe.desc}}
-      </section>
+      </p>
+    </div>
+    <div matLine fxLayout="row" fxLayoutAlign="start center">
       <mat-chip-list fxFlex>
         <mat-chip *ngFor="let tag of recipe.tags">
           {{tag.name}}

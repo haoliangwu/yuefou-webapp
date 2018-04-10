@@ -32,8 +32,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
   recipeTags$: Observable<RecipeTag[]>;
   isDetail$: Observable<boolean>;
   titleText$: Observable<string>;
-  reset$ = new Subject();
-  taskUpdate$ = new Subject();
+  reset$ = new Subject<void>();
   recipePictureChange$ = new Subject<string>();
 
   file: File;
@@ -87,7 +86,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     this.recipeAvatar$ = merge(this.recipe$.pipe(
       filter(recipe => recipe && !!recipe.avatar),
       map(recipe => recipe.avatar),
-    ), this.recipePictureChange$);
+    ), this.recipePictureChange$, this.reset$);
 
     this.recipeTags$ = this.route.data.pipe(
       map(resolve => resolve.recipeTags)
@@ -99,7 +98,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
 
     this.isDetail$ = this.recipe$.pipe(map(activity => !!activity));
 
-    const updateOn$ = merge(this.form.valueChanges, this.taskUpdate$).pipe(
+    const updateOn$ = merge(this.form.valueChanges, this.recipePictureChange$).pipe(
       mapTo(true)
     );
     const updateOff$ = this.reset$.pipe(
@@ -194,6 +193,8 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     this.recipeService.create(recipe, tagsMeta, ).pipe(
       switchMap(result => this.file ? this.recipeService.uploadRecipePicture(result.data.createRecipe.id, this.file) : of(result)),
       tap(e => {
+        this.reset$.next();
+
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.CREATE_SUCCESS'));
 
         this.redirect();
