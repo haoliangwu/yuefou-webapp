@@ -36,18 +36,10 @@ const DEFAULT_ACTIVITY_FORM = {
   styleUrls: ['./activity-create.component.scss'],
   providers: [ActivityResolver]
 })
-export class ActivityCreateComponent extends BaseUpdatedComponent implements OnInit, AfterViewInit {
-  // events
-  reset$ = new Subject();
-  formUpdated$ = new Subject<void>();
-
+export class ActivityCreateComponent extends BaseUpdatedComponent<Activity> implements OnInit, AfterViewInit {
   // comp state
   expandedHeight = '48px';
   step = 0;
-
-  // vm
-  activity: Activity;
-  activity$: Observable<Activity>;
 
   // state
   titleText: string;
@@ -55,9 +47,6 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
   isTaskType$: Observable<boolean>;
   isHostType$: Observable<boolean>;
   minStartDate: Date;
-
-  // form
-  form: FormGroup;
 
   tasks: Task[];
   private updatedTasksMeta: UpdateMeta<Task> = {
@@ -88,21 +77,21 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     private dialogUtil: DialogUtilService,
     private translate: TranslateService
   ) {
-    super();
+    super(formUtil);
   }
 
   ngOnInit() {
     this.form = this.fb.group(DEFAULT_ACTIVITY_FORM);
 
-    this.activity$ = this.route.data.pipe(
+    this.data$ = this.route.data.pipe(
       tap(({ activity }) => {
-        this.activity = activity as Activity;
-        this.isDetail = !!this.activity;
+        this.data = activity as Activity;
+        this.isDetail = !!this.data;
 
         const typeControl = this.form.get('type');
 
-        if (this.activity) {
-          this.form.patchValue(this.activity);
+        if (this.data) {
+          this.form.patchValue(this.data);
 
           // 无法更改活动的类型
           typeControl.disable();
@@ -111,9 +100,9 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
 
           this.titleText = 'ACTIVITY.UPDATE';
 
-          this.minStartDate = new Date(this.activity.startedAt);
-          this.tasks = this.activity.tasks;
-          this.recipes = this.activity.recipes;
+          this.minStartDate = new Date(this.data.startedAt);
+          this.tasks = this.data.tasks;
+          this.recipes = this.data.recipes;
         } else {
 
           this.titleText = 'ACTIVITY.CREATE';
@@ -128,7 +117,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
       refCount()
     );
 
-    const initType$ = this.activity$.pipe(
+    const initType$ = this.data$.pipe(
       map(activity => activity ? activity.type : ActivityType.HOST)
     );
 
@@ -206,27 +195,13 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     this.formUpdated$.next();
   }
 
-  private save() {
-    this.formUtil.validateAllFormFields(this.form);
-
-    if (this.form.invalid) {
-      return;
-    }
-
-    if (this.activity) {
-      this.update(this.activity.id);
-    } else {
-      this.create();
-    }
-  }
-
-  private cancel() {
-    if (this.activity) {
+  protected cancel() {
+    if (this.data) {
       // reset basic info
-      this.form.reset(this.activity);
+      this.form.reset(this.data);
       // reset tasks
-      this.tasks = this.activity.tasks;
-      this.recipes = this.activity.recipes;
+      this.tasks = this.data.tasks;
+      this.recipes = this.data.recipes;
     } else {
       // reset to default
       this.formUtil.resetFormGroup(this.form);
@@ -250,7 +225,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     this.reset$.next();
   }
 
-  private delete(activity: Activity) {
+  protected delete(activity: Activity) {
     const dialogRef = this.dialogUtil.confirm({
       data: {
         title: '确定要删除该项活动？'
@@ -267,7 +242,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     ).subscribe();
   }
 
-  private create() {
+  protected create() {
     const nextActivity = this.form.value;
 
     const tasksMeta = {
@@ -283,7 +258,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
     });
   }
 
-  private update(id: string) {
+  protected update(activity: Activity) {
     const nextActivity = this.form.value;
 
     const tasksMeta = {
@@ -294,8 +269,8 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
 
     const recipesMeta = formatUpdateMeta(this.recipesMeta);
 
-    this.activityService.update(id, nextActivity, tasksMeta, recipesMeta)
-      .subscribe(activity => {
+    this.activityService.update(activity.id, nextActivity, tasksMeta, recipesMeta)
+      .subscribe(() => {
         this.reset$.next();
 
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
@@ -304,7 +279,7 @@ export class ActivityCreateComponent extends BaseUpdatedComponent implements OnI
       });
   }
 
-  private redirect() {
+  protected redirect() {
     this.router.navigate(['/profile/activity/list']);
   }
 }

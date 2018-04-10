@@ -26,14 +26,10 @@ const pickTagInputProps = R.pick(['id']);
   templateUrl: './create-recipe.component.html',
   styleUrls: ['./create-recipe.component.scss'],
 })
-export class CreateRecipeComponent extends BaseUpdatedComponent implements OnInit, OnDestroy {
+export class CreateRecipeComponent extends BaseUpdatedComponent<Recipe> implements OnInit, OnDestroy {
   // events
-  reset$ = new Subject<void>();
   recipePictureChanged$ = new Subject<string>();
 
-  // vm
-  recipe$: Observable<Recipe>;
-  recipe: Recipe;
   recipeAvatar$: Observable<string | void>;
   recipeTags$: Observable<RecipeTag[]>;
   file: File;
@@ -42,15 +38,12 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
   titleText: string;
   isDetail = false;
 
-  // form
-  form: FormGroup;
-
   removable = true;
   selectable = true;
   addOnBlur = true;
 
   get tagsFGs() {
-    return this.recipe ? this.recipe.tags.map(tag => this.fb.control(tag)) : [];
+    return this.data ? this.data.tags.map(tag => this.fb.control(tag)) : [];
   }
 
   constructor(
@@ -64,7 +57,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     private fileReader: FileReaderService,
     private recipeService: RecipeService
   ) {
-    super();
+    super(formUtil);
    }
 
   ngOnInit() {
@@ -75,14 +68,14 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
       desc: ['']
     });
 
-    this.recipe$ = this.route.data.pipe(
+    this.data$ = this.route.data.pipe(
       map(resolve => resolve.recipe),
       tap(recipe => {
-        this.recipe = recipe as Recipe;
-        this.isDetail = !!this.recipe;
+        this.data = recipe as Recipe;
+        this.isDetail = !!this.data;
 
-        if (this.recipe) {
-          this.form.patchValue(this.recipe);
+        if (this.data) {
+          this.form.patchValue(this.data);
           this.form.setControl('tags', this.fb.array(this.tagsFGs));
 
           this.titleText = 'RECIPE.UPDATE';
@@ -98,7 +91,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
       map(resolve => resolve.recipeTags)
     );
 
-    this.recipeAvatar$ = merge(this.recipe$.pipe(
+    this.recipeAvatar$ = merge(this.data$.pipe(
       filter(recipe => recipe && !!recipe.avatar),
       map(recipe => recipe.avatar),
     ), this.recipePictureChanged$, this.reset$);
@@ -141,23 +134,9 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     this.file = file;
   }
 
-  private save() {
-    this.formUtil.validateAllFormFields(this.form);
-
-    if (this.form.invalid) {
-      return;
-    }
-
-    if (this.recipe) {
-      this.update(this.recipe.id);
-    } else {
-      this.create();
-    }
-  }
-
-  private cancel() {
-    if (this.recipe) {
-      const { name, desc, time } = this.recipe;
+  protected cancel() {
+    if (this.data) {
+      const { name, desc, time } = this.data;
 
       this.form.reset({ name, desc, time });
       this.form.setControl('tags', this.fb.array(this.tagsFGs));
@@ -170,7 +149,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     this.reset$.next();
   }
 
-  private delete(recipe: Recipe) {
+  protected delete(recipe: Recipe) {
     const dialogRef = this.dialogUtil.confirm({
       data: {
         title: '确定要删除该菜谱？'
@@ -187,7 +166,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     ).subscribe();
   }
 
-  private create() {
+  protected create() {
     const { tags, ...recipe } = this.form.value;
 
     const tagsMeta: TagsMetaInput = {
@@ -207,9 +186,9 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     ).subscribe();
   }
 
-  private update(id: string) {
+  protected update(data: Recipe) {
     const { tags, ...recipe } = this.form.value;
-    const { tags: originTags } = this.recipe;
+    const { tags: originTags } = this.data;
 
     const create = R.map(applyRecipeCategory, R.filter(isNotExisted, tags)) as RecipeTag[];
     const dupById = (a, b) => a.id === b.id;
@@ -222,8 +201,8 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
       disconnect
     };
 
-    this.recipeService.update({ ...recipe, id }, tagsMeta, ).pipe(
-      switchMap(result => this.file ? this.recipeService.uploadRecipePicture(this.recipe.id, this.file) : of(result)),
+    this.recipeService.update({ ...recipe, id: data.id }, tagsMeta, ).pipe(
+      switchMap(result => this.file ? this.recipeService.uploadRecipePicture(this.data.id, this.file) : of(result)),
       tap(e => {
         this.toastService.success(this.translate.instant('TOAST.SUCCESS.UPDATE_SUCCESS'));
 
@@ -232,7 +211,7 @@ export class CreateRecipeComponent extends BaseUpdatedComponent implements OnIni
     ).subscribe();
   }
 
-  private redirect() {
-    this.router.navigate([this.recipe ? '../../list' : '../list'], { relativeTo: this.route });
+  protected redirect() {
+    this.router.navigate([this.data ? '../../list' : '../list'], { relativeTo: this.route });
   }
 }

@@ -1,5 +1,5 @@
 <div fxLayout="column" class="create-recipe-panel" full>
-  <app-update-page-toolbar [data]="recipe$ | async" [titleText]="titleText | translate" [updated]="updated$ | async" [isDetail]="isDetail"
+  <app-update-page-toolbar [data]="data$ | async" [titleText]="titleText | translate" [updated]="updated$ | async" [isDetail]="isDetail"
     (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
   <div fxFlex="200px" class="recipe-picture">
     <app-camera-trigger-card [url]="recipeAvatar$ | async | recipeFilePrefix" (changeRequest)="uploadRecipePicture($event)"></app-camera-trigger-card>
