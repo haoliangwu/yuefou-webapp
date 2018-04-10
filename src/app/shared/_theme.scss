@@ -1,5 +1,6 @@
 @import "comps/camera-trigger-card/_camera-trigger-card-theme.scss";
-
+@import "comps/user-info/_user-info-theme.scss";
 @mixin shared-theme($theme) {
-  @include camera-trigger-card-theme($theme)
-};
+    @include camera-trigger-card-theme($theme);
+    @include user-info-theme($yuefou-app-theme);
+}

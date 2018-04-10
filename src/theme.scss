@@ -28,9 +28,6 @@ $yuefou-app-theme: mat-light-theme($yuefou-app-primary, $yuefou-app-accent, $yue
 @import "app/shared/theme.scss";
 @include shared-theme($yuefou-app-theme);
 
-@import "app/profile/user-info/user-info-theme.scss";
-@include user-info-theme($yuefou-app-theme);
-
 @import "app/profile/activity/activity-theme.scss";
 @include activity-theme($yuefou-app-theme);
 
