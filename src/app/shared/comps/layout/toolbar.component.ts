@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Input } from '@angular/core';
 import { ProfileComponent } from '../../../profile/profile.component';
 
 @Component({
@@ -8,8 +8,10 @@ import { ProfileComponent } from '../../../profile/profile.component';
 })
 export class ToolbarComponent implements OnInit {
 
+  @Input() noToggle = false;
+
   constructor(
-    private profileComp: ProfileComponent,
+    @Optional() private profileComp: ProfileComponent,
   ) { }
 
   ngOnInit() {

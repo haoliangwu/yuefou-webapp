@@ -40,14 +40,7 @@ export const RecipeRoute: Route = {
         recipeTags: RecipeTagsResolver
       },
       canDeactivate: [UpdatedStatusGuard]
-    },
-    {
-      path: 'view/:id',
-      component: RecipeInstanceComponent,
-      resolve: {
-        recipe: RecipeResolver
-      }
-    },
+    }
   ]
 };
 

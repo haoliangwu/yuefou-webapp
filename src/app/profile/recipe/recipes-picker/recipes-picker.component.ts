@@ -122,7 +122,7 @@ export class RecipesPickerComponent implements OnInit, AfterViewInit, OnDestroy 
 
   view(recipe: Recipe) {
     // TODO 打开菜谱预览弹窗
-    this.router.navigate(['/profile/recipe/view/:id', { id: recipe.id }]);
+    this.router.navigate(['/share/recipe/:id', { id: recipe.id }]);
   }
 
   autoDisplayFn(recipe?: Recipe): string | void {

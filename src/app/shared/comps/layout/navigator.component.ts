@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,7 @@ export class NavigatorComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private storage: LocalStorageService,
     private toastService: ToastrService,
     private profileComp: ProfileComponent,
@@ -64,6 +65,6 @@ export class NavigatorComponent implements OnInit {
   }
 
   redirect(url: string) {
-    this.router.navigate([url]);
+    this.router.navigate([url], { relativeTo: this.route });
   }
 }

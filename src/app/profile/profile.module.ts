@@ -25,8 +25,6 @@ import { RecipeModule } from './recipe/recipe.module';
   declarations: [
     ProfileComponent,
     DashboardComponent
-  ],
-  providers: [
   ]
 })
 export class ProfileModule { }
