@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ToolbarService } from '../../layout/toolbar.service';
 import { ActivatedRoute } from '@angular/router';
 import { Recipe } from '../../../model';
 import { Observable } from 'rxjs/Observable';
 import { map, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
+import { RecipeService } from '../services/recipe.service';
 
 @Component({
   selector: 'app-recipe-instance',
@@ -18,7 +18,8 @@ export class RecipeInstanceComponent implements OnInit, OnDestroy {
   recipe: Recipe;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private recipeService: RecipeService
   ) { }
 
   ngOnInit() {
@@ -41,8 +42,8 @@ export class RecipeInstanceComponent implements OnInit, OnDestroy {
 
   }
 
-  share() {
-
+  share(recipe: Recipe) {
+    this.recipeService.share(recipe);
   }
 
 }

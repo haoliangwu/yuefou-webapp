@@ -19,7 +19,15 @@ export class RouterUtilService {
   //   refCount()
   // );
 
+  get origin() {
+    return window.location.origin;
+  }
+
   constructor(
     private router: Router
   ) { }
+
+  generateRecipeShareUrl(id) {
+    return this.origin + this.router.serializeUrl(this.router.createUrlTree(['/share/recipe/:id', { id }]));
+  }
 }

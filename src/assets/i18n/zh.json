@@ -89,6 +89,7 @@
   },
   "COMMON": {
     "NONE": "无",
+    "COPY_SHARE_LINK": "已复制分享链接至粘贴板",
     "DEFAULT_DESC": "这个家伙很懒，什么都没有留下",
     "LOAD_MORE": "加载更多",
     "NEXT": "下一步",

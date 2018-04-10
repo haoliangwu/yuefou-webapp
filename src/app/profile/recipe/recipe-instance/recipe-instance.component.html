@@ -19,13 +19,13 @@
     <mat-divider></mat-divider>
     <mat-card-actions>
       <span fxFlex></span>
-      <button mat-icon-button color="primary" (click)="voteup(recipe)">
+      <!-- <button mat-icon-button color="primary" (click)="voteup(recipe)">
         <mat-icon>thumb_up</mat-icon>
       </button>
       <button mat-icon-button color="primary" (click)="votedown(recipe)">
         <mat-icon>thumb_down</mat-icon>
-      </button>
-      <button mat-icon-button color="accent" ngxClipboard [cbContent]="recipe.id" (cbOnSuccess)="share()">
+      </button> -->
+      <button mat-icon-button color="accent" (click)="share(recipe)">
         <mat-icon>share</mat-icon>
       </button>
     </mat-card-actions>

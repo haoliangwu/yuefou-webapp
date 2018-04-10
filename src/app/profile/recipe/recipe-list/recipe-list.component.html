@@ -44,7 +44,7 @@
     <button mat-icon-button color="warn" (click)="delete(recipe)">
       <mat-icon>clear</mat-icon>
     </button>
-    <button mat-icon-button color="accent" ngxClipboard [cbContent]="recipe.id" (cbOnSuccess)="share()">
+    <button mat-icon-button color="accent" (click)="share(recipe)">
       <mat-icon>share</mat-icon>
     </button>
   </mat-card-actions>

@@ -10,6 +10,11 @@ import { TagService } from '../../../shared/services/tag.service';
 import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions';
 import ImageCompressor from 'image-compressor.js';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from 'ngx-clipboard';
+import { Router } from '@angular/router';
+import { RouterUtilService } from '../../../shared/services';
 
 @Injectable()
 export class RecipeService {
@@ -18,7 +23,11 @@ export class RecipeService {
   constructor(
     private apollo: Apollo,
     @Inject(AppConfigToken) private appConfig: AppConfig,
-    private tagService: TagService
+    private tagService: TagService,
+    private translate: TranslateService,
+    private toastService: ToastrService,
+    private clipboardService: ClipboardService,
+    private routerUtil: RouterUtilService
   ) { }
 
   recipesQuery() {
@@ -150,5 +159,13 @@ export class RecipeService {
 
   recipeTags() {
     return this.tagService.tags(TagCategory.RECIPE);
+  }
+
+  share(recipe: Recipe) {
+    const sharelink = this.routerUtil.generateRecipeShareUrl(recipe.id);
+
+    this.clipboardService.copyFromContent(sharelink);
+
+    this.toastService.success(this.translate.instant('COMMON.COPY_SHARE_LINK'));
   }
 }

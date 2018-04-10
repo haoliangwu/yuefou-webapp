@@ -21,7 +21,7 @@ export class RecipeListComponent implements OnInit {
     private dialogUtil: DialogUtilService,
     private recipeService: RecipeService,
     private translate: TranslateService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class RecipeListComponent implements OnInit {
     ).subscribe();
   }
 
-  share() {
-
+  share(recipe: Recipe) {
+    this.recipeService.share(recipe);
   }
 }
