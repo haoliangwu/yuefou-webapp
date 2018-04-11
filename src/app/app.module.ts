@@ -118,12 +118,15 @@ export class AppModule {
 
       const group = operation.variables[LOADING_MASK_HEADER];
 
-      operation.setContext({
-        headers: new HttpHeaders({
-          [LOADING_MASK_HEADER]: R.defaultTo(DEFAULT_MASK_GROUP, group),
-          'Authorization': `Bearer ${this.token}`
-        })
+      const headers = new HttpHeaders({
+        [LOADING_MASK_HEADER]: R.defaultTo(DEFAULT_MASK_GROUP, group)
       });
+
+      if (!!this.token) {
+        headers.set('Authorization', `Bearer ${this.token}`);
+      }
+
+      operation.setContext({ headers });
 
       return forward(operation);
     });
