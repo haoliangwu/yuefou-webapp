@@ -16,7 +16,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
 
-import { Ng2Webstorage, LocalStorage } from 'ngx-webstorage';
+import { Ng2Webstorage, LocalStorage, LocalStorageService } from 'ngx-webstorage';
 import { LoadingMaskModule, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
 import { ToastrModule, ToastContainerModule, ToastrService, DefaultGlobalConfig } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
@@ -99,9 +99,6 @@ const appRoutes: Routes = [
   ]
 })
 export class AppModule {
-  @LocalStorage(LOCALSTORAGE.API_TOKEN)
-  private token;
-
   constructor(
     apollo: Apollo,
     httpLinkService: HttpLink,
@@ -109,7 +106,8 @@ export class AppModule {
     private translate: TranslateService,
     @Inject(DataIdFromObjectToken) private dataIdFromObject: DataIdFromObjectResolver,
     private router: Router,
-    private routerUtil: RouterUtilService
+    private routerUtil: RouterUtilService,
+    private storage: LocalStorageService
   ) {
     const authLink = new ApolloLink((operation, forward) => {
       if (operation.operationName === 'IntrospectionQuery') {
@@ -118,12 +116,14 @@ export class AppModule {
 
       const group = operation.variables[LOADING_MASK_HEADER];
 
-      const headers = new HttpHeaders({
+      let headers = new HttpHeaders({
         [LOADING_MASK_HEADER]: R.defaultTo(DEFAULT_MASK_GROUP, group)
       });
 
-      if (!!this.token) {
-        headers.set('Authorization', `Bearer ${this.token}`);
+      const token = this.storage.retrieve(LOCALSTORAGE.API_TOKEN);
+
+      if (!!token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
       }
 
       operation.setContext({ headers });
