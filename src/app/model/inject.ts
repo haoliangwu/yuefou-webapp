@@ -10,13 +10,13 @@ export interface AppEnvConfig {
   cos: CosConfig;
 }
 
+export const CosConfigFactory = (cosService: CosSdkService) => () => cosService.initCosConfig();
+
 // export const CosConfigToken = new InjectionToken<CosConfig>('yuefou.cos.token');
 
 export const CosConfigProvider: FactoryProvider = {
   provide: APP_INITIALIZER,
   multi: true,
-  useFactory: function (cosService: CosSdkService) {
-    return () => cosService.initCosConfig();
-  },
+  useFactory: CosConfigFactory,
   deps: [CosSdkService]
 };
