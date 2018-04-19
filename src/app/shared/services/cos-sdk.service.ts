@@ -2,23 +2,26 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { CosConfig, CosConfigToken } from '../../model/inject';
 import { LoadingMaskService } from 'ngx-loading-mask';
 
 @Injectable()
 export class CosSdkService {
-  private bucket: string;
-  private region: string;
+  private _bucket: string;
+  private _region: string;
   cos: any;
+
+  get bucket() {
+    return this._bucket;
+  }
+
+  get region() {
+    return this._region;
+  }
 
   constructor(
     private httpClient: HttpClient,
-    @Inject(CosConfigToken) private cosConfig: CosConfig,
     private loadingMask: LoadingMaskService
   ) {
-    this.bucket = cosConfig.bucket;
-    this.region = cosConfig.region;
-
     this.cos = new COS({
       getSTS: this.getSTS.bind(this)
     });
@@ -30,11 +33,16 @@ export class CosSdkService {
     });
   }
 
+  initCosConfig() {
+    this._bucket = 'test-1256165069';
+    this._region = 'ap-beijing';
+  }
+
   sliceUploadFile(key: string, file: File | Blob): Observable<any> {
     return Observable.create((observer: Observer<any>) => {
       this.cos.sliceUploadFile({
-        Bucket: this.bucket,
-        Region: this.region,
+        Bucket: this._bucket,
+        Region: this._region,
         Key: key,
         Body: file,
         TaskReady: (taskId) => {

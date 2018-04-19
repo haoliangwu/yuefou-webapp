@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform, Inject } from '@angular/core';
-import { LocationUtilService } from '../services';
+import { LocationUtilService, CosSdkService } from '../services';
 import { APP_HOST } from '../../constants';
-import { CosConfig, CosConfigToken } from '../../model/inject';
 
 @Pipe({
   name: 'recipeFilePrefix'
@@ -13,9 +12,9 @@ export class RecipeFilePrefixPipe implements PipeTransform {
 
   constructor(
     private locationUtil: LocationUtilService,
-    @Inject(CosConfigToken) private cosConfig: CosConfig
+    private cosService: CosSdkService
   ) {
-    this.basePath = `//${cosConfig.bucket}.cos.${cosConfig.region}.myqcloud.com/shared/recipes`;
+    this.basePath = `//${cosService.bucket}.cos.${cosService.region}.myqcloud.com/shared/recipes`;
   }
 
   transform(uri: string): any {

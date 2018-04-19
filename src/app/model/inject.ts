@@ -1,17 +1,18 @@
-import { InjectionToken, FactoryProvider, ValueProvider } from '@angular/core';
-import { ConfigService } from '../shared/services';
+import { InjectionToken, FactoryProvider, ValueProvider, APP_INITIALIZER } from '@angular/core';
+import { ConfigService, CosSdkService } from '../shared/services';
 
-export interface CosConfig {
-  bucket: string;
-  region: string;
-}
+// export interface CosConfig {
+//   bucket: string;
+//   region: string;
+// }
 
-export const CosConfigToken = new InjectionToken<CosConfig>('yuefou.cos.token');
+// export const CosConfigToken = new InjectionToken<CosConfig>('yuefou.cos.token');
 
-export const CosConfigProvider: ValueProvider = {
-  provide: CosConfigToken,
-  useValue: {
-    bucket: 'test-1256165069',
-    region: 'ap-beijing',
-  }
+export const CosConfigProvider: FactoryProvider = {
+  provide: APP_INITIALIZER,
+  multi: true,
+  useFactory: function (cosService: CosSdkService) {
+    return () => cosService.initCosConfig();
+  },
+  deps: [CosSdkService]
 };
