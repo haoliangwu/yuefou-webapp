@@ -1,18 +1,22 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Inject } from '@angular/core';
 import { LocationUtilService } from '../services';
 import { APP_HOST } from '../../constants';
+import { CosConfig, CosConfigToken } from '../../model/inject';
 
 @Pipe({
   name: 'recipeFilePrefix'
 })
 export class RecipeFilePrefixPipe implements PipeTransform {
 
-  basePath = `//test-1256165069.cos.ap-beijing.myqcloud.com/shared/recipes`;
+  basePath: string;
   defaultPicture = `assets/images/default_recipe_picture.png`;
 
   constructor(
-    private locationUtil: LocationUtilService
-  ) { }
+    private locationUtil: LocationUtilService,
+    @Inject(CosConfigToken) private cosConfig: CosConfig
+  ) {
+    this.basePath = `//${cosConfig.bucket}.cos.${cosConfig.region}.myqcloud.com/shared/recipes`;
+  }
 
   transform(uri: string): any {
     // 如果是 nil 则返回默认图片

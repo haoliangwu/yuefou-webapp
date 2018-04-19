@@ -1,17 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { CosConfig, CosConfigToken } from '../../model/inject';
 
 @Injectable()
 export class CosSdkService {
-  private bucket = 'test-1256165069';
-  private region = 'ap-beijing';
+  private bucket: string;
+  private region: string;
   cos: any;
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    @Inject(CosConfigToken) private cosConfig: CosConfig
   ) {
+    this.bucket = cosConfig.bucket;
+    this.region = cosConfig.region;
+
     this.cos = new COS({
       getSTS: this.getSTS.bind(this)
     });

@@ -9,7 +9,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AvatarModule } from 'ngx-avatar';
 
 import { MaterialModule, DialogModule } from './modules';
-import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard, UserService, CosSdkService } from './services';
+import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard, UserService, CosSdkService, ConfigService } from './services';
 import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent, UpdatePageToolbarComponent, ToolbarComponent, NavigatorComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
@@ -21,6 +21,7 @@ import { RecipeFilePrefixPipe } from './pipes/recipe-file-prefix.pipe';
 import { TimeReadablePipe } from './pipes/time-readable.pipe';
 import { UserInfoComponent } from './comps/user-info/user-info.component';
 import { RouterModule } from '@angular/router';
+import { CosConfigProvider } from '../model/inject';
 
 @NgModule({
   declarations: [
@@ -99,8 +100,11 @@ export class SharedModule {
         TagService,
         UserService,
         CosSdkService,
+        ConfigService,
         // guard
-        UpdatedStatusGuard
+        UpdatedStatusGuard,
+        // token
+        CosConfigProvider
       ]
     };
   }

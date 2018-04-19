@@ -5,3 +5,4 @@ export * from './file-reader-util.service';
 export * from './updated-status.guard';
 export * from './user.service';
 export * from './cos-sdk.service';
+export * from './config.service';
