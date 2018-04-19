@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { CosConfig, CosConfigToken } from '../../model/inject';
+import { LoadingMaskService } from 'ngx-loading-mask';
 
 @Injectable()
 export class CosSdkService {
@@ -12,7 +13,8 @@ export class CosSdkService {
 
   constructor(
     private httpClient: HttpClient,
-    @Inject(CosConfigToken) private cosConfig: CosConfig
+    @Inject(CosConfigToken) private cosConfig: CosConfig,
+    private loadingMask: LoadingMaskService
   ) {
     this.bucket = cosConfig.bucket;
     this.region = cosConfig.region;
@@ -35,20 +37,23 @@ export class CosSdkService {
         Region: this.region,
         Key: key,
         Body: file,
-        // TaskReady: function (taskId) {
-        //   console.log(taskId);
-        // },
+        TaskReady: (taskId) => {
+          this.loadingMask.showGroup();
+        },
         // onHashProgress: function (progressData) {
         //   console.log(JSON.stringify(progressData));
         // },
         // onProgress: function ({ percent }) {
         // }
-      }, function (err, data) {
+      }, (err, data) => {
+        this.loadingMask.hideGroup();
+
         if (err) {
           observer.error(err);
         } else {
           observer.next(data);
         }
+
         observer.complete();
       });
     });
