@@ -15,6 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { Router } from '@angular/router';
 import { RouterUtilService } from '../../../shared/services';
+import { CosSdkService } from '../../../shared/services/cos-sdk.service';
+import * as uuidv4 from 'uuid/v4';
 
 @Injectable()
 export class RecipeService {
@@ -27,7 +29,8 @@ export class RecipeService {
     private translate: TranslateService,
     private toastService: ToastrService,
     private clipboardService: ClipboardService,
-    private routerUtil: RouterUtilService
+    private routerUtil: RouterUtilService,
+    private cos: CosSdkService
   ) { }
 
   recipesQuery() {
@@ -144,14 +147,15 @@ export class RecipeService {
       quality: 0.6,
     }));
 
+    const uniqName = `${uuidv4()}-${file.name}`;
+    const key = `/shared/recipes/${uniqName}`;
+
     return compression$.pipe(
-      switchMap(blob => {
-        return this.apollo.use('upload').mutate<uploadRecipePictureMutation>({
-          mutation: UploadRecipePictureMutation,
-          variables: {
-            id,
-            file: blob
-          }
+      switchMap(blob => this.cos.sliceUploadFile(key, blob)),
+      switchMap(() => {
+        return this.update({
+          id,
+          avatar: uniqName
         });
       })
     );

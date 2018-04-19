@@ -9,7 +9,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AvatarModule } from 'ngx-avatar';
 
 import { MaterialModule, DialogModule } from './modules';
-import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard, UserService } from './services';
+import { FormUtilService, LocationUtilService, RouterUtilService, FileReaderService, UpdatedStatusGuard, UserService, CosSdkService } from './services';
 import { FixedToggleComponent, PageNotFoundComponent, CustomMatSliderComponent, CameraTriggerCardComponent, UpdatePageToolbarComponent, ToolbarComponent, NavigatorComponent } from './comps';
 import { EnterKeyDirective, FullDirective } from './dires';
 import { ApolloModule } from 'apollo-angular';
@@ -98,6 +98,7 @@ export class SharedModule {
         // api
         TagService,
         UserService,
+        CosSdkService,
         // guard
         UpdatedStatusGuard
       ]

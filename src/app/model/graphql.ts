@@ -56,6 +56,7 @@ export interface UpdateRecipeInput {
   name?: string | null,
   time?: number | null,
   desc?: string | null,
+  avatar?: string | null,
 };
 
 export interface UpdateActivityInput {
@@ -72,6 +73,7 @@ export interface CreateRecipeInput {
   name: string,
   time: number,
   desc?: string | null,
+  avatar?: string | null,
 };
 
 export interface TagsMetaInput {

@@ -7,7 +7,7 @@ import { APP_HOST } from '../../constants';
 })
 export class RecipeFilePrefixPipe implements PipeTransform {
 
-  basePath = `tmp/shared/recipe`;
+  basePath = `//test-1256165069.cos.ap-beijing.myqcloud.com/shared/recipes`;
   defaultPicture = `assets/images/default_recipe_picture.png`;
 
   constructor(
@@ -25,14 +25,7 @@ export class RecipeFilePrefixPipe implements PipeTransform {
       return uri;
     }
 
-    // 如果为相对 uri 则按运行环境补全根目录
-    if (this.locationUtil.isInternalHost()) {
-      // 如果是开发环境则指向服务器 ip 域名
-      return `${location.protocol}//${APP_HOST}/${this.basePath}/${uri}`;
-    } else {
-      // 如果是生产环境则仅补全根目录，域名让浏览器自动解析
-      return `${this.basePath}/${uri}`;
-    }
+    return `${this.basePath}/${uri}`;
   }
 
 }

@@ -24,7 +24,8 @@
         "../node_modules/ngx-toastr/toastr.css"
       ],
       "scripts": [
-        "../node_modules/ramda/dist/ramda.min.js"
+        "../node_modules/ramda/dist/ramda.min.js",
+        "../node_modules/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
