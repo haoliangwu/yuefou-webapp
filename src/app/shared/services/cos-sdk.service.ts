@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { LoadingMaskService } from 'ngx-loading-mask';
+import { LoadingMaskService, LOADING_MASK_HEADER } from 'ngx-loading-mask';
 import { Apollo } from 'apollo-angular';
 import { tap, map } from 'rxjs/operators';
 import { AppConfigQuery } from '../graphql/config.graphql';
@@ -43,10 +43,11 @@ export class CosSdkService {
   initCosConfig(): Promise<AppEnvConfig> {
     return this.apollo.query<appConfigQueryQuery>({
       query: AppConfigQuery,
+      variables: { [LOADING_MASK_HEADER]: false },
       fetchPolicy: 'network-only'
     }).pipe(
       map(result => result.data.config),
-      tap(({cos}) => {
+      tap(({ cos }) => {
         this._bucket = cos.bucket;
         this._region = cos.region;
       })
