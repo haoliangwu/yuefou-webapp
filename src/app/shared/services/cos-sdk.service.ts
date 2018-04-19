@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { LoadingMaskService, LOADING_MASK_HEADER } from 'ngx-loading-mask';
+import { LoadingMaskService, LOADING_MASK_HEADER, DEFAULT_MASK_GROUP } from 'ngx-loading-mask';
 import { Apollo } from 'apollo-angular';
 import { tap, map } from 'rxjs/operators';
 import { AppConfigQuery } from '../graphql/config.graphql';
@@ -35,7 +35,9 @@ export class CosSdkService {
   }
 
   private getSTS(options, callback) {
-    this.httpClient.get('/sts-auth').subscribe(data => {
+    this.httpClient.get('/sts-auth', {
+      headers: new HttpHeaders().set(LOADING_MASK_HEADER, DEFAULT_MASK_GROUP),
+    }).subscribe(data => {
       callback(data);
     });
   }
