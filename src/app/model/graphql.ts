@@ -1014,6 +1014,16 @@ export interface updatedTaskSubscription {
   } | null,
 };
 
+export interface appConfigQueryQuery {
+  config:  {
+    cos:  {
+      bucket: string,
+      region: string,
+      appId: string,
+    },
+  },
+};
+
 export interface tagsQueryVariables {
   category?: TagCategory | null,
 };
@@ -1173,6 +1183,12 @@ export interface TaskFragmentFragment {
       name: string,
     },
   } | null,
+};
+
+export interface CosConfigFragmentFragment {
+  bucket: string,
+  region: string,
+  appId: string,
 };
 
 export interface PageInfoFragmentFragment {

@@ -9,7 +9,7 @@
     "logLevel": "debug"
   },
   "/sts-auth": {
-    "target": "http://localhost:3000/",
+    "target": "http://58.87.91.173:3000/",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

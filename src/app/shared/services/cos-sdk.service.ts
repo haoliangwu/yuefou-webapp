@@ -3,6 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { LoadingMaskService } from 'ngx-loading-mask';
+import { Apollo } from 'apollo-angular';
+import { tap, map } from 'rxjs/operators';
+import { AppConfigQuery } from '../graphql/config.graphql';
+import { appConfigQueryQuery, AppConfig } from '../../model';
+import { of } from 'rxjs/observable/of';
+import { CosConfig, AppEnvConfig } from '../../model/inject';
 
 @Injectable()
 export class CosSdkService {
@@ -20,7 +26,8 @@ export class CosSdkService {
 
   constructor(
     private httpClient: HttpClient,
-    private loadingMask: LoadingMaskService
+    private loadingMask: LoadingMaskService,
+    private apollo: Apollo
   ) {
     this.cos = new COS({
       getSTS: this.getSTS.bind(this)
@@ -33,9 +40,17 @@ export class CosSdkService {
     });
   }
 
-  initCosConfig() {
-    this._bucket = 'test-1256165069';
-    this._region = 'ap-beijing';
+  initCosConfig(): Promise<AppEnvConfig> {
+    return this.apollo.query<appConfigQueryQuery>({
+      query: AppConfigQuery,
+      fetchPolicy: 'network-only'
+    }).pipe(
+      map(result => result.data.config),
+      tap(({cos}) => {
+        this._bucket = cos.bucket;
+        this._region = cos.region;
+      })
+    ).toPromise();
   }
 
   sliceUploadFile(key: string, file: File | Blob): Observable<any> {
