@@ -9,6 +9,7 @@ import { AppConfigQuery } from '../graphql/config.graphql';
 import { appConfigQueryQuery, AppConfig } from '../../model';
 import { of } from 'rxjs/observable/of';
 import { CosConfig, AppEnvConfig } from '../../model/inject';
+import * as uuidv4 from 'uuid/v4';
 
 @Injectable()
 export class CosSdkService {
@@ -56,7 +57,10 @@ export class CosSdkService {
     ).toPromise();
   }
 
-  sliceUploadFile(key: string, file: File | Blob): Observable<any> {
+  sliceUploadFile(fileName: string, file: File | Blob, namespace = '.'): Observable<any> {
+    fileName = `${uuidv4()}-${fileName}`;
+    const key = `${namespace}/${fileName}`;
+
     return Observable.create((observer: Observer<any>) => {
       this.cos.sliceUploadFile({
         Bucket: this._bucket,
@@ -77,7 +81,10 @@ export class CosSdkService {
         if (err) {
           observer.error(err);
         } else {
-          observer.next(data);
+          observer.next({
+            fileName,
+            storeMeta: data
+          });
         }
 
         observer.complete();

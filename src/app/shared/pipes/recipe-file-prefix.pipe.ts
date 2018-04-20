@@ -17,7 +17,7 @@ export class RecipeFilePrefixPipe implements PipeTransform {
     this.basePath = `//${cosService.bucket}.cos.${cosService.region}.myqcloud.com/shared/recipes`;
   }
 
-  transform(uri: string): any {
+  transform(uri: string): string {
     // 如果是 nil 则返回默认图片
     if (!uri) {
       return this.defaultPicture;

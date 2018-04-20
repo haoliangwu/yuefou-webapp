@@ -147,15 +147,12 @@ export class RecipeService {
       quality: 0.6,
     }));
 
-    const uniqName = `${uuidv4()}-${file.name}`;
-    const key = `/shared/recipes/${uniqName}`;
-
     return compression$.pipe(
-      switchMap(blob => this.cos.sliceUploadFile(key, blob)),
-      switchMap(() => {
+      switchMap(blob => this.cos.sliceUploadFile(file.name, blob, '/shared/recipes')),
+      switchMap(data => {
         return this.update({
           id,
-          avatar: uniqName
+          avatar: data.fileName
         });
       })
     );

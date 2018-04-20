@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { fromEvent } from 'rxjs/observable/fromEvent';
@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators';
 import { User } from '../../../model';
 import { LOCALSTORAGE, APP_HOST } from '../../../constants';
 import { LocationUtilService } from '../../services';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -18,16 +19,18 @@ import { LocationUtilService } from '../../services';
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss']
 })
-export class UserInfoComponent implements OnInit {
+export class UserInfoComponent implements OnInit, OnDestroy {
+  private sub: Subscription;
 
+  @Input() enableUpload = false;
   @Input() theme = 'navigator';
   @Input() minHeight: string;
-  @Input() user$: Observable<User> = this.storage.observe(LOCALSTORAGE.USER)
-    .pipe(filter(R.complement(R.isNil)));
+  user$: Observable<User> = this.storage.observe(LOCALSTORAGE.USER);
 
-  avatar$: Observable<string>;
+  @Input() avatar: string;
 
   @Output() clickRequest = new EventEmitter<void>();
+  @Output() uploadReqeust = new EventEmitter<File>();
 
   get themeClass() {
     return [this.theme];
@@ -40,27 +43,26 @@ export class UserInfoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.avatar$ = this.user$
+    const currentUser: User = this.storage.retrieve(LOCALSTORAGE.USER);
+
+    this.sub = merge(this.user$, of(currentUser))
       .pipe(
-        switchMap(user => {
-          const img = new Image();
-          if (this.locationUtil.isInternalHost()) {
-            img.src = `${location.protocol}//${APP_HOST}/tmp/${user.id}/${user.avatar}`;
-          } else {
-            img.src = `tmp/${user.id}/${user.avatar}`;
-          }
+        filter(user => user && !!user.avatar),
+        map(user => user.avatar),
+        startWith('assets/images/default_avatar.jpg'),
+        tap(avatar => this.avatar = avatar)
+      ).subscribe();
+  }
 
-          return fromEvent(img, 'load')
-            .pipe(
-              map((e: Event) => (e.target as HTMLImageElement).src),
-          );
-        }),
-        startWith('assets/images/default_avatar.jpg'));
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   click() {
     this.clickRequest.next();
   }
 
+  selectFile(files: FileList) {
+    this.uploadReqeust.next(files[0]);
+  }
 }

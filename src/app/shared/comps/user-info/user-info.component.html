@@ -1,6 +1,7 @@
 <div class="user-info" (click)="click()" fxLayout="row" fxLayoutAlign="center center" [ngClass]="themeClass" [ngStyle]="{minHeight: minHeight}">
-  <div class="avatar-wrapper">
-    <ngx-avatar [src]="avatar$ | async" size="90px" [round]="true">
+  <label [for]="enableUpload ? 'fileInput' : ''" class="avatar-wrapper">
+    <ngx-avatar [src]="avatar | userResourcePrefix | safeUrl" size="90px" [round]="true">
     </ngx-avatar>
-  </div>
+  </label>
+  <input *ngIf="enableUpload" id="fileInput" type="file" hidden #fileInput accept="image/*" (change)="selectFile(fileInput.files)">
 </div>

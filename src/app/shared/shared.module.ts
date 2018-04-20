@@ -22,6 +22,7 @@ import { TimeReadablePipe } from './pipes/time-readable.pipe';
 import { UserInfoComponent } from './comps/user-info/user-info.component';
 import { RouterModule } from '@angular/router';
 import { CosConfigProvider } from '../model/inject';
+import { UserResourcePrefixPipe } from './pipes/user-resource-prefix.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CosConfigProvider } from '../model/inject';
     TimeReadablePipe,
     ToolbarComponent,
     NavigatorComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    UserResourcePrefixPipe
   ],
   imports: [
     CommonModule,
@@ -82,7 +84,8 @@ import { CosConfigProvider } from '../model/inject';
     SafeUrlPipe,
     SafeResourceUrlPipe,
     RecipeFilePrefixPipe,
-    TimeReadablePipe
+    TimeReadablePipe,
+    UserResourcePrefixPipe
   ]
 })
 export class SharedModule {
