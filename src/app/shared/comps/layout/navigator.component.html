@@ -1,5 +1,5 @@
 <div fxLayout="column" full>
-  <app-user-info (click)="close()"></app-user-info>
+  <app-user-info (clickRequest)="clickOnAvatar($event)"></app-user-info>
   <mat-divider></mat-divider>
   <mat-nav-list (click)="close()">
     <mat-list-item (click)="redirect(item.link)" routerLinkActive="active" *ngFor="let item of items">

@@ -37,8 +37,12 @@ export class NavigatorComponent implements OnInit {
   }
 
   close() {
-    this.router.navigate(['/profile/settings']);
     this.profileComp.sidenav.close();
+  }
+
+  clickOnAvatar($event) {
+    this.close();
+    this.router.navigate(['/profile/settings']);
   }
 
   quit() {

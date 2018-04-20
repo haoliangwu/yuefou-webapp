@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { take, map, startWith, switchMap } from 'rxjs/operators';
+import { take, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { merge } from 'rxjs/observable/merge';
@@ -20,10 +20,18 @@ import { LocationUtilService } from '../../services';
 })
 export class UserInfoComponent implements OnInit {
 
-  user$: Observable<User> = this.storage.observe(LOCALSTORAGE.USER).pipe(
-    filter(R.complement(R.isNil))
-  );
+  @Input() theme = 'navigator';
+  @Input() minHeight: string;
+  @Input() user$: Observable<User> = this.storage.observe(LOCALSTORAGE.USER)
+    .pipe(filter(R.complement(R.isNil)));
+
   avatar$: Observable<string>;
+
+  @Output() clickRequest = new EventEmitter<void>();
+
+  get themeClass() {
+    return [this.theme];
+  }
 
   constructor(
     private router: Router,
@@ -36,7 +44,6 @@ export class UserInfoComponent implements OnInit {
       .pipe(
         switchMap(user => {
           const img = new Image();
-
           if (this.locationUtil.isInternalHost()) {
             img.src = `${location.protocol}//${APP_HOST}/tmp/${user.id}/${user.avatar}`;
           } else {
@@ -52,8 +59,8 @@ export class UserInfoComponent implements OnInit {
 
   }
 
-  redirect() {
-    // this.router.navigate(['/profile/dashboard']);
+  click() {
+    this.clickRequest.next();
   }
 
 }

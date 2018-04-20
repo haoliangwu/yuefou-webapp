@@ -1,4 +1,6 @@
-<div class="user-info" (click)="redirect()">
-  <ngx-avatar [src]="avatar$ | async" size="90px" [round]="true">
-  </ngx-avatar>
+<div class="user-info" (click)="click()" fxLayout="row" fxLayoutAlign="center center" [ngClass]="themeClass" [ngStyle]="{minHeight: minHeight}">
+  <div class="avatar-wrapper">
+    <ngx-avatar [src]="avatar$ | async" size="90px" [round]="true">
+    </ngx-avatar>
+  </div>
 </div>

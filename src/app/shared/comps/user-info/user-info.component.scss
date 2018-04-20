@@ -1,5 +1,8 @@
-.user-info{
-  padding: 10px;
-  margin: 0 auto;
-  min-height: 100px;
+.user-info {
+    padding: 10px;
+    min-height: 100px;
+    .avatar-wrapper {
+        width: 100px;
+        height: 100px;
+    }
 }

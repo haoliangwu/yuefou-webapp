@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { map } from 'rxjs/operators';
 import { ApolloQueryResult } from 'apollo-client';
 import { User } from '../../model';
+import { UserFragment } from '../graphql';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,7 @@ export class UserService {
   ) { }
 
   me(): Observable<ApolloQueryResult<{ me: User }>> {
-    const query = gql`query me {me{id name avatar}}`;
+    const query = gql`query me {me{...UserFragment}} ${UserFragment}`;
 
     return this.apollo.query({ query });
   }

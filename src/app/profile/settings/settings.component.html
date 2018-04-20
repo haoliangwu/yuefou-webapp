@@ -1,3 +1,24 @@
-<p>
-  settings works!
-</p>
+<div fxLayout="column" class="settings-panel">
+  <app-update-page-toolbar [data]="data$ | async" [titleText]="titleText | translate" [updated]="updated$ | async" [isDetail]="false"
+    (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
+  <app-user-info [theme]="'settings'" [minHeight]="'200px'" [user$]="data$"></app-user-info>
+  <form [formGroup]="form" class="settings-form" fxFlex>
+    <mat-form-field full="width">
+      <input matInput formControlName="name" [placeholder]="'SETTINGS.FORM.NAME' | translate" readonly>
+      <mat-hint>{{'SETTINGS.HINT.CANNOT_UPDATE_NAME' | translate}}</mat-hint>
+    </mat-form-field>
+    <mat-form-field full="width">
+      <input matInput formControlName="email" [placeholder]="'SETTINGS.FORM.EMAIL' | translate">
+      <mat-error>
+        <div ngxErrors="email">
+          <span ngxError="email" when="dirty">
+            {{'SETTINGS.ERRORS.EMAIL_INVALID' | translate}}
+          </span>
+          <span ngxError="required" when="touched">
+            {{'SETTINGS.ERRORS.EMAIL_REQUIRED' | translate}}
+          </span>
+        </div>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>

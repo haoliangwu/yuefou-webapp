@@ -10,6 +10,20 @@
       "EMAIL_INVALID": "邮箱地址格式不合法"
     }
   },
+  "SETTINGS": {
+    "PAGE_TITLE": "个人设置",
+    "FORM": {
+      "NAME":"姓名",
+      "EMAIL": "邮箱"
+    },
+    "HINT": {
+      "CANNOT_UPDATE_NAME": "用户名无法修改"
+    },
+    "ERRORS": {
+      "EMAIL_REQUIRED": "邮箱地址是必填项",
+      "EMAIL_INVALID": "邮箱地址格式不合法"
+    }
+  },
   "ACTIVITY": {
     "TYPE": {
       "HOST": "招待模式",
