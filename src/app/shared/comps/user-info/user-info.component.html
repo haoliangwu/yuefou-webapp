@@ -1,9 +1,11 @@
 <div class="user-info" (click)="click()" fxLayout="column" fxLayoutAlign="center center" [ngClass]="themeClass" [ngStyle]="{height: minHeight}">
-  <div *ngIf="enableUpload" class="avatar-background" full [ngStyle]="{backgroundImage: 'url(' + avatarUrl+ ')'}">
-  </div>
-  <label [for]="enableUpload ? 'fileInput' : ''" class="avatar-wrapper">
+  <div *ngIf="!enableUpload; else elseBlock;" class="avatar-wrapper">
     <ngx-avatar [src]="avatarUrl | safeUrl" size="90px" [round]="true">
     </ngx-avatar>
-  </label>
-  <input *ngIf="enableUpload" id="fileInput" type="file" hidden #fileInput accept="image/*" (change)="selectFile(fileInput.files)">
+  </div>
+  <ng-template #elseBlock>
+    <label for="fileInput" class="avatar-background" full [ngStyle]="{backgroundImage: 'url(' + avatarUrl+ ')'}">
+    </label>
+    <input id="fileInput" type="file" hidden #fileInput accept="image/*" (change)="selectFile(fileInput.files)">
+  </ng-template>
 </div>
