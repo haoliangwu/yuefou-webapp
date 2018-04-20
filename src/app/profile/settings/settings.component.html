@@ -1,7 +1,7 @@
 <div fxLayout="column" class="settings-panel">
   <app-update-page-toolbar [data]="data$ | async" [titleText]="titleText | translate" [updated]="updated$ | async" [isDetail]="false"
     (actionReqest)="actionReqset($event)"></app-update-page-toolbar>
-  <app-user-info [enableUpload]="true" [theme]="'settings'" [minHeight]="'200px'" [avatar]="avatar" (uploadReqeust)="selectFile($event)"></app-user-info>
+  <app-user-info [enableUpload]="true" [theme]="'settings'" [minHeight]="'240px'" [avatar]="avatar" (uploadReqeust)="selectFile($event)"></app-user-info>
   <form [formGroup]="form" class="settings-form" fxFlex>
     <mat-form-field full="width">
       <input matInput formControlName="name" [placeholder]="'SETTINGS.FORM.NAME' | translate" readonly>

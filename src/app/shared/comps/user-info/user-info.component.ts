@@ -12,12 +12,14 @@ import { User } from '../../../model';
 import { LOCALSTORAGE, APP_HOST } from '../../../constants';
 import { LocationUtilService } from '../../services';
 import { Subscription } from 'rxjs/Subscription';
+import { UserResourcePrefixPipe } from '../../pipes/user-resource-prefix.pipe';
 
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
-  styleUrls: ['./user-info.component.scss']
+  styleUrls: ['./user-info.component.scss'],
+  providers: [UserResourcePrefixPipe]
 })
 export class UserInfoComponent implements OnInit, OnDestroy {
   private sub: Subscription;
@@ -32,6 +34,10 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   @Output() clickRequest = new EventEmitter<void>();
   @Output() uploadReqeust = new EventEmitter<File>();
 
+  get avatarUrl() {
+    return this.userResourcePipe.transform(this.avatar);
+  }
+
   get themeClass() {
     return [this.theme];
   }
@@ -39,7 +45,8 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private storage: LocalStorageService,
-    private locationUtil: LocationUtilService
+    private locationUtil: LocationUtilService,
+    private userResourcePipe: UserResourcePrefixPipe
   ) { }
 
   ngOnInit() {

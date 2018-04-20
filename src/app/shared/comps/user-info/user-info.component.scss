@@ -1,8 +1,16 @@
+@import "../../../../mixin.scss";
 .user-info {
-    padding: 10px;
+    position: relative; // padding: 10px;
     min-height: 100px;
     .avatar-wrapper {
+        @include centerer;
         width: 100px;
         height: 100px;
+    }
+    .avatar-background {
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, .1);
+      opacity: 0.5;
     }
 }
