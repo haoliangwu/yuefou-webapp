@@ -8,6 +8,7 @@ import { RecipeComponent } from './recipe/recipe.component';
 import { ActivityRoute } from './activity/activity.module';
 import { TaskRoute } from './task/task.module';
 import { RecipeRoute } from './recipe/recipe.module';
+import { SettingsRoute } from './settings/settings.module';
 
 const routes: Routes = [
   {
@@ -15,13 +16,14 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuardService],
     children: [
+      ActivityRoute,
+      TaskRoute,
+      RecipeRoute,
+      SettingsRoute,
       {
         path: 'dashboard',
         component: DashboardComponent
       },
-      ActivityRoute,
-      TaskRoute,
-      RecipeRoute,
       {
         path: '',
         redirectTo: 'dashboard',

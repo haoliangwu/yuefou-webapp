@@ -37,6 +37,7 @@ export class NavigatorComponent implements OnInit {
   }
 
   close() {
+    this.router.navigate(['/profile/settings']);
     this.profileComp.sidenav.close();
   }
 

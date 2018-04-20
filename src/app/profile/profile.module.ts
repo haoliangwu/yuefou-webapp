@@ -12,6 +12,7 @@ import { ProfileComponent } from './profile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { RecipeModule } from './recipe/recipe.module';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { RecipeModule } from './recipe/recipe.module';
     ActivityModule,
     TaskModule,
     RecipeModule,
+    SettingsModule,
     ProfileRoutingModule
   ],
   declarations: [
