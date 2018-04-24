@@ -1,15 +1,12 @@
 {
   "/graphql": {
-    "target": "http://58.87.91.173:4000/",
+    "target": "http://yuefou.littlelyon.com",
     "secure": false,
     "changeOrigin": true,
-    "pathRewrite": {
-      "^/graphql": ""
-    },
     "logLevel": "debug"
   },
   "/sts-auth": {
-    "target": "http://58.87.91.173:3000/",
+    "target": "http://yuefou.littlelyon.com",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
