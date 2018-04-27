@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { AuthService, LoginMutationPayload, SignupMutationPayload } from '../auth.service';
+import { AuthService } from '../auth.service';
 import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 import { LOCALSTORAGE, TOAST } from '../../constants';
 import { Router } from '@angular/router';
@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormUtilService } from '../../shared/services/form-util.service';
 import { opacityTransition } from '../../animations/transition';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from '../../model';
+import { UserInfoComponent } from '../../shared/comps/user-info/user-info.component';
 
 export interface LoginFormVal {
   email: string;
@@ -91,11 +93,11 @@ export class UserLoginComponent implements OnInit {
     this.authService.signup(value.email, value.password, username)
       .subscribe(
         result => {
-          const { signup: { token } } = result.data as SignupMutationPayload;
+          const { signup: { token, user } } = result.data;
 
           this.toastrService.success(this.translate.instant('TOAST.SUCCESS.SIGN_UP'));
 
-          this.redirect(token, true);
+          this.redirect(token, true, user);
         }
       );
   }
@@ -104,18 +106,22 @@ export class UserLoginComponent implements OnInit {
     this.authService.login(value.email, value.password)
       .subscribe(
         result => {
-          const { login: { token } } = result.data as LoginMutationPayload;
+          const { login: { token, user } } = result.data;
 
           this.toastrService.success(this.translate.instant('TOAST.SUCCESS.LOGIN'));
 
-          this.redirect(token, value.isRemember);
+          this.redirect(token, value.isRemember, user);
         }
       );
   }
 
-  private redirect(token: string, isRemember: boolean = false) {
+  private redirect(token: string, isRemember: boolean = false, user?: User) {
     this.storage.store(LOCALSTORAGE.API_TOKEN, token);
     this.storage.store(LOCALSTORAGE.REMEMBER_ME, isRemember);
+
+    if (!!user) {
+      this.storage.store(LOCALSTORAGE.USER, user);
+    }
 
     this.router.navigate(['/profile']);
   }

@@ -114,6 +114,41 @@ export interface UpdateUserInput {
   avatar?: string | null,
 };
 
+export interface signupMutationVariables {
+  email: string,
+  password: string,
+  name: string,
+};
+
+export interface signupMutation {
+  signup:  {
+    token: string,
+    user:  {
+      id: string,
+      name: string,
+      email: string | null,
+      avatar: string | null,
+    },
+  },
+};
+
+export interface loginMutationVariables {
+  email: string,
+  password: string,
+};
+
+export interface loginMutation {
+  login:  {
+    token: string,
+    user:  {
+      id: string,
+      name: string,
+      email: string | null,
+      avatar: string | null,
+    },
+  },
+};
+
 export interface activitiesQuery {
   activities:  Array< {
     id: string,
@@ -168,7 +203,7 @@ export interface activitiesQuery {
       creator:  {
         id: string,
         name: string,
-        email: string,
+        email: string | null,
         avatar: string | null,
       },
     } > | null,
@@ -237,7 +272,7 @@ export interface activitiesConnectionQuery {
           creator:  {
             id: string,
             name: string,
-            email: string,
+            email: string | null,
             avatar: string | null,
           },
         } > | null,
@@ -315,7 +350,7 @@ export interface activityQuery {
       creator:  {
         id: string,
         name: string,
-        email: string,
+        email: string | null,
         avatar: string | null,
       },
     } > | null,
@@ -382,7 +417,7 @@ export interface createActivityMutation {
       creator:  {
         id: string,
         name: string,
-        email: string,
+        email: string | null,
         avatar: string | null,
       },
     } > | null,
@@ -449,7 +484,7 @@ export interface updateActivityMutation {
       creator:  {
         id: string,
         name: string,
-        email: string,
+        email: string | null,
         avatar: string | null,
       },
     } > | null,
@@ -524,7 +559,7 @@ export interface attendActivityMutation {
       creator:  {
         id: string,
         name: string,
-        email: string,
+        email: string | null,
         avatar: string | null,
       },
     } > | null,
@@ -589,7 +624,7 @@ export interface quitActivityMutation {
       creator:  {
         id: string,
         name: string,
-        email: string,
+        email: string | null,
         avatar: string | null,
       },
     } > | null,
@@ -612,7 +647,7 @@ export interface recipesQuery {
     creator:  {
       id: string,
       name: string,
-      email: string,
+      email: string | null,
       avatar: string | null,
     },
   } >,
@@ -642,7 +677,7 @@ export interface recipesConnectionQuery {
         creator:  {
           id: string,
           name: string,
-          email: string,
+          email: string | null,
           avatar: string | null,
         },
       },
@@ -681,7 +716,7 @@ export interface recipeQuery {
     creator:  {
       id: string,
       name: string,
-      email: string,
+      email: string | null,
       avatar: string | null,
     },
   } | null,
@@ -708,7 +743,7 @@ export interface createRecipeMutation {
     creator:  {
       id: string,
       name: string,
-      email: string,
+      email: string | null,
       avatar: string | null,
     },
   },
@@ -735,7 +770,7 @@ export interface updateRecipeMutation {
     creator:  {
       id: string,
       name: string,
-      email: string,
+      email: string | null,
       avatar: string | null,
     },
   },
@@ -772,7 +807,7 @@ export interface uploadRecipePictureMutation {
     creator:  {
       id: string,
       name: string,
-      email: string,
+      email: string | null,
       avatar: string | null,
     },
   },
@@ -1109,7 +1144,7 @@ export interface meQuery {
   me:  {
     id: string,
     name: string,
-    email: string,
+    email: string | null,
     avatar: string | null,
   },
 };
@@ -1122,7 +1157,7 @@ export interface updateUserMutation {
   updateUser:  {
     id: string,
     name: string,
-    email: string,
+    email: string | null,
     avatar: string | null,
   },
 };
@@ -1180,7 +1215,7 @@ export interface ActivityFragmentFragment {
     creator:  {
       id: string,
       name: string,
-      email: string,
+      email: string | null,
       avatar: string | null,
     },
   } > | null,
@@ -1201,7 +1236,7 @@ export interface RecipeFragmentFragment {
   creator:  {
     id: string,
     name: string,
-    email: string,
+    email: string | null,
     avatar: string | null,
   },
 };
@@ -1255,6 +1290,6 @@ export interface TagFragmentFragment {
 export interface UserFragmentFragment {
   id: string,
   name: string,
-  email: string,
+  email: string | null,
   avatar: string | null,
 };

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "config": {
-    "appEndpoint": "yuefou.littlelyon.com/graphql"
+    "appEndpoint": "http://yuefou.littlelyon.com/graphql"
   },
   "scripts": {
     "ng": "ng",

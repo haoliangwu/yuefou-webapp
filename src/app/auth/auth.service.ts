@@ -4,18 +4,8 @@ import gql from 'graphql-tag';
 import { Observable } from 'rxjs/Observable';
 import { ApolloQueryResult } from 'apollo-client';
 import { ActivitiesQuery } from '../profile/activity/activity.graphql';
-
-export interface LoginMutationPayload {
-  login: {
-    token: string
-  };
-}
-
-export interface SignupMutationPayload {
-  signup: {
-    token: string
-  };
-}
+import { SignupMutation, LoginMutation } from './auth.graphql';
+import { loginMutation, loginMutationVariables, signupMutation, signupMutationVariables } from '../model';
 
 @Injectable()
 export class AuthService {
@@ -25,16 +15,23 @@ export class AuthService {
   ) { }
 
   login(email: string, password: string) {
-    const mutation = gql`mutation login {login(email:"${email}", password: "${password}"){token}}`;
-
-    return this.apollo.mutate({
-      mutation
+    return this.apollo.mutate<loginMutation, loginMutationVariables>({
+      mutation: LoginMutation,
+      variables: {
+        email,
+        password
+      }
     });
   }
 
   signup(email: string, password: string, name: string) {
-    const mutation = gql`mutation signup {signup(email:"${email}", password: "${password}", name: "${name}"){token}}`;
-
-    return this.apollo.mutate({ mutation });
+    return this.apollo.mutate<signupMutation, signupMutationVariables>({
+      mutation: SignupMutation,
+      variables: {
+        email,
+        password,
+        name
+      }
+    });
   }
 }
