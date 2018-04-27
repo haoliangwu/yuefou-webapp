@@ -46,10 +46,10 @@
       </mat-list>
     </div>
   </ng-container>
-  <ng-container *ngIf="activity.type === 'HOST'; else noneBlock">
+  <ng-container *ngIf="activity.type === 'HOST'">
     <h3 mat-subheader>{{'ACTIVITY.RECIPES' | translate}}</h3>
     <div class="activity-detail-content recipes-list">
-      <app-recipes-picker [editMode]="false" [recipes]="activity.recipes"></app-recipes-picker>
+      <app-recipes-picker *ngIf="activity.recipes.length > 0; else noneBlock" [editMode]="false" [recipes]="activity.recipes"></app-recipes-picker>
     </div>
   </ng-container>
 </mat-list>
