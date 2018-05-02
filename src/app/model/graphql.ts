@@ -1070,6 +1070,7 @@ export interface updatedTaskSubscription {
 
 export interface appConfigQueryQuery {
   config:  {
+    env: string,
     cos:  {
       bucket: string,
       region: string,

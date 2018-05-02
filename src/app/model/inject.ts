@@ -7,6 +7,7 @@ export interface CosConfig {
 }
 
 export interface AppEnvConfig {
+  env: string;
   cos: CosConfig;
 }
 

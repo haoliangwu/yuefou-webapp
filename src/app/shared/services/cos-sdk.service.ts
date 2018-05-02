@@ -50,7 +50,15 @@ export class CosSdkService {
       fetchPolicy: 'network-only'
     }).pipe(
       map(result => result.data.config),
-      tap(({ cos }) => {
+      tap(({ cos, env }) => {
+        console.group(`the app config:`);
+        console.table({
+          environment: env,
+          cos_region: cos.region,
+          cos_bucket: cos.bucket
+        });
+        console.groupEnd();
+
         this._bucket = cos.bucket;
         this._region = cos.region;
       })

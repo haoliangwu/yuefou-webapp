@@ -8,6 +8,7 @@ export const CosConfigFragment = gql`fragment CosConfigFragment on CosConfig {
 
 export const AppConfigQuery = gql`query appConfigQuery {
   config {
+    env
     cos {
       ...CosConfigFragment
     }
