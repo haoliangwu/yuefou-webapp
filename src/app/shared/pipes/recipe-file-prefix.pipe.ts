@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform, Inject } from '@angular/core';
 import { LocationUtilService, CosSdkService } from '../services';
-import { APP_HOST } from '../../constants';
 
 @Pipe({
   name: 'recipeFilePrefix'

@@ -1,12 +1,12 @@
 {
   "/graphql": {
-    "target": "http://yuefou.littlelyon.com",
+    "target": "http://yuefou_dev.littlelyon.com",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   },
   "/sts-auth": {
-    "target": "http://yuefou.littlelyon.com",
+    "target": "http://yuefou_dev.littlelyon.com",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

@@ -9,7 +9,7 @@ import { merge } from 'rxjs/observable/merge';
 import * as R from 'ramda';
 import { filter } from 'rxjs/operators';
 import { User } from '../../../model';
-import { LOCALSTORAGE, APP_HOST } from '../../../constants';
+import { LOCALSTORAGE } from '../../../constants';
 import { LocationUtilService } from '../../services';
 import { Subscription } from 'rxjs/Subscription';
 import { UserResourcePrefixPipe } from '../../pipes/user-resource-prefix.pipe';

@@ -33,7 +33,7 @@ import { AppConfigProvider, DataIdFromObjectProvider, DataIdFromObjectToken } fr
 import { OperationDefinitionNode } from 'graphql';
 import { DataIdFromObjectResolver } from './model';
 import { PublicModule } from './public/public.module';
-import { RouterUtilService } from './shared/services';
+import { RouterUtilService, LocationUtilService } from './shared/services';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -107,7 +107,8 @@ export class AppModule {
     @Inject(DataIdFromObjectToken) private dataIdFromObject: DataIdFromObjectResolver,
     private router: Router,
     private routerUtil: RouterUtilService,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private location: LocationUtilService
   ) {
     const authLink = new ApolloLink((operation, forward) => {
       if (operation.operationName === 'IntrospectionQuery') {
@@ -158,8 +159,10 @@ export class AppModule {
 
     const http = createPersistedQueryLink().concat(httpLinkService.create({ uri: '/graphql' }));
 
+    const appHost = this.location.isInternalHost() ? APP_HOST.dev : APP_HOST.prod;
+
     const ws = new WebSocketLink({
-      uri: `ws://${APP_HOST}/graphql`,
+      uri: `ws://${appHost}/graphql`,
       options: {
         reconnect: true,
         // connectionParams: {

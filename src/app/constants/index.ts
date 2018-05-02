@@ -29,4 +29,7 @@ export const TOAST = {
   }
 };
 
-export const APP_HOST = 'yuefou.littlelyon.com';
+export const APP_HOST = {
+  prod: 'yuefou.littlelyon.com',
+  dev: 'yuefou_dev.littlelyon.com'
+};
